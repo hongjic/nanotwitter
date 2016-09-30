@@ -1,0 +1,79 @@
+table users
+  id: integer
+  name: string
+  email: string
+  passwd: string
+  create_time: datetime
+  gender: Enum('male','female','unknown')
+  birthday: datetime
+
+users 
+  has_many follows
+  has_many tweets
+  has_many notifications
+  has_many comments
+  has_many likes
+
+table follows
+  follower_id: integer
+  followed_id: integer
+  create_time: datetime
+
+follows 
+  belongs_to users
+
+table tweets
+  id: integer
+  user_id: integer
+  likes: integer
+  comments: integer
+  content: string
+  create_time: datetime
+
+tweets
+  belongs_to users
+  has_many tags
+  has_many notifications
+  has_many comments
+  has_many likes
+
+table tags   
+  tag_name: string  
+  tweet_id: integer
+// tag_name can be repeated, not unique column 
+// this is the many_to_many relationship table, it is not necessary to create a new table 
+// only for tag's information, so I just combine these two tables together.
+
+tags
+  belongs_to tweets
+
+table notifications
+  id: integer
+  target_user_id: integer
+  action_user_id: integer
+  tweet_id: integer
+  status: Enum('unread', 'read')
+  type: Enum('mention', 'reply')
+
+notifications
+  belongs_to users
+  belongs_to tweets
+
+table comments
+  id: integer
+  tweet_id: integer
+  user_id: integer
+  content: string
+  create_time: datetime
+
+comments
+  belongs_to: tweets
+  belongs_to: users
+
+table likes
+  user_id: integer
+  tweet_id: integer
+
+likes
+  belongs_to: users
+  belongs_to: tweets
