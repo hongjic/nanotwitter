@@ -1,6 +1,19 @@
-development:
+development_sam:
   adapter: postgresql
+  encoding: utf8
   database: development
   username: "postgres"
-  password: "pass"
+  password: 
   host: localhost
+
+development_chen:
+  adapter: mysql2
+  encoding: utf8
+  database: nanotwitter_dev
+  pool: 10
+  username: root
+  password: 34151119
+  socket: /tmp/mysql.socket
+  host: localhost
+
+## production:
