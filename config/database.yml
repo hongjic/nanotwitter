@@ -1,8 +1,11 @@
+
+## This file is for database creation
+
 development:
   adapter: postgresql
-  database: development
-  username: "postgres"
-  password: "pass"
+  encoding: utf8
+  database: twitter_dev
+  pool: 10
+  username: <%= ENV["PG_USER"] %>
+  password: <%= ENV["PG_PASS"] %>
   host: localhost
-
-
