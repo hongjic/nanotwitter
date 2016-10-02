@@ -1,19 +1,19 @@
 require 'sinatra'
-require 'sinatra/activerecord'
+require 'active_record'
 require 'byebug'
 require './config/environments' #database configuration
 
-require './models/users'
-require './models/tweets'
-require './models/followers'
-require './models/likes'
-require './models/marks'
-require './models/tags'
-require './models/notifications'
+require './models/follow'
+require './models/like'
+require './models/notification'
+require './models/tag'
+require './models/tweet'
+require './models/tweet_tag'
+require './models/user'
 
 enable :sessions
 
-
 get '/' do
+  byebug
 	erb :index
 end

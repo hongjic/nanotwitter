@@ -1,12 +1,17 @@
+## this file is for environment configuration (for application)
+
 require 'sinatra'
 require 'active_record'
-require 'yaml'
-#The environment variable DATABASE_URL should be in the following format:
-# => postgres://{user}:{password}@{host}:{port}/path
-configure :production, :development do
-  #db_env = ENV["DATABASE_FOR_NANOTWITTER"]
-  db_env = "development_sam"
-  puts "[development environment: #{db_env}]"
-  database = YAML.load_file("config/database.yml")
-  ActiveRecord::Base.establish_connection(database[db_env])
+
+configure :development do
+  puts "[development environment: development]"
+  db = URI.parse(ENV['NT_DATABASE_URL'] || 'postgres://localhost/development')
+  ActiveRecord::Base.establish_connection(
+    :adapter => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
+    :host => db.host,
+    :username => db.user,
+    :password => db.password,
+    :database => db.path[1..-1],
+    :encoding => 'utf8'
+    )
 end

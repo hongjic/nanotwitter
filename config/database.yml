@@ -1,18 +1,11 @@
-development_sam:
+## This file is for database creation
+
+development:
   adapter: postgresql
   encoding: utf8
-  database: development
-  username: "postgres"
-  password: 
-  host: localhost
-
-development_chen:
-  adapter: mysql2
-  encoding: utf8
-  database: nanotwitter_dev
+  database: twitter_dev
   pool: 10
-  username: root
-  password: 34151119
+  username: <%= ENV["PG_USER"] %>
+  password: <%= ENV["PG_PASS"] %>
   host: localhost
 
-## production:
