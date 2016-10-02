@@ -32,4 +32,7 @@ Follow.create(follower_id: 1, followed_id: 3, create_time: "2016/10/3")
 Follow.create(follower_id: 2, followed_id: 1, create_time: "2016/10/3")
 Follow.create(follower_id: 2, followed_id: 3, create_time: "2016/10/3")
 Follow.create(follower_id: 3, followed_id: 1, create_time: "2016/10/3")
-byebug
+
+Like.create(user_id: 1, tweet_id: 3);
+Like.create(user_id: 1, tweet_id: 4);
+Like.create(user_id: 1, tweet_id: 5);
