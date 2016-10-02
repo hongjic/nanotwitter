@@ -1,9 +1,8 @@
 source "https://rubygems.org"
 
 gem "sinatra"
-gem "activerecord"
+gem "activerecord", "4.2.5"
 gem "sinatra-activerecord"
-gem "rake"
+gem "rake", "11.2.2"
 gem "pg"
-gem "mysql2"
 gem "byebug"
