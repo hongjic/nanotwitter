@@ -24,8 +24,9 @@ include UserUtil
 
 enable :sessions
 
+
 get '/' do
-  @access_token = "access_token_value"
+    
   erb :index
 end
 
@@ -53,5 +54,5 @@ post '/register' do
 end
 
 get '/user/:user_id' do
-  
+
 end
