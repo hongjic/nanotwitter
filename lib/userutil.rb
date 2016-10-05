@@ -13,6 +13,11 @@ module UserUtil
     end
   end
 
+  # check whether the token is valid and not expired yet.
+  def check_token token 
+    
+  end
+
   # generate access_token by Hashing algorithm
   def generate_token user
     expire_time = Time.now.to_i + 4 * 3600
