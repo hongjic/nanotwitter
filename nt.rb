@@ -22,12 +22,15 @@ include Api
 include Error
 include UserUtil
 
-enable :sessions
-
-
 get '/' do
-    
-  erb :index
+  token = request.cookies["access_token"]
+  begin
+    @user = UserUtil::check_token token 
+    @home_line = @user.home_lines.order(create_time: :desc).limit(20)
+    erb :home # for logged_in_users
+  rescue JWT::DecodeError
+    erb :index # for not logged_in_users
+  end
 end
 
 ['/login', '/api/v1/user/login'].each do |path|

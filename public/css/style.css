@@ -1,0 +1,13 @@
+.page-header {
+  padding-top: 30px;
+}
+
+.navbar-container {
+  text-align: center;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.navbar {
+  z-index: 9999;
+}
