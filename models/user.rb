@@ -26,6 +26,8 @@ class User < ActiveRecord::Base
   has_many :follows, :class_name => 'Follow', :foreign_key => :follower_id
   has_many :followings, :through => :follows, :source => :followed
 
+  has_many :home_lines, :through => :followings, :source => :tweets
+
   has_many :likes
   has_many :liked_tweets, :through => :likes, :source => :tweet
 

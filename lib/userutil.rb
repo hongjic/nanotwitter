@@ -15,7 +15,8 @@ module UserUtil
 
   # check whether the token is valid and not expired yet.
   def check_token token 
-    
+    decoded_token = JWT.decode token, $TOKEN_SECRET, true, { algorithm: $TOKEN_HASH }
+    User.find(decoded_token[0]["user_id"])
   end
 
   # generate access_token by Hashing algorithm

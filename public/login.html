@@ -28,7 +28,7 @@
       data: data,
       success: function(result) {
         if (result.resultCode == "success") {
-          localStorage.setItem("access_token", result.resultMsg.access_token);
+          document.cookie = "access_token=" + result.resultMsg.access_token
           window.location = "/";
         }
         else $("#tips").text(result.resultMsg);
