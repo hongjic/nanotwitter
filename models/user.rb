@@ -36,8 +36,5 @@ class User < ActiveRecord::Base
   enum gender: { unknown: 0, male: 1, female: 2 }
 
   validates_with UserValidator
-  # validates :name, uniqueness: {message: "Name already exists."}
-  # validates :password, presence: {message: "please "}
-  # validates :email, uniqueness: {message: "Email already exists."}
 
 end

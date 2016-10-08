@@ -47,7 +47,7 @@
                                 <a href="#">View profile</a>
                               </li>
                               <li>
-                                <a href="#">Log out</a>
+                                <a id="logout">Log out</a>
                               </li>
                             </ul>
                           </li>
@@ -136,12 +136,13 @@
 
                       <% @home_line.each do |tweet| %>
                       <div class="media well">
-                         <a href="#" class="pull-left"><img alt="Bootstrap Media Preview" src="http://lorempixel.com/64/64/" class="media-object"></a>
+                         <a class="pull-left"><img alt="Bootstrap Media Preview" src="images/default_photo.png" class="media-object img-rounded"></a>
                         <div class="media-body">
                           <h4 class="media-heading">
                             <%= tweet.user.name %>
                           </h4> 
-                          <%= tweet.content %>
+                          <p><%= tweet.content %></p>
+                          <%=tweet.create_time.strftime "%Y-%m-%d %H:%M:%S"%>
                         </div>
                       </div>
                       <% end %>
@@ -159,5 +160,14 @@
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      function logout() {
+        document.cookie = "access_token="
+        window.location = "/"
+      }
+      $("#logout").click(function() {
+        logout();
+      })
+    </script>
   </body>
 </html>
