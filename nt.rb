@@ -26,9 +26,12 @@ get '/' do
   token = request.cookies["access_token"]
   begin
     @user = UserUtil::check_token token 
-    @home_line = @user.home_lines.order(create_time: :desc).limit(20)
+    @home_line = @user.home_lines.order(create_time: :desc)
     erb :home # for logged_in_users
   rescue JWT::DecodeError
+    count = Tweet.count
+    @home_line = Tweet.offset(count-50 > 0 ? count-50 : 0).limit(50).order(create_time: :desc)
+    # order by time reversely
     erb :index # for not logged_in_users
   end
 end
@@ -48,7 +51,7 @@ end
 
 post '/register' do
   begin
-    user = UserUtil::signup params
+    user = UserUtil::create_new_user params
     token = UserUtil::generate_token user
     Api::Result.new(true, {access_token: token}).to_json
   rescue Error::SignUpError => e

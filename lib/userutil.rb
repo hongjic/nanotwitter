@@ -27,7 +27,7 @@ module UserUtil
   end
 
   # sign up new user
-  def signup userinfo
+  def create_new_user userinfo
     if (userinfo[:password] != userinfo[:password2])
       raise Error::SignUpError, "Your two password inputs are different. Please type again."
     end
