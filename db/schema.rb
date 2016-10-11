@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161002055542) do
+ActiveRecord::Schema.define(version: 20161002053959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,11 +36,7 @@ ActiveRecord::Schema.define(version: 20161002055542) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "tag_name", limit: 20, null: false
-  end
-
-  create_table "tweet_tags", force: :cascade do |t|
-    t.integer "tag_id",   null: false
+    t.string  "tag_name", null: false
     t.integer "tweet_id", null: false
   end
 
@@ -71,8 +67,7 @@ ActiveRecord::Schema.define(version: 20161002055542) do
   add_foreign_key "notifications", "tweets"
   add_foreign_key "notifications", "users", column: "new_follower_id"
   add_foreign_key "notifications", "users", column: "target_user_id"
-  add_foreign_key "tweet_tags", "tags"
-  add_foreign_key "tweet_tags", "tweets"
+  add_foreign_key "tags", "tweets"
   add_foreign_key "tweets", "tweets", column: "reply_to_tweet_id"
   add_foreign_key "tweets", "users"
 end
