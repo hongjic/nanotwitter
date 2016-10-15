@@ -11,14 +11,14 @@
   <button id="sign_up">Sign up</button>
   <p id="tips"></p>
 </body>
-<script src="js/jquery.min.js"></script>
+<script src="js/jquery.min-2.1.4.js"></script>
 <script type="text/javascript">
   function register(username, password, password2, email) {
     data = {username: username, password: password, password2: password2, email: email};
     $.ajax({
       type: "post",
       dataType: "json",
-      url: "/register",
+      url: "/api/v1/users",
       data: data,
       success: function(result) {
         if (result.resultCode == "success") {

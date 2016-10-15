@@ -7,6 +7,7 @@ require './config/properties'
 require './lib/errors'
 require './lib/result'
 require './lib/userutil'
+require './lib/tweetutil'
 # The requirements above are for the whole application 
 # Should be no dependencies
 require './models/follow'
@@ -21,35 +22,46 @@ require 'byebug'
 include Api
 include Error
 include UserUtil
+include TweetUtil
 
 get '/' do
   token = request.cookies["access_token"]
   begin
-    @user = UserUtil::check_token token 
-    @home_line = @user.home_lines.order(create_time: :desc)
+    @user = UserUtil::check_token token
     erb :home # for logged_in_users
   rescue JWT::DecodeError
     count = Tweet.count
-    @home_line = Tweet.offset(count-50 > 0 ? count-50 : 0).limit(50).order(create_time: :desc)
-    # order by time reversely
+    @home_line = Tweet.offset(count-50 > 0 ? count-50 : 0).limit(50)
     erb :index # for not logged_in_users
   end
 end
 
-['/login', '/api/v1/user/login'].each do |path|
-  post path do
-    username = params[:username]
-    password = params[:password]
-    begin
-      token = UserUtil::authenticate username, password
-      Api::Result.new(true, {access_token: token}).to_json
-    rescue Error::AuthError => e
-      Api::Result.new(false, e.message).to_json
-    end
+# show PROFILE_VIEW/TWEETS
+# different layouts depends on whether the active user is the owner
+get '/user/:id' do
+  token = request.cookies["access_token"]
+  begin
+    @active_user = UserUtil::check_token token
+
+  rescue JWT::DecodeError
+    401
   end
 end
 
-post '/register' do
+#no authentication
+post '/api/v1/users/login' do
+  username = params[:username]
+  password = params[:password]
+  begin
+    token = UserUtil::authenticate username, password
+    Api::Result.new(true, {access_token: token}).to_json
+  rescue Error::AuthError => e
+    Api::Result.new(false, e.message).to_json
+  end
+end
+
+#no authentication
+post '/api/v1/users' do
   begin
     user = UserUtil::create_new_user params
     token = UserUtil::generate_token user
@@ -59,6 +71,45 @@ post '/register' do
   end
 end
 
-get '/user/:user_id' do
+#with authentication
+post '/api/v1/tweets' do
+  token = request.cookies["access_token"]
+  content = params[:content]
+  reply_to_tweet_id = params[:reply_to_tweet_id]
+  begin
+    @user = UserUtil::check_token token
+    tweet = TweetUtil::create_new_tweet @user.id, content, reply_to_tweet_id
+    Api::Result.new(true, {tweet: tweet.to_json_obj}).to_json
+  rescue Error::TweetError => e
+    Api::Result.new(false, e.message).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
 
+#with authentication
+get '/api/v1/homeline' do
+  token = request.cookies["access_token"]
+  begin
+    @active_user = UserUtil::check_token token
+    home_line = TweetUtil::get_home_line @active_user
+    Api::Result.new(true, {home_line: home_line}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
+#with authentication
+get '/api/v1/user/:user_id' do
+  token = request.cookies["access_token"]
+  # fields' format: ["name", "email", "gender"] a list.
+  fields = params[:fields]
+  begin
+    @active_user = UserUtil::check_token token
+    user_id = params[:user_id]
+    user = UserUtil::find_user_by_id user_id
+    Api::Result.new(true, {user: user.to_json_obj(fields)}).to_json
+  rescue JWT::DecodeError
+    401
+  end
 end

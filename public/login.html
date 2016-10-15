@@ -9,14 +9,14 @@
   <button id="sign_in">Sign In</button>
   <p id="tips"></p>
 </body>
-<script src="js/jquery.min.js"></script>
+<script src="js/jquery.min-2.1.4.js"></script>
 <script type="text/javascript">
   function login(username, password) {
     data = {username: username, password: password};
     $.ajax({
       type: "post",
       dataType: "json",
-      url: "/login",
+      url: "/api/v1/users/login",
       data: data,
       success: function(result) {
         if (result.resultCode == "success") {
