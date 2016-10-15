@@ -27,9 +27,10 @@ module TweetUtil
     tweet_list.to_json_obj
   end
 
-  def create_new_tweet user_id, content, reply_to_tweet_id
+  def create_new_tweet user, content, reply_to_tweet_id
     tweet = Tweet.new
-    tweet.user_id = user_id
+    tweet.user_id = user.id
+    tweet.user_name = user.name
     tweet.content = content
     tweet.create_time = Time.now.strftime "%Y-%m-%d %H:%M:%S"
     tweet.favors = 0

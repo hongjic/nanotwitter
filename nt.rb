@@ -73,12 +73,13 @@ end
 
 #with authentication
 post '/api/v1/tweets' do
+  @json = JSON.parse request.body.read
   token = request.cookies["access_token"]
-  content = params[:content]
+  content = @json["content"]
   reply_to_tweet_id = params[:reply_to_tweet_id]
   begin
     @user = UserUtil::check_token token
-    tweet = TweetUtil::create_new_tweet @user.id, content, reply_to_tweet_id
+    tweet = TweetUtil::create_new_tweet @user, content, reply_to_tweet_id
     Api::Result.new(true, {tweet: tweet.to_json_obj}).to_json
   rescue Error::TweetError => e
     Api::Result.new(false, e.message).to_json
