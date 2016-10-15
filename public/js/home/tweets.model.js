@@ -3,10 +3,17 @@ define(['Backbone', 'underscore', 'Tweet'], function (Backbone, _, Tweet) {
     url: '/api/v1/homeline',
     model: Tweet,
 
-    parse: function(resp) {
+    beforeParse: function(resp) {
+      if (resp.resultCode == "error")
+        return false;
       return resp.resultMsg.home_line;
-    }
+    },
 
+    parse: function(home_line, options) {
+      return home_line;
+    }
   })
+
   return Tweets;
+
 })

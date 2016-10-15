@@ -11,3 +11,8 @@
 .navbar {
   z-index: 9999;
 }
+
+#tweet_writing_box {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
