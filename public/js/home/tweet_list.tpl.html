@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-md-12">
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+          
+        <label class="col-sm-2 control-label">
+          Tweet
+        </label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="tweet_content">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+           
+          <button id="tweet_submit" type="submit" class="btn btn-default">
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+
+    <% size = home_line.length %>
+    <% for (var i = size-1; i >=0; i--) { %>
+    <% tweet = home_line[i] %>
+    <div class="media well">
+       <a class="pull-left"><img alt="Bootstrap Media Preview" src="images/default_photo.png" class="media-object img-rounded"></a>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <%= tweet.user_name %>
+        </h4> 
+        <p><%= tweet.content %></p>
+        <div class="box box-element ui-draggable" style="display: block;">
+          <%=tweet.create_time %>
+          <div class="view pull-right">
+            <div class="btn-group">
+              <button class="btn btn-default reply" type="button">Reply</button>
+              <button class="btn btn-default likes " type="button">Likes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+  </div>
+</div>

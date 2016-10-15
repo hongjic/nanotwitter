@@ -10,4 +10,15 @@ class Tweet < ActiveRecord::Base
 
   belongs_to :user
 
+  def to_json_obj
+    {
+      id: self.id,
+      user_id: self.user_id,
+      user_name: self.user_name,
+      content: self.content,
+      create_time: self.create_time.to_i * 1000,
+      favors: self.favors,
+      reply_to_tweet_id: self.reply_to_tweet_id
+    }
+  end
 end

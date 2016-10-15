@@ -37,4 +37,17 @@ class User < ActiveRecord::Base
 
   validates_with UserValidator
 
+  def to_json_obj fields
+    obj = {}
+    default = ["id", "name", "email", "create_time", "gender", "birthday"]
+    fields ||= default
+    begin
+      fields.each do |key|
+        obj.store(key, instance_eval("self.#{key}")) if default.include? key
+      end
+    rescue NoMethodError
+    end
+    obj
+  end
+
 end

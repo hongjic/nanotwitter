@@ -42,9 +42,10 @@ ActiveRecord::Schema.define(version: 20161002053959) do
 
   create_table "tweets", force: :cascade do |t|
     t.integer  "user_id",                                   null: false
+    t.string   "user_name",         limit: 20,              null: false
     t.string   "content",           limit: 140,             null: false
     t.datetime "create_time",                               null: false
-    t.integer  "likes",                         default: 0, null: false
+    t.integer  "favors",                        default: 0, null: false
     t.integer  "reply_to_tweet_id"
   end
 

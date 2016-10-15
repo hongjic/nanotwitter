@@ -40,4 +40,9 @@ module UserUtil
     user
   end
 
+  # find a user by id
+  def find_user_by_id user_id
+    user = User.find user_id
+  end
+
 end
