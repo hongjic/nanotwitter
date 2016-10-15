@@ -19,6 +19,8 @@ define(['Backbone', 'Tweet', 'Tweets', 'underscore', 'TEXT!js/home/tweet_list.tp
     query: function() {
       this.homeline.fetch({
         success: function(collection, resp, options) {
+          if (collection.length == 0)
+            collection.trigger("update");
           console.log("success");
         },
         error: function(collection, resp, options) {
