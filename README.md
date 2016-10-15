@@ -18,3 +18,4 @@ updates:
 2)improved the way to query homepage timeline.
 3)improved the UI interface.
 4)implemented some core web APIs, but not finished the front-end development so they are not accessible through nanotwitter now.
+5)Make the home page time line to be data-driven. It means whenever a user post a new tweet, the browser will not refresh the whole page to load new home time line. Thus, the query to the bottleneck can be reduced by a large amount.
