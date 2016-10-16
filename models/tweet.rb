@@ -16,7 +16,7 @@ class Tweet < ActiveRecord::Base
       user_id: self.user_id,
       user_name: self.user_name,
       content: self.content,
-      create_time: self.create_time.to_i * 1000,
+      create_time: self.create_time.to_i,
       favors: self.favors,
       reply_to_tweet_id: self.reply_to_tweet_id
     }

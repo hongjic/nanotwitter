@@ -17,9 +17,9 @@ ActiveRecord::Schema.define(version: 20161002053959) do
   enable_extension "plpgsql"
 
   create_table "follows", force: :cascade do |t|
-    t.integer  "follower_id", null: false
-    t.integer  "followed_id", null: false
-    t.datetime "create_time", null: false
+    t.integer "follower_id",           null: false
+    t.integer "followed_id",           null: false
+    t.integer "create_time", limit: 8, null: false
   end
 
   create_table "likes", force: :cascade do |t|
@@ -41,21 +41,21 @@ ActiveRecord::Schema.define(version: 20161002053959) do
   end
 
   create_table "tweets", force: :cascade do |t|
-    t.integer  "user_id",                                   null: false
-    t.string   "user_name",         limit: 20,              null: false
-    t.string   "content",           limit: 140,             null: false
-    t.datetime "create_time",                               null: false
-    t.integer  "favors",                        default: 0, null: false
-    t.integer  "reply_to_tweet_id"
+    t.integer "user_id",                                   null: false
+    t.string  "user_name",         limit: 20,              null: false
+    t.string  "content",           limit: 140,             null: false
+    t.integer "create_time",       limit: 8,               null: false
+    t.integer "favors",                        default: 0, null: false
+    t.integer "reply_to_tweet_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",        limit: 20,             null: false
-    t.string   "email",       limit: 45,             null: false
-    t.string   "password",    limit: 20,             null: false
-    t.datetime "create_time",                        null: false
-    t.integer  "gender",                 default: 0, null: false
-    t.date     "birthday"
+    t.string  "name",        limit: 20,             null: false
+    t.string  "email",       limit: 45,             null: false
+    t.string  "password",    limit: 20,             null: false
+    t.integer "create_time", limit: 8,              null: false
+    t.integer "gender",                 default: 0, null: false
+    t.date    "birthday"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

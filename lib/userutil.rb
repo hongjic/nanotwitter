@@ -35,7 +35,7 @@ module UserUtil
     user.name = userinfo[:username]
     user.email = userinfo[:email]
     user.password = userinfo[:password]
-    user.create_time = Time.now.strftime "%Y-%m-%d %H:%M:%S"
+    user.create_time = Time.now().getutc.to_i
     raise Error::SignUpError, user.errors.messages.values[0][0] unless user.save
     user
   end

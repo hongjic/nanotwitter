@@ -32,7 +32,7 @@ module TweetUtil
     tweet.user_id = user.id
     tweet.user_name = user.name
     tweet.content = content
-    tweet.create_time = Time.now.strftime "%Y-%m-%d %H:%M:%S"
+    tweet.create_time = Time.now().getutc.to_i
     tweet.favors = 0
     tweet.reply_to_tweet_id = reply_to_tweet_id
     # TODO: handle with mention and reply notification and tag creation

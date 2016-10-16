@@ -10,8 +10,7 @@ define(['Backbone', 'underscore'], function (Backbone, _) {
     },
 
     parse: function(tweet, options) {
-      t = new Date(tweet.create_time * 1000);
-      tweet.create_time = t.toLocaleString();
+      tweet.create_time = tweet.create_time * 1000;
       return tweet;
     }
 
