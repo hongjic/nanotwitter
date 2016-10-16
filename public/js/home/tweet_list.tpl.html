@@ -1,3 +1,5 @@
+
+
 <div class="row">
   <div class="col-md-12">
         <div class="col-sm-12" id="tweet_writing_box">
@@ -14,6 +16,7 @@
   <div class="col-md-12">
 
     <% size = home_line.length %>
+    <% Util = require('Util'); %>
     <% for (var i = size-1; i >=0; i--) { %>
     <% tweet = home_line[i] %>
     <div class="media well">
@@ -24,7 +27,7 @@
         </h4> 
         <p><%= tweet.content %></p>
         <div class="box box-element ui-draggable" style="display: block;">
-          <%=tweet.create_time %>
+          <%=Util.get_time_distance(tweet.create_time, Date.now()) %>
           <div class="view pull-right">
             <div class="btn-group">
               <button class="btn btn-default reply" type="button">Reply</button>

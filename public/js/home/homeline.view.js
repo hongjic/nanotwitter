@@ -1,5 +1,6 @@
 
-define(['Backbone', 'Tweet', 'Tweets', 'underscore', 'TEXT!js/home/tweet_list.tpl.html'], function (Backbone, Tweet, Tweets, _, TweetListTpl) {
+define(['Backbone', 'Tweet', 'Tweets', 'underscore', 'Util','TEXT!js/home/tweet_list.tpl.html'], 
+  function (Backbone, Tweet, Tweets, _, Util, TweetListTpl) {
   var HomeLine = Backbone.View.extend({
     el: '#home_line',
 
@@ -37,7 +38,7 @@ define(['Backbone', 'Tweet', 'Tweets', 'underscore', 'TEXT!js/home/tweet_list.tp
       var content = this.$('#tweet_content').val();
       var new_tweet = new Tweet();
       var that = this;
-      new_tweet.set("content", content);
+      new_tweet.set({content: content});
       new_tweet.save(null, {
         success: function(model, resp, options) {
           that.homeline.add(model);

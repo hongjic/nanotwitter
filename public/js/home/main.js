@@ -6,11 +6,12 @@ require.config({
     Bootstrap: "js/bootstrap.min",
     jquery: "js/jquery.min-2.1.4",
     TEXT: "js/text-2.0.14",
+    Util: "js/util",
     Tweet: "js/home/tweet.model",
     Tweets: "js/home/tweets.model",
     HomeLineView: "js/home/homeline.view",
   },
-  waitSeconds: 10
+  waitSeconds: 1
 })
 
 $("#logout").click(function() {

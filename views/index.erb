@@ -96,7 +96,7 @@
                             <%= tweet.user_name %>
                           </h4> 
                           <p><%= tweet.content %></p>
-                          <%=tweet.create_time.strftime "%Y-%m-%d %H:%M:%S"%>
+                          <%= TimeUtil.get_time_distance(tweet.create_time, Time.now().to_i)%>
                         </div>
                       </div>
                       <% end %>

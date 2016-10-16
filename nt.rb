@@ -8,6 +8,7 @@ require './lib/errors'
 require './lib/result'
 require './lib/userutil'
 require './lib/tweetutil'
+require './lib/timeutil'
 # The requirements above are for the whole application 
 # Should be no dependencies
 require './models/follow'
@@ -23,13 +24,14 @@ include Api
 include Error
 include UserUtil
 include TweetUtil
+include TimeUtil
 
 get '/' do
   token = request.cookies["access_token"]
   begin
     @user = UserUtil::check_token token
     erb :home # for logged_in_users
-  rescue JWT::DecodeError
+  rescue JWT::DecodeError, ActiveRecord::RecordNotFound
     count = Tweet.count
     @home_line = Tweet.offset(count-50 > 0 ? count-50 : 0).limit(50)
     erb :index # for not logged_in_users
@@ -76,7 +78,7 @@ post '/api/v1/tweets' do
   @json = JSON.parse request.body.read
   token = request.cookies["access_token"]
   content = @json["content"]
-  reply_to_tweet_id = params[:reply_to_tweet_id]
+  reply_to_tweet_id = @json["reply_to_tweet_id"]
   begin
     @user = UserUtil::check_token token
     tweet = TweetUtil::create_new_tweet @user, content, reply_to_tweet_id
