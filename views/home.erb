@@ -101,7 +101,7 @@
                         </li>
                         <% end %>
                         <li>
-                          Joined: <%TimeUtil.get_time_distance(@user.create_time, Time.now().to_i)%>
+                          Joined: <%=TimeUtil.get_time_distance(@user.create_time, Time.now().to_i)%>
                         </li>
                       </ul>
                     </div>

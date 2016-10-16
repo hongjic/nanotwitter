@@ -12,7 +12,7 @@ module TimeUtil
       dd = d/60
       dd.to_s + (dd == 1 ? " minute" : " minutes")
     else
-      dd.to_s + (dd == 1 ? " second" : " seconds")
+      d.to_s + (dd == 1 ? " second" : " seconds")
     end
   end
 
