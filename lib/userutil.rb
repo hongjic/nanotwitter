@@ -1,5 +1,23 @@
 module UserUtil
 
+  class UserList
+    # ActiveRecord::Relation
+    attr_accessor :users_relation
+
+    def initialize users
+      @users_relation = users
+    end
+
+    def to_json_obj fields = nil
+      list = [];
+      @users_relation.each do |user_record|
+        list.push(user_record.to_json_obj fields)
+      end
+      list
+    end
+  end
+
+
   # Authenticate the username and password 
   # If match, return access_token
   def authenticate username, password
@@ -28,13 +46,13 @@ module UserUtil
 
   # sign up new user
   def create_new_user userinfo
-    if (userinfo[:password] != userinfo[:password2])
+    if (userinfo["password"] != userinfo["password2"])
       raise Error::SignUpError, "Your two password inputs are different. Please type again."
     end
     user = User.new
-    user.name = userinfo[:username]
-    user.email = userinfo[:email]
-    user.password = userinfo[:password]
+    user.name = userinfo["username"]
+    user.email = userinfo["email"]
+    user.password = userinfo["password"]
     user.create_time = Time.now().getutc.to_i
     raise Error::SignUpError, user.errors.messages.values[0][0] unless user.save
     user
@@ -45,4 +63,30 @@ module UserUtil
     user = User.find user_id
   end
 
+  # find a user by keyword (name contains keyword)
+  def find_users_by_keyword keyword, fields
+    users = UserList.new User.where("name LIKE ?", '%' + keyword + '%')
+    users.to_json_obj fields
+  end
+
+  # check whether the active user is following
+  def is_following_user follower_user, following_user
+    !Follow.where("follower_id = ? and followed_id = ? ", follower_user.id, following_user.id).empty?
+  end
+
+  def add_follow_relation follower_id, followed_id
+    t = Time.now().to_i
+    follow = Follow.new 
+    follow.follower_id = follower_id
+    follow.followed_id = followed_id
+    follow.create_time = t
+    follow.save
+  end
+
+  def delete_follow_relation follower_id, followed_id
+    follows = Follow.where("follower_id = ? and followed_id = ?", follower_id, followed_id)
+    follows.each do |follow|
+      follow.destroy
+    end
+  end
 end

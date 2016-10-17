@@ -26,6 +26,9 @@ include UserUtil
 include TweetUtil
 include TimeUtil
 
+# set :raise_errors, false
+# set :show_exceptions, false
+
 get '/' do
   token = request.cookies["access_token"]
   begin
@@ -38,22 +41,44 @@ get '/' do
   end
 end
 
+
+#with authentication 
+get '/search' do
+  token = request.cookies["access_token"]
+  @keyword = params[:keyword]
+  begin
+    @user = UserUtil::check_token token
+    erb :search #only display a framework and use ajax to implement data-driven
+  rescue JWT::DecodeError
+    redirect '/login.html'
+  end
+end
+
 # show PROFILE_VIEW/TWEETS
 # different layouts depends on whether the active user is the owner
-get '/user/:id' do
+get '/users/:id' do
   token = request.cookies["access_token"]
+  target_user_id = params[:id]
   begin
     @active_user = UserUtil::check_token token
-
+    @target_user = UserUtil::find_user_by_id target_user_id
+    @is_following = UserUtil::is_following_user @active_user, @target_user
+    erb :profile 
+    # display the target_user's profile.
+    # if the target_user==active_user, a little diffenrent
   rescue JWT::DecodeError
-    401
+    redirect '/login.html'
+  rescue ActiveRecord::RecordNotFound
+    redirect "/404.html"
   end
+
 end
 
 #no authentication
 post '/api/v1/users/login' do
-  username = params[:username]
-  password = params[:password]
+  @json = JSON.parse request.body.read
+  username = @json["username"]
+  password = @json["password"]
   begin
     token = UserUtil::authenticate username, password
     Api::Result.new(true, {access_token: token}).to_json
@@ -64,8 +89,9 @@ end
 
 #no authentication
 post '/api/v1/users' do
+  @json = JSON.parse request.body.read
   begin
-    user = UserUtil::create_new_user params
+    user = UserUtil::create_new_user @json
     token = UserUtil::generate_token user
     Api::Result.new(true, {access_token: token}).to_json
   rescue Error::SignUpError => e
@@ -103,7 +129,7 @@ get '/api/v1/homeline' do
 end
 
 #with authentication
-get '/api/v1/user/:user_id' do
+get '/api/v1/users/:user_id' do
   token = request.cookies["access_token"]
   # fields' format: ["name", "email", "gender"] a list.
   fields = params[:fields]
@@ -115,4 +141,65 @@ get '/api/v1/user/:user_id' do
   rescue JWT::DecodeError
     401
   end
+end
+
+#with authentication
+get '/api/v1/search/users' do
+  token = request.cookies["access_token"]
+  begin
+    @user = UserUtil::check_token token
+    keyword = params[:keyword]
+    fields = params[:fields]
+    users = UserUtil::find_users_by_keyword keyword, fields
+    Api::Result.new(true, {users: users}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
+#with authentication
+get '/api/v1/search/tweets' do
+  token = request.cookies["access_token"]
+  begin
+    @user = UserUtil::check_token token
+    keyword = params[:keyword]
+    fields = params[:fields]
+    tweets = TweetUtil::find_tweets_by_keyword keyword, fields
+    Api::Result.new(true, {tweets: tweets}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
+#with authentication
+post '/api/v1/follows' do
+  token = request.cookies["access_token"]
+  begin
+    @user = UserUtil::check_token token
+    json = JSON.parse request.body.read
+    following_id = json["following_id"]
+    UserUtil::add_follow_relation @user.id, following_id
+    user = UserUtil::find_user_by_id following_id
+    Api::Result.new(true, {new_following: user.to_json_obj}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
+#with authentication
+delete '/api/v1/follows' do
+  token = request.cookies["access_token"]
+  begin
+    @user = UserUtil::check_token token
+    json = JSON.parse request.body.read
+    following_id = json["following_id"]
+    UserUtil::delete_follow_relation @user.id, following_id
+    Api::Result.new(true, {}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
+error Sinatra::NotFound do
+  redirect '/404.html'
 end
