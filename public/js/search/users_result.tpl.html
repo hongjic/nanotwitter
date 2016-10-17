@@ -1,0 +1,59 @@
+
+<div class="col-md-12">
+
+  <div class="row">
+    <ul class="nav nav-tabs nav-tabs-search">
+      <li class="active"><a ata-toggle="tab" aria-expanded="false" id="search_users"><b>Users</b></a>
+      </li>
+      <li class=""><a data-toggle="tab" aria-expanded="true" id="search_tweets"><b>Tweets</b></a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="row" style="margin-top: 20px">
+
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+      <% var num = users.length;%>
+      <% if (num >0) { %>
+        <% var rows = parseInt(num / 3); %>
+
+        <% for (var i = 0; i <= rows; i++) {  %>
+        <div class="row">
+          <% var j;%>
+          <% for (j = i*3; j < Math.min(i*3+3, num); j++) {%>
+          <div class="col-md-4">
+
+            <div class="media well">
+               <a class="pull-left"><!-- <img src="images/default_photo.png" class="media-object img-rounded"> --></a>
+              <div class="media-body">
+                <a href="/users/<%=users[j].id%>">
+                  <h5 class="media-heading" style="color: #000000;">
+                    <%=users[j].name%>
+                  </h5> 
+                </a>
+                <div class="box box-element" style="display: block; font-size: 10px">
+                    <%=users[j].email%>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <% } %>
+        </div>
+        <% } %>
+      <% } %>
+      <% if (num == 0) {%>
+        <div class="row">
+          <div class="col-md-12">
+            <h3><i>No matched results.</i></h3>
+          </div>
+        </div>
+      <% } %>
+
+    </div>
+    <div class="col-md-1"></div>
+
+  </div>
+</div>

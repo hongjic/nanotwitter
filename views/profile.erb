@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Twitter</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="navbar-container">
+                      <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                           <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                        </button> 
+                        <a class="navbar-brand">Twitter</a>
+                      </div>
+                      
+                      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                          <li class="">
+                            <a href="/">Home</a>
+                          </li>
+                          <li>
+                            <a>Notification</a>
+                          </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right navbar-rightest">
+                          <li class="dropdown">
+                             <a class="dropdown-toggle" data-toggle="dropdown"><%=@active_user.name%><strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a href="/users/<%=@active_user.id%>">View profile</a>
+                              </li>
+                              <li>
+                                <a id="logout">Log out</a>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            <a>Tweet</a>
+                          </li>
+                        </ul>
+                        <div class="navbar-form navbar-right" role="search">
+                          <div class="form-group">
+                            <input id="search_keyword" type="text" class="form-control">
+                          </div> 
+                          <button id="search" type="submit" class="btn btn-default">
+                            Search
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="page-header">
+                    <h2>
+                      nanoTwitter <small>course project for cosi105b</small>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h3>
+                        <%=@target_user.name%>
+                      </h3>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p> Email: <%=@target_user.email%></p>
+                      <p> Gender: <%=@target_user.gender%></p>
+                      <% if @target_user.birthday %>
+                        <p>
+                          <%=@target_user.birthday%>
+                        </p>
+                      <% end %>
+                      <p>
+                        Joined: <%=TimeUtil.get_time_distance(@target_user.create_time, Time.now().to_i)%>
+                      </p>
+                      <% if @active_user.id == @target_user.id  %>
+                        <button class="btn btn-primary" type="button" id="edit_profile">Edit profile</button>
+                      <% elsif @is_following %>
+                        <button class="btn btn-primary" type="button" id="unfollow">Following</button>
+                      <% else %>
+                        <button class="btn btn-primary" type="button" id="follow">Follow</button>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-7" id="profile_content">
+
+
+                </div>
+                <div class="col-md-2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+    <input id="profile_id" style="display:none" value="<%=@target_user.id%>"></input>
+    <script src="/js/jquery.min-2.1.4.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/require-1.0.8.js" data-main="/js/profile/main"></script>
+  </body>
+</html>
