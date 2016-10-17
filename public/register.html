@@ -17,9 +17,10 @@
     data = {username: username, password: password, password2: password2, email: email};
     $.ajax({
       type: "post",
+      contentType: "application/json;charset=utf-8",
       dataType: "json",
       url: "/api/v1/users",
-      data: data,
+      data: JSON.stringify(data),
       success: function(result) {
         if (result.resultCode == "success") {
           document.cookie = "access_token=" + result.resultMsg.access_token

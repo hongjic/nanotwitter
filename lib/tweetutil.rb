@@ -8,10 +8,10 @@ module TweetUtil
       @tweets_relation = tweets
     end
 
-    def to_json_obj
+    def to_json_obj fields = nil
       list = [];
       @tweets_relation.each do |tweet_record|
-        list.push(tweet_record.to_json_obj)
+        list.push(tweet_record.to_json_obj fields)
       end
       list
     end
@@ -38,6 +38,12 @@ module TweetUtil
     # TODO: handle with mention and reply notification and tag creation
     raise Error::TweetError, tweet.errors.messages.values[0][0] unless tweet.save
     tweet
+  end
+
+  # find tweet by keyword in content
+  def find_tweets_by_keyword keyword, fields
+    tweets = TweetList.new Tweet.where("content LIKE ?", '%' + keyword + '%')
+    tweets.to_json_obj fields
   end
 
 end

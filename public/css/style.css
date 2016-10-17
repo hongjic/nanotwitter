@@ -16,3 +16,18 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+.nav-tabs-search {
+  text-align: center;
+}
+
+.nav-tabs-search>li {
+  float: none;
+  display: inline-block;
+}
+
+.tweet_content {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  max-width: 400px;
+}

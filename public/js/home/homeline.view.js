@@ -1,19 +1,20 @@
 
-define(['Backbone', 'Tweet', 'Tweets', 'underscore', 'Util','TEXT!js/home/tweet_list.tpl.html'], 
-  function (Backbone, Tweet, Tweets, _, Util, TweetListTpl) {
-  var HomeLine = Backbone.View.extend({
+define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.html'], 
+  function (Backbone, Tweet, HomeLine, Util, TweetListTpl) {
+  var HomeLineView = Backbone.View.extend({
     el: '#home_line',
 
     events: {
       'click #tweet_submit': 'post_tweet',
       'click .reply': 'reply',
-      'click .likes': 'likes'
+      'click .likes': 'likes',
+      'input #tweet_content': 'input_change'
     },
 
     template: _.template(TweetListTpl),
 
     initialize: function() {
-      this.homeline = new Tweets();
+      this.homeline = new HomeLine();
       this.listenTo(this.homeline, 'update', this.render);
     },
 
@@ -41,7 +42,8 @@ define(['Backbone', 'Tweet', 'Tweets', 'underscore', 'Util','TEXT!js/home/tweet_
       new_tweet.set({content: content});
       new_tweet.save(null, {
         success: function(model, resp, options) {
-          that.homeline.add(model);
+          if (resp.resultCode == "success")
+            that.homeline.add(model);
         },
         error: function(model, resp, options) {
           window.location = '/login.html';
@@ -55,10 +57,18 @@ define(['Backbone', 'Tweet', 'Tweets', 'underscore', 'Util','TEXT!js/home/tweet_
 
     likes: function() {
       //TODO:
+    },
+
+    input_change: function() {
+      var input = this.$("#tweet_content").val();
+      if (input.length < 5)
+        this.$("#tweet_submit").attr("disabled", "disabled");
+      else 
+        this.$("#tweet_submit").removeAttr("disabled");
     }
 
   });
 
-  return HomeLine;
+  return HomeLineView;
 
 })
