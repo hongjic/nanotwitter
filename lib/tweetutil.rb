@@ -27,6 +27,11 @@ module TweetUtil
     tweet_list.to_json_obj
   end
 
+  def get_time_line user_id
+    tweet_list = TweetList.new Tweet.where(user_id: user_id)
+    tweet_list.to_json_obj
+  end
+
   def create_new_tweet user, content, reply_to_tweet_id
     tweet = Tweet.new
     tweet.user_id = user.id

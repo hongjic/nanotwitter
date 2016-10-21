@@ -7,6 +7,7 @@ require.config({
     TEXT: "js/text-2.0.14",
     Util: "js/util",
     Tweet: "js/model/tweet.model",
+    Timeline: "js/model/timeline.model",
     User: "js/model/user.model",
     ProfileView: "js/profile/profile.view"
   },
@@ -62,8 +63,14 @@ require(['Util'], function(Util) {
     });
   });
 
+  $("#edit_profile").click(function() {
+    // TODO: 
+  });
+
   require(['ProfileView'], function(ProfileView) {
-    var profile_view = new ProfileView();
+    var user_id = parseInt($("#profile_id").val());
+    var profile_view = new ProfileView(user_id);
+    profile_view.query();
 
   })
 

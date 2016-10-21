@@ -129,6 +129,19 @@ get '/api/v1/homeline' do
 end
 
 #with authentication
+get '/api/v1/users/:user_id/tweets' do
+  token = request.cookies["access_token"]
+  begin
+    @active_user = UserUtil::check_token token
+    user_id = params[:user_id]
+    time_line = TweetUtil::get_time_line user_id
+    Api::Result.new(true, {time_line: time_line}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
+#with authentication
 get '/api/v1/users/:user_id' do
   token = request.cookies["access_token"]
   # fields' format: ["name", "email", "gender"] a list.
