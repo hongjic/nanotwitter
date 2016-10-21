@@ -1,52 +1,45 @@
-define(['Backbone', 'underscore', 'Tweet', 'Util'], function(Backbone, _, Tweet, Util) {
+define(['Backbone', 'underscore', 'Timeline', 'Util', 'TEXT!js/profile/profile.tpl.html'], 
+  function(Backbone, _, Timeline, Util, ProfileTpl) {
 
   var ProfileView = Backbone.View.extend({
     el: '#profile_content',
 
     events: {
-      'click #unfollow': 'unfollow',
-      'click #follow': 'follow'
+      'click .reply': 'reply',
+      'click .likes': 'likes',
     },
 
-    initialize: function() {
+    template: _.template(ProfileTpl),
+
+    initialize: function(user_id) {
+      this.timeline = new Timeline(user_id);
+      this.listenTo(this.timeline, 'sync', this.render);
 
     },
 
-    follow: function() {
-      var target_user_id = parseInt($("#profile_id").val());
-      $.ajax({
-        type: 'post',
-        url: '/api/v1/follows',
-        contentType: 'application/json;charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify({following_id: target_user_id}),
-        success: function() {
-          $("#follow").text("Following");
-          document.getElementById("follow").id = "unfollow";
+    render: function() {
+      this.$el.html(this.template({time_line: this.timeline.toJSON()}));
+    },
+
+    query: function() {
+      this.timeline.fetch({
+        success: function(collection, resp, options) {
+          console.log("success");
         },
-        error: function(xhr, status, error){
-          console.log("Error: when adding a follow relationship.");
+        error: function(collection, resp, options) {
+          window.location = "/login.html";
         }
-      });
+      })
     },
 
-    unfollow: function() {
-      var target_user_id = parseInt($("#profile_id").val());
-      $.ajax({
-        type: 'delete',
-        url: '/api/v1/follows',
-        contentType: 'application/json;charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify({following_id: target_user_id}),
-        success: function() {
-          $("#unfollow").text("Follow");
-          document.getElementById("unfollow").id = "follow";
-        },
-        error: function() {
-          console.log("Error: when deleting a follow relationship.");
-        }
-      });
+    reply: function() {
+      // TODO:
     },
+
+    likes: function() {
+      // TODO:
+    }
+
   });
 
   return ProfileView;
