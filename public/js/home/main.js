@@ -14,12 +14,17 @@ require.config({
 })
 
 require(['Util'], function(Util) {
-  $("#logout").click(function() {
+
+  $("#logout").on("click touchend", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
     Util.delCookie("access_token");
     window.location = "/";
   });
 
-  $("#search").click(function() {
+  $("#search").on("click touchend", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
     keyword = $("#search_keyword").val();
     if (keyword.length > 0) {
       window.location = "/search?keyword=" + keyword;
