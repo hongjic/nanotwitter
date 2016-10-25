@@ -1,5 +1,0 @@
- id |  name  |            email            | password | create_time | gender | birthday 
-----+--------+-----------------------------+----------+-------------+--------+----------
-  4 | Samuel | s.a.m.s.k.66@googlemail.com | sampass  |  1477015035 |      0 | 
-(1 row)
-
