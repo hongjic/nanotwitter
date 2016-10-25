@@ -40,4 +40,23 @@ module TweetUtil
     tweet
   end
 
+  def random_tweet_gen no_of_tweets, user_id, user_name
+
+    tweet_array = Array.new
+    for j in 0..no_of_tweets-1 do
+      content = Faker::Lorem.paragraph[1..140]
+      tweet_array[j] = [user_id,user_name,content,Time.now,0,nil]
+    end
+    tweet_array
+  end
+
+  def create_batch_tweets tweet_rows, tweet_array
+    Tweet.import tweet_rows, tweet_array
+  end
+
+  def tweet_count
+    Tweet.count
+  end
+
+
 end

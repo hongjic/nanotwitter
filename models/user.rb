@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
     def validate user 
       if user.name == nil
         user.errors[:name] << "Please provide your user name."
-      elsif user.name.length < 5 || user.name.length > 20
+      elsif user.name.length < 3 || user.name.length > 20
         user.errors[:name] << "User name should be longer than 5 and shorter than 20."
       elsif (User.find_by name: user.name) != nil
         user.errors[:name] << "User name already exists."
@@ -20,18 +20,18 @@ class User < ActiveRecord::Base
     end
   end
 
-  has_many :be_followeds, :class_name => 'Follow', :foreign_key => :followed_id
-  has_many :followers, :through => :be_followeds, :source => :follower
+  has_many :be_followeds, :class_name => 'Follow', :foreign_key => :followed_id, dependent: :destroy 
+  has_many :followers, :through => :be_followeds, :source => :follower, dependent: :destroy 
 
-  has_many :follows, :class_name => 'Follow', :foreign_key => :follower_id
-  has_many :followings, :through => :follows, :source => :followed
+  has_many :follows, :class_name => 'Follow', :foreign_key => :follower_id, dependent: :destroy 
+  has_many :followings, :through => :follows, :source => :followed, dependent: :destroy 
 
-  has_many :home_lines, :through => :followings, :source => :tweets
+  has_many :home_lines, :through => :followings, :source => :tweets, dependent: :destroy 
 
-  has_many :likes
-  has_many :liked_tweets, :through => :likes, :source => :tweet
+  has_many :likes, dependent: :destroy 
+  has_many :liked_tweets, :through => :likes, :source => :tweet, dependent: :destroy 
 
-  has_many :tweets
+  has_many :tweets, dependent: :destroy 
 
   enum gender: { unknown: 0, male: 1, female: 2 }
 
