@@ -1,7 +1,0 @@
- id | user_id | user_name |           content            | create_time | favors | reply_to_tweet_id 
-----+---------+-----------+------------------------------+-------------+--------+-------------------
-  1 |       1 | Samuel    | esto es un tweet de prueba   |  1477014156 |      0 |                  
-  2 |       1 | Samuel    | esto es OTRO tweet de prueba |  1477014156 |      0 |                  
-  3 |       2 | Chen_acc  | metallica for life           |  1477014156 |      0 |                  
-(3 rows)
-
