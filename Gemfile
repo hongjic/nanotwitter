@@ -9,3 +9,6 @@ gem "rake", "11.2.2"
 gem "pg"
 gem "byebug"
 gem "jwt"
+
+gem "activerecord-import"
+gem "faker"
