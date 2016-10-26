@@ -23,7 +23,7 @@
                 <div class="col-md-12">
                   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                     <div class="navbar-container">
-                      <div class="navbar-header">   
+                      <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                            <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                         </button> 
@@ -32,32 +32,37 @@
                       
                       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                          <li>
+                          <li class="">
                             <a href="/">Home</a>
                           </li>
+                          <li>
+                            <a>Notification</a>
+                          </li>
                         </ul>
-                        <div class="nav navbar-nav navbar-right navbar-rightest">
+                        <ul class="nav navbar-nav navbar-right navbar-rightest">
                           <li class="dropdown" id="user-menu">
-                             <a class="dropdown-toggle" data-toggle="dropdown">Have an account? <b>Log in</b><strong class="caret"></strong></a>
+                             <a class="dropdown-toggle" data-toggle="dropdown"><%=@user.name%><strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                               <li>
-                                <a href="/login.html">Sign In</a>
+                                <a href="/users/<%=@user.id%>">View profile</a>
                               </li>
                               <li>
-                                <a href="/register.html">Register</a>
+                                <a id="logout">Log out</a>
                               </li>
                             </ul>
                           </li>
-                        </div>
-                        <div class="navbar-form navbar-right">
-                          <!-- <div class="form-group"> -->
+                          <li>
+                            <a>Tweet</a>
+                          </li>
+                        </ul>
+                        <div class="navbar-form navbar-right" role="search">
+                          <div class="form-group">
                             <input id="search_keyword" type="text" class="form-control">
-                          <!-- </div>  -->
-                          <button id="search" class="btn btn-default">
+                          </div> 
+                          <button id="search" type="submit" class="btn btn-default">
                             Search
                           </button>
                         </div>
-                        
                       </div>
                     </div>
                   </nav>
@@ -78,23 +83,29 @@
                 <div class="col-md-4">
                   
 
-                  <h4> Sign in and see what's happening. </h4>
+                  <h4> Edit profile. </h4>
                   <div style="margin-top: 50px">
                     <div class="form-group">
-                      <label>Username</label>
-                      <input type="email" class="form-control" id="username" placeholder="Enter username">
+                      <label>Email</label>
+                      <input type="email" class="form-control" id="email" placeholder="<%=@user.email%>"/>
                     </div>
                     <div class="form-group">
-                      <label>Password</label>
-                      <input type="password" class="form-control" id="password" placeholder="Password">
+                      <label>Gender</label>
+                      <select class="form-control" id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="unknown">Unknown</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Birthday</label>
+                      <input type="date" class="form-control" id="birthday" placeholder="2000-01-01" value="<%=@user.birthday%>">
                     </div>
                     <p id="tips"></p>
-                    <button class="btn btn-primary" id="sign_in">Sign In</button>
+                    <button class="btn btn-primary" id="save">Save</button>
                   </div>
 
 
-
-                  
                 </div>
                 <div class="col-md-4"></div>
               </div>
@@ -104,32 +115,21 @@
         <div class="col-md-1"></div>
       </div>
     </div>
-    <ul>
+    <input id="profile_id" style="display:none" value="<%=@user.id%>"></input>
     <script src="/js/jquery.min-2.1.4.js"></script>
     <script type="text/javascript">
-      function login(username, password) {
-        data = {username: username, password: password};
-        $.ajax({
-          type: "post",
-          contentType: "application/json;charset=utf-8",
-          dataType: "json",
-          url: "/api/v1/users/login",
-          data: JSON.stringify(data),
-          success: function(result) {
-            if (result.resultCode == "success") {
-              var exp = new Date();
-              exp.setTime(exp.getTime() + 30*24*60*60*1000);
-              document.cookie = "access_token=" + escape(result.resultMsg.access_token) + ";expires=" + exp.toGMTString();
-              window.location = "/";
-            }
-            else $("#tips").text(result.resultMsg);
-          }
-        })
-      }
+      $("#logout").click(function() {
+        Util.delCookie("access_token");
+        window.location = "/";
+      });
 
       $("#search").click(function() {
-        window.location = "/login.html";
+        keyword = $("#search_keyword").val();
+        if (keyword.length > 0) {
+          window.location = "/search?keyword=" + keyword;
+        }
       });
+
       $("#user-menu").click(function() {
         var menu = $("#user-menu");
         if (menu.hasClass("open"))
@@ -137,10 +137,32 @@
         else
           menu.addClass("open");
       });
-      $("#sign_in").click(function(){
-        var username = $("#username").val();
-        var password = $("#password").val();
-        login(username, password);
+
+      $("#save").click(function() {
+        var email = $("#email").val();
+        var gender = $("#gender").val();
+        var birthday = $("#birthday").val();
+        data = {};
+        if (!!email) data.email = email;
+        if (!!gender) data.gender = gender;
+        if (!!birthday) data.birthday = birthday;
+        $.ajax({
+          type: "put",
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          url: "/api/v1/users/selfinfo",
+          data: JSON.stringify(data),
+          success: function(result) {
+            if (result.resultCode == "success") {
+              console.log("update user info success.");
+              window.location = "/users/" + $("#profile_id").val();
+            }
+            else $("#tips").text(result.resultMsg);
+          },
+          error: function() {
+            window.location = "/login.html";
+          }
+        })
       });
     </script>
   </body>

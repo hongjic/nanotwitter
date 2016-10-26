@@ -54,10 +54,6 @@ require(['Util'], function(Util) {
     })
   });
 
-  $("#edit_profile").click(function() {
-    // TODO: 
-  });
-
   require(['ProfileView'], function(ProfileView) {
     var user_id = parseInt($("#profile_id").val());
     var profile_view = new ProfileView(user_id);
