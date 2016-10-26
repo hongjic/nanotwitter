@@ -1,5 +1,4 @@
 
-
 get '/test/reset/all' do
   timebefore = Time.now
   UserUtil::destroy_all
@@ -11,7 +10,7 @@ get '/test/reset/all' do
   rescue Error::SignUpError => e
     Api::Result.new(false, e.message).to_json
   end
-erb :reset
+  erb :'test/reset'
 end
 
 
@@ -42,7 +41,7 @@ get '/test/users/create' do        #example: /test/users/create?count=100&tweets
 
   timeafter = Time.now
   @create_time = timeafter - timebefore
-  erb :create_users
+  erb :'test/create_users'
 
 end
 
@@ -54,7 +53,7 @@ get '/test/status' do
   @number_of_tweets = TweetUtil::TweetTest::tweet_count
   @test_user_id = (UserUtil::find_user_by_name "testuser").id
 
-  erb :status
+  erb :'test/status'
 
 end
 
@@ -80,10 +79,10 @@ get '/test/user/:user/tweets' do   #Example: /test/user/testuser/tweets?tweets=1
 
         timeafter = Time.now
         @create_time = timeafter - timebefore
-        erb :tweets_for_user
+        erb :'test/tweets_for_user'
   else
         @error_message = "User " + @user_name + " does not exist"
-        erb :error
+        erb :'test/error'
   end
 
 end 
@@ -114,7 +113,7 @@ get '/test/user/follow' do             #Example: /test/user/follow?count=10  #n 
   @create_time = timeafter - timebefore
 
 
-  erb :random_follows_for_user
+  erb :'test/random_follows_for_user'
 
 end
 
@@ -148,10 +147,10 @@ get '/test/user/:u/follow' do   #Example: /test/user/22/follow?count=10  n (inte
     timeafter = Time.now
     @create_time = timeafter - timebefore
 
-    erb :follows_for_user
+    erb :'test/follows_for_user'
   rescue  ActiveRecord::RecordNotFound
 
     @error_message = "User with ID " + @user_id + " does not exist"
-    erb :error
+    erb :'test/error'
   end
 end

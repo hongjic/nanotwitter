@@ -1,49 +1,161 @@
-<!Doctype html>
-<html>
-<head>
-</head>
-<body>
-  <h2>Join Twitter today.</h2>
-  <input type="text" placeholder="email" id="email" />
-  <input type="text" placeholder="username" id="username" />
-  <input type="password" placeholder="password" id="password" />
-  <input type="password" placeholder="password again" id="password2" />
-  <button id="sign_up">Sign up</button>
-  <p id="tips"></p>
-</body>
-<script src="js/jquery.min-2.1.4.js"></script>
-<script type="text/javascript">
-  function register(username, password, password2, email) {
-    data = {username: username, password: password, password2: password2, email: email};
-    $.ajax({
-      type: "post",
-      contentType: "application/json;charset=utf-8",
-      dataType: "json",
-      url: "/api/v1/users",
-      data: JSON.stringify(data),
-      success: function(result) {
-        if (result.resultCode == "success") {
-          document.cookie = "access_token=" + result.resultMsg.access_token
-          window.location = "/";
-        }
-        else $("#tips").text(result.resultMsg);
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Nano Twitter</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="navbar-container">
+                      <div class="navbar-header">   
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                           <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                        </button> 
+                        <a class="navbar-brand">Twitter</a>
+                      </div>
+                      
+                      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                          <li>
+                            <a href="/">Home</a>
+                          </li>
+                        </ul>
+                        <div class="nav navbar-nav navbar-right navbar-rightest">
+                          <li class="dropdown" id="user-menu">
+                             <a class="dropdown-toggle" data-toggle="dropdown">Have an account? <b>Log in</b><strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a href="/login.html">Sign In</a>
+                              </li>
+                              <li>
+                                <a href="/register.html">Register</a>
+                              </li>
+                            </ul>
+                          </li>
+                        </div>
+                        <div class="navbar-form navbar-right">
+                          <!-- <div class="form-group"> -->
+                            <input id="search_keyword" type="text" class="form-control">
+                          <!-- </div>  -->
+                          <button id="search" class="btn btn-default">
+                            Search
+                          </button>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="page-header">
+                    <h2>
+                      nanoTwitter <small>course project for cosi105b</small>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                  
+
+                  <h4> Join Twitter Today. </h4>
+                  <div style="margin-top: 50px">
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input type="email" class="form-control" id="email" placeholder="Enter email"/>
+                    </div>
+                    <div class="form-group">
+                      <label>Username</label>
+                      <input type="text" class="form-control" id="username" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                      <label>Password</label>
+                      <input type="password" class="form-control" id="password" placeholder="Enter password">
+                    </div>
+                    <div class="form-group">
+                      <label>Confirm Password</label>
+                      <input type="password" class="form-control" id="password2" placeholder="Enter password again">
+                    </div>
+                    <p id="tips"></p>
+                    <button class="btn btn-primary" id="sign_up">Sign up</button>
+                  </div>
+
+
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+    <ul>
+    <script src="/js/jquery.min-2.1.4.js"></script>
+    <script type="text/javascript">
+      function register(username, password, password2, email) {
+        data = {username: username, password: password, password2: password2, email: email};
+        $.ajax({
+          type: "post",
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          url: "/api/v1/users",
+          data: JSON.stringify(data),
+          success: function(result) {
+            if (result.resultCode == "success") {
+              document.cookie = "access_token=" + result.resultMsg.access_token
+              window.location = "/";
+            }
+            else $("#tips").text(result.resultMsg);
+          }
+        })
       }
-    })
-  }
 
-  function password_not_match() {
-    $("#tips").text("Password not match, please type again.");
-    $("#password").text("");
-    $("#password2").text("");
-  }
+      function password_not_match() {
+        $("#tips").text("Password not match, please type again.");
+        $("#password").text("");
+        $("#password2").text("");
+      }
 
-  $("#sign_up").click(function(){
-    var username = $("#username").val();
-    var password = $("#password").val();
-    var password2 = $("#password2").val();
-    var email = $("#email").val();
-    register(username, password, password2, email);
-  });
+      $("#sign_up").click(function(){
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var password2 = $("#password2").val();
+        var email = $("#email").val();
+        register(username, password, password2, email);
+      });
 
-</script>
+      $("#search").click(function() {
+        window.location = "/login.html";
+      });
+      $("#user-menu").click(function() {
+        var menu = $("#user-menu");
+        if (menu.hasClass("open"))
+          menu.removeClass("open");
+        else
+          menu.addClass("open");
+      });
+     
+    </script>
+  </body>
 </html>

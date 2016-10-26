@@ -184,5 +184,6 @@ delete '/api/v1/follows' do
 end
 
 error Sinatra::NotFound do
+  byebug
   redirect '/404.html'
 end
