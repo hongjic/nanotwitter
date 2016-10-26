@@ -27,40 +27,31 @@ require(['Util'], function(Util) {
     }
   });
 
-  $("#follow").click(function() {
-    var target_user_id = parseInt($("#profile_id").val());
-    $.ajax({
-      type: 'post',
-      url: '/api/v1/follows',
-      contentType: 'application/json;charset=utf-8',
-      dataType: 'json',
-      data: JSON.stringify({following_id: target_user_id}),
-      success: function() {
-        $("#follow").text("Following");
-        document.getElementById("follow").id = "unfollow";
-      },
-      error: function(xhr, status, error){
-        console.log("Error: when adding a follow relationship.");
-      }
-    });
+  $("#user-menu").click(function() {
+    var menu = $("#user-menu");
+    if (menu.hasClass("open"))
+      menu.removeClass("open");
+    else
+      menu.addClass("open");
   });
 
-  $("#unfollow").click(function() {
+  $("#follow").click(function() {
     var target_user_id = parseInt($("#profile_id").val());
+    var type = $("#follow").attr("action");
     $.ajax({
-      type: 'delete',
+      type: type == "follow" ? 'post' : 'delete',
       url: '/api/v1/follows',
       contentType: 'application/json;charset=utf-8',
       dataType: 'json',
       data: JSON.stringify({following_id: target_user_id}),
       success: function() {
-        $("#unfollow").text("Follow");
-        document.getElementById("unfollow").id = "follow";
+        $("#follow").attr("action", type == "follow" ? "unfollow" : "follow");
+        $("#follow").text(type == "follow" ? "Following" : "Follow");
       },
       error: function() {
-        console.log("Error: when deleting a follow relationship.");
+        console.log("Error: when clicking " + type + ".");
       }
-    });
+    })
   });
 
   $("#edit_profile").click(function() {

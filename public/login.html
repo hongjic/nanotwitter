@@ -1,42 +1,146 @@
-<!Doctype html>
-<html>
-<head>
-</head>
-<body>
-  <h2>Sign in and see what's happening</h2>
-  <input type="text" placeholder="username" id="username" />
-  <input type="password" placeholder="password" id="password" />
-  <button id="sign_in">Sign In</button>
-  <p id="tips"></p>
-</body>
-<script src="js/jquery.min-2.1.4.js"></script>
-<script type="text/javascript">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  function login(username, password) {
-    data = {username: username, password: password};
-    $.ajax({
-      type: "post",
-      contentType: "application/json;charset=utf-8",
-      dataType: "json",
-      url: "/api/v1/users/login",
-      data: JSON.stringify(data),
-      success: function(result) {
-        if (result.resultCode == "success") {
-          var exp = new Date();
-          exp.setTime(exp.getTime() + 30*24*60*60*1000);
-          document.cookie = "access_token=" + escape(result.resultMsg.access_token) + ";expires=" + exp.toGMTString();
-          window.location = "/";
-        }
-        else $("#tips").text(result.resultMsg);
+    <title>Nano Twitter</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="navbar-container">
+                      <div class="navbar-header">   
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                           <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                        </button> 
+                        <a class="navbar-brand">Twitter</a>
+                      </div>
+                      
+                      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                          <li>
+                            <a href="/">Home</a>
+                          </li>
+                        </ul>
+                        <div class="nav navbar-nav navbar-right navbar-rightest">
+                          <li class="dropdown" id="user-menu">
+                             <a class="dropdown-toggle" data-toggle="dropdown">Have an account? <b>Log in</b><strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a href="/login.html">Sign In</a>
+                              </li>
+                              <li>
+                                <a href="/register.html">Register</a>
+                              </li>
+                            </ul>
+                          </li>
+                        </div>
+                        <div class="navbar-form navbar-right">
+                          <!-- <div class="form-group"> -->
+                            <input id="search_keyword" type="text" class="form-control">
+                          <!-- </div>  -->
+                          <button id="search" class="btn btn-default">
+                            Search
+                          </button>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="page-header">
+                    <h2>
+                      nanoTwitter <small>course project for cosi105b</small>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                  
+
+                  <h4> Sign in and see what's happening. </h4>
+                  <div style="margin-top: 50px">
+                    <div class="form-group">
+                      <label>Username</label>
+                      <input type="email" class="form-control" id="username" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                      <label>Password</label>
+                      <input type="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <button class="btn btn-primary" id="sign_in">Sign In</button>
+                  </div>
+
+
+
+                  
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+    <ul>
+    <script src="/js/jquery.min-2.1.4.js"></script>
+    <script type="text/javascript">
+      function login(username, password) {
+        data = {username: username, password: password};
+        $.ajax({
+          type: "post",
+          contentType: "application/json;charset=utf-8",
+          dataType: "json",
+          url: "/api/v1/users/login",
+          data: JSON.stringify(data),
+          success: function(result) {
+            if (result.resultCode == "success") {
+              var exp = new Date();
+              exp.setTime(exp.getTime() + 30*24*60*60*1000);
+              document.cookie = "access_token=" + escape(result.resultMsg.access_token) + ";expires=" + exp.toGMTString();
+              window.location = "/";
+            }
+            else $("#tips").text(result.resultMsg);
+          }
+        })
       }
-    })
-  }
 
-  $("#sign_in").click(function(){
-    var username = $("#username").val();
-    var password = $("#password").val();
-    login(username, password)
-  });
-
-</script>
+      $("#search").click(function() {
+        window.location = "/login.html";
+      });
+      $("#user-menu").click(function() {
+        var menu = $("#user-menu");
+        if (menu.hasClass("open"))
+          menu.removeClass("open");
+        else
+          menu.addClass("open");
+      });
+      $("#sign_in").click(function(){
+        var username = $("#username").val();
+        var password = $("#password").val();
+        login(username, password);
+      });
+    </script>
+  </body>
 </html>

@@ -28,6 +28,14 @@ require(['Util'], function(Util) {
     }
   });
 
+  $("#user-menu").click(function() {
+    var menu = $("#user-menu");
+    if (menu.hasClass("open"))
+      menu.removeClass("open");
+    else
+      menu.addClass("open");
+  });
+
   require(['ResultView'], function(ResultView) {
     var keyword = $("#keyword").text();
     //not support hastag search now.
