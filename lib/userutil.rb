@@ -107,7 +107,7 @@ module UserUtil
     end
 
     def destroy_all
-       User.destroy_all
+      User.destroy_all
     end
 
     def list_of_ids
@@ -123,12 +123,7 @@ module UserUtil
       for i in 0..user_count-1 do
         user_name = (rand(100).to_s + Faker::Internet.user_name)[1..20]
         password = Faker::Internet.password(8)
-
-        user_params = [ user_name, 
-                        Faker::Internet.email, 
-                        password,
-                        Time.now
-                      ]
+        user_params = [ user_name, Faker::Internet.email, password, Time.now ]
         user_array[i]=user_params
       end
       user_array
@@ -141,7 +136,7 @@ module UserUtil
     def follow_count
       Follow.count
     end
-    
+
   end
 
 end

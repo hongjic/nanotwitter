@@ -54,7 +54,6 @@ module TweetUtil
   module TweetTest
 
     def random_tweet_gen no_of_tweets, user_id, user_name
-
       tweet_array = Array.new
       for j in 0..no_of_tweets-1 do
         content = Faker::Lorem.paragraph[1..140]
