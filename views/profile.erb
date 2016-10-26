@@ -92,14 +92,14 @@
                       <p> Gender: <%=@target_user.gender%></p>
                       <% if @target_user.birthday %>
                         <p>
-                          <%=@target_user.birthday%>
+                          DOB: <%=@target_user.birthday%>
                         </p>
                       <% end %>
                       <p>
                         Joined: <%=TimeUtil.get_time_distance(@target_user.create_time, Time.now().to_i)%>
                       </p>
                       <% if @active_user.id == @target_user.id  %>
-                        <button class="btn btn-primary" type="button" id="edit_profile">Edit profile</button>
+                        <a href="/edit_profile"><button class="btn btn-primary" type="button" >Edit profile</button></a>
                       <% elsif @is_following %>
                         <button class="btn btn-primary" type="button" id="follow" action="unfollow">Following</button>
                       <% else %>

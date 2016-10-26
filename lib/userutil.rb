@@ -1,4 +1,3 @@
-require 'byebug'
 module UserUtil
 
   class UserList
@@ -56,6 +55,15 @@ module UserUtil
     user.password = userinfo["password"]
     user.create_time = Time.now().getutc.to_i
     raise Error::SignUpError, user.errors.messages.values[0][0] unless user.save
+    user
+  end
+
+  # update user info (except for password)
+  def update_user_info user, new_info
+    new_info.keys.each do |key|
+      user[key] = new_info[key]
+    end
+    raise Error::UserUpdateError, user.errors.messages.values[0][0] unless user.save
     user
   end
 

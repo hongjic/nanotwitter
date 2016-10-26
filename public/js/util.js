@@ -19,7 +19,7 @@ define(['jquery'], function() {
   var setCookie = function(name, value){
     var exp  = new Date();  
     exp.setTime(exp.getTime() + 30*24*60*60*1000);
-    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    document.cookie = name + "=" + escape (value) + ";expires=" + exp.toGMTString() + ";path=/";
   };
 
   var getCookie = function(name){
@@ -31,7 +31,7 @@ define(['jquery'], function() {
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
     var cval=getCookie(name);
-    if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+    if(cval!=null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString() + ";path=/";
   };
 
   return {

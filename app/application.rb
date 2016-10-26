@@ -41,7 +41,18 @@ get '/users/:id' do
   rescue ActiveRecord::RecordNotFound
     redirect "/404.html"
   end
+end
 
+# with authentication
+# edit profile
+get '/edit_profile' do
+  token = request.cookies["access_token"]
+  begin
+    @user = UserUtil::check_token token
+    erb :edit_profile
+  rescue JWT::DecodeError
+    redirect '/login.html'
+  end
 end
 
 #no authentication
@@ -65,6 +76,21 @@ post '/api/v1/users' do
     token = UserUtil::generate_token user
     Api::Result.new(true, {access_token: token}).to_json
   rescue Error::SignUpError => e
+    Api::Result.new(false, e.message).to_json
+  end
+end
+
+#with authentication
+put '/api/v1/users/selfinfo' do
+  token = request.cookies["access_token"]
+  @json = JSON.parse request.body.read
+  begin
+    user = UserUtil::check_token token
+    user = UserUtil::update_user_info user, @json
+    Api::Result.new(true, {user: user.to_json_obj}).to_json
+  rescue JWT::DecodeError
+    401
+  rescue Error::UserUpdateError => e
     Api::Result.new(false, e.message).to_json
   end
 end
@@ -184,6 +210,5 @@ delete '/api/v1/follows' do
 end
 
 error Sinatra::NotFound do
-  byebug
   redirect '/404.html'
 end
