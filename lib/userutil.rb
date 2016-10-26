@@ -63,6 +63,7 @@ module UserUtil
     new_info.keys.each do |key|
       user[key] = new_info[key]
     end
+    user["gender"] = "male";
     raise Error::UserUpdateError, user.errors.messages.values[0][0] unless user.save
     user
   end
