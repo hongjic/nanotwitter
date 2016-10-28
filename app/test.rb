@@ -51,7 +51,7 @@ get '/test/status' do
   @number_of_users = UserUtil::Test::user_count
   @number_of_follows = UserUtil::Test::follow_count
   @number_of_tweets = TweetUtil::Test::tweet_count
-  # @test_user_id = (UserUtil::find_user_by_name "testuser").id
+  @test_user_id = (UserUtil::find_user_by_name "testuser").id
 
   erb :'test/status'
 
