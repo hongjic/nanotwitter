@@ -1,7 +1,9 @@
+include UserUtil::Test
+include TweetUtil::Test
 
 get '/test/reset/all' do
   timebefore = Time.now
-  UserUtil::destroy_all
+  UserUtil::Test::destroy_all
   timeafter = Time.now
   @reset_time = timeafter - timebefore
   test_user_params = { :username => "usertest", :email => "testuser@sample.com", :password =>"password", :password2 => "password" }
@@ -16,7 +18,6 @@ end
 
 
 get '/test/users/create' do        #example: /test/users/create?count=100&tweets=5     create u (integer) fake Users using faker with random tweets Defaults to 1
-
   @user_count = params[:count].to_i
   if @user_count == 0
     @user_count = 1
@@ -26,8 +27,8 @@ get '/test/users/create' do        #example: /test/users/create?count=100&tweets
 
   user_rows = ["name","email","password","create_time"]
 
-  user_array = UserUtil::random_user_gen @user_count
-  users_created = TweetUtil::create_tweets_bulk user_rows, user_array
+  user_array = UserUtil::Test::random_user_gen @user_count
+  users_created = UserUtil::Test::create_batch_users user_rows, user_array
 
   ids_created = users_created["ids"]
   @total_users_created = users_created["ids"].count
@@ -35,9 +36,9 @@ get '/test/users/create' do        #example: /test/users/create?count=100&tweets
   tweet_rows = ["user_id","user_name","content","create_time","favors","reply_to_tweet_id"]
   tweet_array = Array.new
   for i in 0..@total_users_created-1 do
-    tweet_array.concat(TweetUtil::TweetTest::random_tweet_gen @tweet_count, ids_created[i], user_array[i][0] )
+    tweet_array.concat(TweetUtil::Test::random_tweet_gen @tweet_count, ids_created[i], user_array[i][0] )
   end
-  TweetUtil::TweetTest::create_batch_tweets tweet_rows, tweet_array
+  TweetUtil::Test::create_batch_tweets tweet_rows, tweet_array
 
   timeafter = Time.now
   @create_time = timeafter - timebefore
@@ -47,11 +48,10 @@ end
 
 
 get '/test/status' do
-
-  @number_of_users = UserUtil::user_count
-  @number_of_follows = UserUtil::follow_count
-  @number_of_tweets = TweetUtil::TweetTest::tweet_count
-  @test_user_id = (UserUtil::find_user_by_name "testuser").id
+  @number_of_users = UserUtil::Test::user_count
+  @number_of_follows = UserUtil::Test::follow_count
+  @number_of_tweets = TweetUtil::Test::tweet_count
+  # @test_user_id = (UserUtil::find_user_by_name "testuser").id
 
   erb :'test/status'
 
@@ -59,7 +59,7 @@ end
 
 
 
-get '/test/user/:user/tweets' do   #Example: /test/user/testuser/tweets?tweets=100   #user u generates t(integer) new fake tweets
+get '/test/user/:user/create' do   #Example: /test/user/testuser/create?tweets=100   #user u generates t(integer) new fake tweets
 
   @user_name = params[:user]
 
@@ -67,15 +67,14 @@ get '/test/user/:user/tweets' do   #Example: /test/user/testuser/tweets?tweets=1
   if @no_of_tweets == 0
     @no_of_tweets = 1
   end
-  
   @user_id = (UserUtil::find_user_by_name @user_name).id
 
   if @user_id != nil 
         timebefore = Time.now
         tweet_rows = ["user_id","user_name","content","create_time","favors","reply_to_tweet_id"]
 
-        tweet_array = TweetUtil::TweetTest::random_tweet_gen @no_of_tweets, @user_id, @user_name 
-        TweetUtil::TweetTest::create_batch_tweets tweet_rows, tweet_array
+        tweet_array = TweetUtil::Test::random_tweet_gen @no_of_tweets, @user_id, @user_name 
+        TweetUtil::Test::create_batch_tweets tweet_rows, tweet_array
 
         timeafter = Time.now
         @create_time = timeafter - timebefore
@@ -97,7 +96,7 @@ get '/test/user/follow' do             #Example: /test/user/follow?count=10  #n 
   end
 
   timebefore = Time.now
-  list_of_ids = UserUtil::list_of_ids 
+  list_of_ids = UserUtil::Test::list_of_ids 
   @random_users = list_of_ids.sample(@no_of_follows)
   array_follows = @random_users.permutation(2).to_a
 
@@ -106,7 +105,7 @@ get '/test/user/follow' do             #Example: /test/user/follow?count=10  #n 
   end
 
   follow_rows = ["follower_id","followed_id","create_time"]
-  follows_result = UserUtil::follow_bulk follow_rows, array_follows
+  follows_result = UserUtil::Test::follow_bulk follow_rows, array_follows
   @no_of_follows_created = follows_result.ids.count
 
   timeafter = Time.now
@@ -129,7 +128,7 @@ get '/test/user/:u/follow' do   #Example: /test/user/22/follow?count=10  n (inte
     user = (UserUtil::find_user_by_id @user_id)
 
     timebefore = Time.now
-    list_of_ids = UserUtil::list_of_ids 
+    list_of_ids = UserUtil::Test::list_of_ids 
 
     @random_users = list_of_ids.sample(@no_new_followers.to_i)
 
@@ -141,7 +140,7 @@ get '/test/user/:u/follow' do   #Example: /test/user/22/follow?count=10  n (inte
 
     follow_rows = ["follower_id","followed_id","create_time"]
 
-    follows_result = UserUtil::follow_bulk follow_rows, array_follows
+    follows_result = UserUtil::Test::follow_bulk follow_rows, array_follows
     @no_of_follows_created = follows_result.ids.count
 
     timeafter = Time.now

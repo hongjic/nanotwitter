@@ -17,7 +17,7 @@ class Tweet < ActiveRecord::Base
   has_many :tags, :through => :tweet_tags
 
   belongs_to :reply_to_tweet, :class_name => 'Tweet'
-  has_many :replies, :class_name => 'Tweet', :foreign_key => :reply_to_tweet_id
+  has_many :replies, :class_name => 'Tweet', :foreign_key => :reply_to_tweet_id, dependent: :destroy
 
   belongs_to :user
 
