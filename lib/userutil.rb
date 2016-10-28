@@ -53,7 +53,7 @@ module UserUtil
     user.name = userinfo["username"]
     user.email = userinfo["email"]
     user.password = userinfo["password"]
-    user.create_time = Time.now().getutc.to_i
+    user.create_time = Time.now().to_i
     raise Error::SignUpError, user.errors.messages.values[0][0] unless user.save
     user
   end
@@ -110,7 +110,7 @@ module UserUtil
 
     #create a batch of users, columns is an array with the names of fields to be written
     #users is an array of arrays, each containing the user data
-    def create_tweets_bulk columns,users
+    def create_batch_users columns,users
       User.import columns, users
     end
 
@@ -131,7 +131,7 @@ module UserUtil
       for i in 0..user_count-1 do
         user_name = (rand(100).to_s + Faker::Internet.user_name)[1..20]
         password = Faker::Internet.password(8)
-        user_params = [ user_name, Faker::Internet.email, password, Time.now ]
+        user_params = [ user_name, Faker::Internet.email, password, Time.now.to_i ]
         user_array[i]=user_params
       end
       user_array

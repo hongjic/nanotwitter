@@ -37,7 +37,7 @@ module TweetUtil
     tweet.user_id = user.id
     tweet.user_name = user.name
     tweet.content = content
-    tweet.create_time = Time.now().getutc.to_i
+    tweet.create_time = Time.now().to_i
     tweet.favors = 0
     tweet.reply_to_tweet_id = reply_to_tweet_id
     # TODO: handle with mention and reply notification and tag creation
@@ -51,13 +51,13 @@ module TweetUtil
     tweets.to_json_obj fields
   end
 
-  module TweetTest
+  module Test
 
     def random_tweet_gen no_of_tweets, user_id, user_name
       tweet_array = Array.new
       for j in 0..no_of_tweets-1 do
         content = Faker::Lorem.paragraph[1..140]
-        tweet_array[j] = [user_id,user_name,content,Time.now,0,nil]
+        tweet_array[j] = [user_id,user_name,content,Time.now.to_i,0,nil]
       end
       tweet_array
     end

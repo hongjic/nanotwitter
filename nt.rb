@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'active_record'
-# require 'activerecord-import'
+require 'activerecord-import'
 require 'jwt'
 require './config/environments' #database configuration
 require './config/properties' 
