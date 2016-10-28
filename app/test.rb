@@ -6,7 +6,7 @@ get '/test/reset/all' do
   UserUtil::Test::destroy_all
   timeafter = Time.now
   @reset_time = timeafter - timebefore
-  test_user_params = { :username => "usertest", :email => "testuser@sample.com", :password =>"password", :password2 => "password" }
+  test_user_params = { "username" => "testuser", "email" => "testuser@sample.com", "password" =>"password", "password2" => "password" }
   begin
     test_user = UserUtil::create_new_user test_user_params
   rescue Error::SignUpError => e
