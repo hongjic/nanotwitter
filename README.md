@@ -1,4 +1,4 @@
-# nanotwitter 0.3
+# nanotwitter 0.4
 
 
 
@@ -19,3 +19,12 @@ updates:
 3)improved the UI interface.
 4)implemented some core web APIs, but not finished the front-end development so they are not accessible through nanotwitter now.
 5)Make the home page time line to be data-driven. It means whenever a user post a new tweet, the browser will not refresh the whole page to load new home time line. Thus, the query to the bottleneck can be reduced by a large amount.
+
+
+##nanotwitter 0.4
+udpates:
+1) imporved the UI 
+2) test interfaces integrated
+3) users can now search users and tweets, follows and unfollow, and check for followers and following list.
+4) Use codeship to do auto test
+5) Use loader.io to do load test.
