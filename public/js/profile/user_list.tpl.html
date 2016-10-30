@@ -1,0 +1,49 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-tabs">
+      <li class="<% if (type=="tweets") {%> active <% } %>" id="profile_tweets"><a>Tweets</a></li>
+      <li class="<% if (type=="likes") {%> active <% } %>" id="profile_likes"><a>Likes</a></li>
+      <li class="<% if (type=="followings") {%> active <% } %>" id="profile_followings"><a>Followings</a></li>
+      <li class="<% if (type=="followers") {%> active <% } %>" id="profile_followers"><a>Followers</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 20px">
+  <div class="col-md-12">
+    <% var num = users.length;%>
+    <% if (num >0) { %>
+      <% var rows = parseInt(num / 3); %>
+      <% for (var i = 0; i <= rows; i++) {  %>
+      <div class="row">
+        <% var j;%>
+        <% for (j = i*3; j < Math.min(i*3+3, num); j++) {%>
+        <div class="col-md-4">
+          <div class="media well">
+             <a class="pull-left"></a>
+            <div class="media-body">
+              <a href="/users/<%=users[j].id%>">
+                <h5 class="media-heading" style="color: #000000;">
+                  <%=users[j].name%>
+                </h5> 
+              </a>
+              <div class="box box-element" style="display: block; font-size: 10px">
+                  <%=users[j].email%>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+    <% } %>
+    <% if (num == 0) {%>
+      <div class="row">
+        <div class="col-md-12">
+          <h3><i>None</i></h3>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>

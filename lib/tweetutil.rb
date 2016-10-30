@@ -1,5 +1,7 @@
 module TweetUtil
 
+  @social_graph = SocialGraph.instance
+
   class TweetList
     # ActiveRecord::Relation
     attr_accessor :tweets_relation
@@ -18,10 +20,7 @@ module TweetUtil
   end
 
   def get_home_line user
-    userid_list = []
-    Follow.select("followed_id").where("follower_id = ?", user.id).each do |follow|
-      userid_list.push follow.followed_id
-    end
+    userid_list = @social_graph.find_following_id_list user.id
     userid_list.push user.id
     tweet_list = TweetList.new Tweet.where(user_id: userid_list)
     tweet_list.to_json_obj

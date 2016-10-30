@@ -13,7 +13,7 @@ define(['Backbone', 'Tweet'], function (Backbone, Tweet) {
 
     beforeParse: function(resp) {
       if (resp.resultCode == "error")
-        return false;
+        return null;
       return resp.resultMsg.time_line;
     },
 

@@ -5,7 +5,7 @@ define(['Backbone'], function (Backbone) {
 
     beforeParse: function(resp) {
       if (resp.resultCode == "error") 
-        return false;
+        return null;
       return resp.resultMsg.tweet;
     },
 

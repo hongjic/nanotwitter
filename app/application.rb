@@ -28,14 +28,13 @@ end
 # different layouts depends on whether the active user is the owner
 get '/users/:id' do
   token = request.cookies["access_token"]
-  target_user_id = params[:id]
+  target_user_id = params[:id].to_i
   begin
     @active_user = UserUtil::check_token token
     @target_user = UserUtil::find_user_by_id target_user_id
     @is_following = UserUtil::is_following_user @active_user, @target_user
     erb :profile 
-    # display the target_user's profile.
-    # if the target_user==active_user, a little diffenrent
+    # if the target_user==active_user, show edit_profile, otherwise, show Follow/Following
   rescue JWT::DecodeError
     redirect '/login.html'
   rescue ActiveRecord::RecordNotFound
@@ -96,6 +95,32 @@ put '/api/v1/users/selfinfo' do
 end
 
 #with authentication
+get '/api/v1/users/:id/followings' do
+  token = request.cookies["access_token"]
+  target_user_id = params[:id].to_i
+  begin
+    active_user = UserUtil::check_token token
+    user_list = UserUtil::get_following_user_list target_user_id
+    Api::Result.new(true, {followings: user_list}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
+#with authentication
+get '/api/v1/users/:id/followers' do
+  token = request.cookies["access_token"]
+  target_user_id = params[:id].to_i
+  begin
+    active_user = UserUtil::check_token token
+    user_list = UserUtil::get_follower_user_list target_user_id
+    Api::Result.new(true, {followers: user_list}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
+#with authentication
 post '/api/v1/tweets' do
   @json = JSON.parse request.body.read
   token = request.cookies["access_token"]
@@ -129,7 +154,7 @@ get '/api/v1/users/:user_id/tweets' do
   token = request.cookies["access_token"]
   begin
     @active_user = UserUtil::check_token token
-    user_id = params[:user_id]
+    user_id = params[:user_id].to_i
     time_line = TweetUtil::get_time_line user_id
     Api::Result.new(true, {time_line: time_line}).to_json
   rescue JWT::DecodeError
@@ -144,7 +169,7 @@ get '/api/v1/users/:user_id' do
   fields = params[:fields]
   begin
     @active_user = UserUtil::check_token token
-    user_id = params[:user_id]
+    user_id = params[:user_id].to_i
     user = UserUtil::find_user_by_id user_id
     Api::Result.new(true, {user: user.to_json_obj(fields)}).to_json
   rescue JWT::DecodeError

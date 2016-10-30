@@ -1,5 +1,7 @@
 module UserUtil
 
+  @social_graph = SocialGraph.instance
+
   class UserList
     # ActiveRecord::Relation
     attr_accessor :users_relation
@@ -16,7 +18,6 @@ module UserUtil
       list
     end
   end
-
 
   # Authenticate the username and password 
   # If match, return access_token
@@ -86,23 +87,29 @@ module UserUtil
 
   # check whether the active user is following
   def is_following_user follower_user, following_user
-    !Follow.where("follower_id = ? and followed_id = ? ", follower_user.id, following_user.id).empty?
+    @social_graph.is_following? follower_user.id, following_user.id
   end
 
   def add_follow_relation follower_id, followed_id
-    t = Time.now().to_i
-    follow = Follow.new 
-    follow.follower_id = follower_id
-    follow.followed_id = followed_id
-    follow.create_time = t
-    follow.save
+    @social_graph.add_follow_relation follower_id, followed_id
   end
 
   def delete_follow_relation follower_id, followed_id
-    follows = Follow.where("follower_id = ? and followed_id = ?", follower_id, followed_id)
-    follows.each do |follow|
-      follow.destroy
-    end
+    @social_graph.delete_follow_relation follower_id, followed_id
+  end
+
+  # return a list of json objects
+  def get_following_user_list user_id
+    userid_list = @social_graph.find_following_id_list user_id
+    users = UserList.new User.where(id: userid_list)
+    users.to_json_obj
+  end
+
+  # return a list of json objects
+  def get_follower_user_list user_id
+    userid_list = @social_graph.find_follower_id_list user_id
+    users = UserList.new User.where(id: userid_list)
+    users.to_json_obj
   end
 
 

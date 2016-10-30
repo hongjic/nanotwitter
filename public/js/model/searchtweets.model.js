@@ -7,7 +7,7 @@ define(['Backbone', 'Tweet'], function (Backbone, Tweet) {
 
     beforeParse: function(resp) {
       if (resp.resultcode == "error")
-        return false;
+        return null;
       return resp.resultMsg.tweets;
     },
 

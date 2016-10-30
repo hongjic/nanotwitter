@@ -7,7 +7,7 @@ define(['Backbone', 'User'], function (Backbone, User) {
 
     beforeParse: function(resp) {
       if (resp.resultCode == "error")
-        return false;
+        return null;
       return resp.resultMsg.users;
     },
 
