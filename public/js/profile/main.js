@@ -8,6 +8,8 @@ require.config({
     Util: "js/util",
     Tweet: "js/model/tweet.model",
     Timeline: "js/model/timeline.model",
+    Followings: "js/model/followings.model",
+    Followers: "js/model/followers.model",
     User: "js/model/user.model",
     ProfileView: "js/profile/profile.view"
   },
@@ -57,7 +59,7 @@ require(['Util'], function(Util) {
   require(['ProfileView'], function(ProfileView) {
     var user_id = parseInt($("#profile_id").val());
     var profile_view = new ProfileView(user_id);
-    profile_view.query();
+    profile_view.goto_tweets();
 
   })
 

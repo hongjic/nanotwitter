@@ -590,7 +590,7 @@
       var success = options.success;
       options.success = function(resp) {
         msg = model.beforeParse(resp);
-        if (msg != false) {
+        if (msg != null) {
           var serverAttrs = options.parse ? model.parse(msg, options) : msg;
         }
         if (!model.set(serverAttrs, options)) return false;
@@ -634,7 +634,7 @@
       options.success = function(resp) {
         // Ensure attributes are restored during synchronous saves.
         msg = model.beforeParse(resp);
-        if (msg != false) {
+        if (msg != null) {
           var serverAttrs = options.parse ? model.parse(msg, options) : msg;
         }
         if (wait) serverAttrs = _.extend({}, attrs, serverAttrs);
@@ -1036,7 +1036,7 @@
       var collection = this;
       options.success = function(resp) {
         msg = collection.beforeParse(resp);
-        if (msg != false) {
+        if (msg != null) {
           var method = options.reset ? 'reset' : 'set';
           collection[method](msg, options);
         }

@@ -1,0 +1,48 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="nav nav-tabs">
+      <li class="<% if (type=="tweets") {%> active <% } %>" id="profile_tweets"><a>Tweets</a></li>
+      <li class="<% if (type=="likes") {%> active <% } %>" id="profile_likes"><a>Likes</a></li>
+      <li class="<% if (type=="followings") {%> active <% } %>" id="profile_followings"><a>Followings</a></li>
+      <li class="<% if (type=="followers") {%> active <% } %>" id="profile_followers"><a>Followers</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 20px">                  
+  <div class="col-md-12">
+    <% size = time_line.length %>
+    <% if (size > 0) { %>
+      <% Util = require('Util'); %>
+      <% for (var i = size-1; i >=0; i--) { %>
+      <% tweet = time_line[i] %>
+      <div class="media well">
+         <a class="pull-left"><img alt="Bootstrap Media" src="/images/default_photo.png" class="media-object img-rounded"></a>
+        <div class="media-body">
+          <h4 class="media-heading">
+            <%= tweet.user_name %>
+          </h4> 
+          <p class="tweet_content"><%= tweet.content %></p>
+          <div class="box box-element" style="display: block;">
+            <%=Util.get_time_distance(tweet.create_time, Date.now()) %>
+            <div class="view pull-right">
+              <div class="btn-group">
+                <button class="btn btn-default reply" type="button">Reply</button>
+                <button class="btn btn-default likes" type="button">Likes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    <% } %>
+    <% if (size == 0) { %>
+      <div class="row">
+        <div class="col-md-12">
+          <h3><i>None</i></h3>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
