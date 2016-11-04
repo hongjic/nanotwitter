@@ -25,6 +25,7 @@ GEM
     json (1.8.3)
     jwt (1.5.6)
     minitest (5.9.1)
+    newrelic_rpm (3.17.0.325)
     pg (0.19.0)
     rack (1.6.4)
     rack-protection (1.5.3)
@@ -51,6 +52,7 @@ DEPENDENCIES
   byebug
   faker
   jwt
+  newrelic_rpm
   pg
   rake (= 11.2.2)
   sinatra
