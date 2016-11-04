@@ -12,3 +12,4 @@ gem "jwt"
 
 gem "activerecord-import"
 gem "faker"
+gem "newrelic_rpm"
