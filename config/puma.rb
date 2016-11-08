@@ -10,7 +10,11 @@ environment ENV['RACK_ENV'] || 'development'
 
 on_worker_boot do
   puts "[development environment: #{ENV["RACK_ENV"]}]"
-  db = URI.parse(ENV['NT_DATABASE_URL'] || 'postgres://localhost/development')
+  if ENV['RACK_ENV'] == 'development'
+    db = URI.parse(ENV['NT_DATABASE_URL'] || 'postgres://localhost/development')
+  elsif ENV['RACK_ENV'] == 'production'
+    db = URI.parse(ENV['DATABASE_URL'])
+  end
   ActiveRecord::Base.establish_connection(
     :adapter => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
     :host => db.host,
