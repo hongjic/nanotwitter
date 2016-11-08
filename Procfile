@@ -1,1 +1,1 @@
-web: rackup -s puma -p 5000
+web: bundle exec puma -C config/puma.rb
