@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'active_record'
+require 'redis'
 require 'activerecord-import'
 require 'jwt'
 require 'faker'
