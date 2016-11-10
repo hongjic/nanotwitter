@@ -1,4 +1,3 @@
-require 'redis'
 
 class DataCache
 
