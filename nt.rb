@@ -22,6 +22,7 @@ require './models/user'
 
 require './lib/errors'
 require './lib/result'
+require './lib/datacache'
 require './lib/socialgraph'
 require './lib/userutil'
 require './lib/tweetutil'
