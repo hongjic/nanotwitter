@@ -1,0 +1,11 @@
+=== puma startup: 2016-11-11 15:36:37 -0500 ===
+disconnect database connection.
+[3713] + Gemfile in context: /Users/chenhongji/Dropbox/cosi105b_hongjic93/nanotwitter/Gemfile
+[development environment: development]
+[3714] + Gemfile in context: /Users/chenhongji/Dropbox/cosi105b_hongjic93/nanotwitter/Gemfile
+[development environment: development]
+[3693] - Worker 0 (pid: 3713) booted, phase: 0
+[3693] - Worker 1 (pid: 3714) booted, phase: 0
+[3693] - Gracefully shutting down workers...
+[3693] === puma shutdown: 2016-11-11 15:39:42 -0500 ===
+[3693] - Goodbye!
