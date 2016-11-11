@@ -96,11 +96,14 @@ end
 
 #with authentication
 get '/api/v1/users/:id/followings' do
+  t1 = Time.now().to_f
   token = request.cookies["access_token"]
   target_user_id = params[:id].to_i
   begin
     active_user = UserUtil::check_token token
     user_list = UserUtil::get_following_user_list target_user_id
+    t2 = Time.now().to_f
+    puts "[Performance] Path='/api/v1/users/#{target_user_id}/followings' time=#{t2 - t1}"
     Api::Result.new(true, {followings: user_list}).to_json
   rescue JWT::DecodeError
     401
@@ -139,10 +142,13 @@ end
 
 #with authentication
 get '/api/v1/homeline' do
+  t1 = Time.now().to_f
   token = request.cookies["access_token"]
   begin
     @active_user = UserUtil::check_token token
     home_line = TweetUtil::get_home_line @active_user
+    t2 = Time.now().to_f
+    puts "[Performance] Path='/api/v1/homeline' time=#{t2 - t1}"
     Api::Result.new(true, {home_line: home_line}).to_json
   rescue JWT::DecodeError
     401
