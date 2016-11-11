@@ -30,3 +30,6 @@ before_fork do
   puts "disconnect database connection."
   ActiveRecord::Base.connection_pool.disconnect!
 end
+
+# logging
+stdout_redirect 'log/loginfo'
