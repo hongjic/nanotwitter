@@ -4,7 +4,6 @@ class DataCache
   # ENV["REDIS_READ"] switches read on&off
   # ENV["REDIS_WRITE"] switches write on&off
 
-  include Singleton
   attr_accessor :redis
   
   def initialize 
@@ -19,6 +18,13 @@ class DataCache
 
   def set key, value
     @redis.set key, value.to_json
+  end
+
+  # transaction
+  def multi
+    @redis.multi do
+      yield
+    end
   end
 
 end

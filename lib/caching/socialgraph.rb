@@ -15,7 +15,7 @@ class SocialGraph
   attr_accessor :followers_key
 
   def initialize user_id
-    @datacache = DataCache.instance
+    @datacache = DataCache.new
     @user_id = user_id
     @followings_key = "user:#{user_id}:followings"
     @followers_key = "user:#{user_id}:followers"
@@ -34,13 +34,14 @@ class SocialGraph
     # first update the db
     success = add_follow_db following_id
     return false if !success
-    # # update the cache
+    # update the cache
     following_list = get_following_list
-    insert_index = index_of_last_LE(following_list, following_id)
-    if following_list[insert_index] != following_id 
-      following_list.insert insert_index, following_id
-      @datacache.set @followings_key, following_list
-    end
+    sg2 = SocialGraph.new following_id
+    follower_list = sg2.get_follower_list
+    @datacache.multi {
+      add_following_cache following_list, following_id
+      sg2.add_follower_cache follower_list, @user_id
+    }
     true
   end
 
@@ -51,11 +52,12 @@ class SocialGraph
     return false if !success
     # update the cache
     following_list = get_following_list
-    delete_index = index_of_last_LE(following_list, following_id)
-    if following_list[delete_index] == following_id
-      following_list.delete_at delete_index
-      @datacache.set @followings_key, following_list
-    end
+    sg2 = SocialGraph.new following_id
+    follower_list = sg2.get_follower_list
+    @datacache.multi {
+      delete_following_cache following_list, following_id
+      sg2.delete_follower_cache follower_list, @user_id
+    }
     true
   end
 
@@ -79,8 +81,40 @@ class SocialGraph
     follower_list
   end
 
-  private
+  protected 
+    def add_following_cache following_list, following_id
+      insert_index = index_of_last_LE(following_list, following_id)
+      if following_list[insert_index] != following_id 
+        following_list.insert insert_index, following_id
+        @datacache.set @followings_key, following_list
+      end
+    end
 
+    def add_follower_cache follower_list, follower_id
+      insert_index = index_of_last_LE(follower_list, follower_id)
+      if follower_list[insert_index] != follower_id
+        follower_list.insert insert_index, follower_id
+        @datacache.set @followers_key, follower_list
+      end
+    end
+
+    def delete_following_cache following_list, following_id
+      delete_index = index_of_last_LE(following_list, following_id)
+      if following_list[delete_index] == following_id
+        following_list.delete_at delete_index
+        @datacache.set @followings_key, following_list
+      end
+    end
+
+    def delete_follower_cache follower_list, follower_id
+      delete_index = index_of_last_LE(follower_list, follower_id)
+      if follower_list[delete_index] == follower_id
+        follower_list.delete_at delete_index
+        @datacache.set @followers_key, follower_list
+      end
+    end
+
+  private
     # return a sorted list
     def get_followings_db
       following_list = []
