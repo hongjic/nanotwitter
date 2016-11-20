@@ -34,11 +34,32 @@ define(['jquery'], function() {
     if(cval!=null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString() + ";path=/";
   };
 
+  function CacheManager() {
+    this.put = function(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+    this.get = function(key) {
+      _value = localStorage.getItem(key);
+      if (_value == null) 
+        return null;
+      return JSON.parse(_value);
+    }
+    this.remove = function(key) {
+      _value = localStorage.getItem(key);
+      if (_value == null) 
+        return false;
+      localStorage.removeItem(key);
+      return JSON.parse(_value);
+    }
+  }
+
+
   return {
     get_time_distance: get_time_distance,
     setCookie: setCookie,
     getCookie: getCookie,
-    delCookie: delCookie
+    delCookie: delCookie,
+    cacheManager: new CacheManager()
   }
   
 })

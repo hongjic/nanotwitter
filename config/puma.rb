@@ -32,4 +32,4 @@ before_fork do
 end
 
 # logging
-stdout_redirect 'log/loginfo'
+# stdout_redirect 'log/loginfo'

@@ -53,10 +53,35 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
 
     reply: function() {
       //TODO:
+      console.log("reply");
     },
 
-    likes: function() {
-      //TODO:
+    likes: function(event) {
+      var ele = event.target;
+      var tweet_index = $(ele).parents(".media").siblings().length - $(ele).parents(".media").index();
+      var homeline = this.homeline;
+      var tweetid = parseInt($(ele).attr("tweetid"));
+      var is_favored = $(ele).hasClass("btn-primary");
+      $.ajax({
+        url: "/api/v1/likes",
+        type: (is_favored ? "delete" : "post"),
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({tweet_id: tweetid}),
+        success: function(result) {
+          favors = result.resultMsg.favors;
+          // update the model
+          homeline.at(tweet_index).set("favors", favors);
+          homeline.at(tweet_index).set("is_favored", !is_favored);
+          // update the html
+          $(ele).html("Likes " + (favors > 0 ? favors.toString() : ""));
+          if (is_favored) $(ele).removeClass("btn-primary").addClass("btn-default");
+          else $(ele).removeClass("btn-default").addClass("btn-primary");
+        },
+        error: function() {
+          console.log("error likes");
+        }
+      })
     },
 
     input_change: function() {

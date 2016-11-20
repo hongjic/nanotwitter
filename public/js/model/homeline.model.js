@@ -1,4 +1,4 @@
-define(['Backbone', 'Tweet'], function (Backbone, Tweet) {
+define(['Backbone', 'Tweet', 'Util'], function (Backbone, Tweet, Util) {
   var HomeLine = Backbone.Collection.extend({
     url: '/api/v1/homeline',
     model: Tweet,
@@ -10,6 +10,7 @@ define(['Backbone', 'Tweet'], function (Backbone, Tweet) {
     },
 
     parse: function(home_line, options) {
+      
       return home_line;
     }
   })

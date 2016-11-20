@@ -10,6 +10,7 @@
         </div>
   </div>
 </div>
+
 <div class="row">
   <div class="col-md-12">
 
@@ -28,8 +29,8 @@
           <%=Util.get_time_distance(tweet.create_time, Date.now()) %>
           <div class="view pull-right">
             <div class="btn-group">
-              <button class="btn btn-default reply" type="button">Reply</button>
-              <button class="btn btn-default likes " type="button">Likes</button>
+              <button class="btn btn-default reply" type="button" tweetid=<%=tweet.id%>>Reply</button>
+              <button class="btn <%=tweet.is_favored ? "btn-primary" : "btn-default"%> likes" type="button" tweetid=<%=tweet.id%>>Likes <%=tweet.favors > 0 ? tweet.favors : ""%></button>
             </div>
           </div>
         </div>

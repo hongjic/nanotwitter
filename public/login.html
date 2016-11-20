@@ -106,42 +106,6 @@
     </div>
     <ul>
     <script src="/js/jquery.min-2.1.4.js"></script>
-    <script type="text/javascript">
-      function login(username, password) {
-        data = {username: username, password: password};
-        $.ajax({
-          type: "post",
-          contentType: "application/json;charset=utf-8",
-          dataType: "json",
-          url: "/api/v1/users/login",
-          data: JSON.stringify(data),
-          success: function(result) {
-            if (result.resultCode == "success") {
-              var exp = new Date();
-              exp.setTime(exp.getTime() + 30*24*60*60*1000);
-              document.cookie = "access_token=" + escape(result.resultMsg.access_token) + ";expires=" + exp.toGMTString();
-              window.location = "/";
-            }
-            else $("#tips").text(result.resultMsg);
-          }
-        })
-      }
-
-      $("#search").click(function() {
-        window.location = "/login.html";
-      });
-      $("#user-menu").click(function() {
-        var menu = $("#user-menu");
-        if (menu.hasClass("open"))
-          menu.removeClass("open");
-        else
-          menu.addClass("open");
-      });
-      $("#sign_in").click(function(){
-        var username = $("#username").val();
-        var password = $("#password").val();
-        login(username, password);
-      });
-    </script>
+    <script src="/js/require-1.0.8.js" data-main="/js/login/main"></script>
   </body>
 </html>

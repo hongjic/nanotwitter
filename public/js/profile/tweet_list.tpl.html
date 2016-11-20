@@ -10,26 +10,26 @@
   </div>
 </div>
 
-<div class="row" style="margin-top: 20px">                  
+<div class="row" style="margin-top: 20px">
   <div class="col-md-12">
-    <% size = time_line.length %>
+    <% size = tweets.length %>
     <% if (size > 0) { %>
       <% Util = require('Util'); %>
       <% for (var i = size-1; i >=0; i--) { %>
-      <% tweet = time_line[i] %>
+      <% tweet = tweets[i] %>
       <div class="media well">
          <a class="pull-left"><img alt="Bootstrap Media" src="/images/default_photo.png" class="media-object img-rounded"></a>
         <div class="media-body">
-          <h4 class="media-heading">
-            <%= tweet.user_name %>
-          </h4> 
+          <a href="/users/<%= tweet.user_id%>">
+            <h4 class="media-heading"><%= tweet.user_name %></h4> 
+          </a>
           <p class="tweet_content"><%= tweet.content %></p>
           <div class="box box-element" style="display: block;">
             <%=Util.get_time_distance(tweet.create_time, Date.now()) %>
             <div class="view pull-right">
               <div class="btn-group">
-                <button class="btn btn-default reply" type="button">Reply</button>
-                <button class="btn btn-default likes" type="button">Likes</button>
+                <button class="btn btn-default reply" type="button" tweetid=<%=tweet.id%>>Reply</button>
+                <button class="btn <%=tweet.is_favored ? "btn-primary" : "btn-default"%> likes" type="button" tweetid=<%=tweet.id%>>Likes <%=tweet.favors > 0 ? tweet.favors : ""%></button>
               </div>
             </div>
           </div>

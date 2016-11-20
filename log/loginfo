@@ -1,11 +1,25 @@
-=== puma startup: 2016-11-11 15:36:37 -0500 ===
+=== puma startup: 2016-11-17 15:29:05 -0500 ===
 disconnect database connection.
-[3713] + Gemfile in context: /Users/chenhongji/Dropbox/cosi105b_hongjic93/nanotwitter/Gemfile
+[728] + Gemfile in context: /Users/chenhongji/Dropbox/cosi105b_hongjic93/nanotwitter/Gemfile
 [development environment: development]
-[3714] + Gemfile in context: /Users/chenhongji/Dropbox/cosi105b_hongjic93/nanotwitter/Gemfile
+[729] + Gemfile in context: /Users/chenhongji/Dropbox/cosi105b_hongjic93/nanotwitter/Gemfile
 [development environment: development]
-[3693] - Worker 0 (pid: 3713) booted, phase: 0
-[3693] - Worker 1 (pid: 3714) booted, phase: 0
-[3693] - Gracefully shutting down workers...
-[3693] === puma shutdown: 2016-11-11 15:39:42 -0500 ===
-[3693] - Goodbye!
+[708] - Worker 0 (pid: 728) booted, phase: 0
+[708] - Worker 1 (pid: 729) booted, phase: 0
+
+[1, 10] in /Users/chenhongji/Dropbox/cosi105b_hongjic93/nanotwitter/app/application.rb
+    1: 
+    2: get '/' do
+    3:   token = request.cookies["access_token"]
+    4:   begin
+    5:     byebug
+=>  6:     @user = UserUtil::check_token token
+    7:     erb :home # for logged_in_users
+    8:   rescue JWT::DecodeError, ActiveRecord::RecordNotFound
+    9:     count = Tweet.count
+   10:     @home_line = Tweet.offset(count-50 > 0 ? count-50 : 0).limit(50)
+DATABASE import user:8:followings
+[Performance] Path='/api/v1/homeline' time=0.02847909927368164
+[708] - Gracefully shutting down workers...
+[708] === puma shutdown: 2016-11-17 15:30:11 -0500 ===
+[708] - Goodbye!
