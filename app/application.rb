@@ -137,7 +137,7 @@ post '/api/v1/tweets' do
   begin
     user = UserUtil::find_user_by_id(UserUtil::check_token token)
     tweet = TweetUtil::create_new_tweet user, content, reply_to_tweet_id
-    Api::Result.new(true, {tweet: tweet.to_json_obj}).to_json
+    Api::Result.new(true, {tweet: tweet}).to_json
   rescue Error::TweetError => e
     Api::Result.new(false, e.message).to_json
   rescue JWT::DecodeError
