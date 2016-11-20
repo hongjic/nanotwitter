@@ -2,7 +2,6 @@
 get '/' do
   token = request.cookies["access_token"]
   begin
-    byebug
     user_id = UserUtil::check_token token
     @user = UserUtil::find_user_by_id user_id
     erb :home # for logged_in_users

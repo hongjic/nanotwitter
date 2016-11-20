@@ -23,7 +23,6 @@ class PersonalInfo
   end
 
   def get_personal_info
-    byebug
     personal_info = @datacache.get @info_key
     return personal_info if personal_info != nil 
     # not exists
