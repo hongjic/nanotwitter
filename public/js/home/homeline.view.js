@@ -90,6 +90,12 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
         this.$("#tweet_submit").attr("disabled", "disabled");
       else 
         this.$("#tweet_submit").removeAttr("disabled");
+      if (input.length <= 140)
+        this.$("#tweet_length").text(input.length.toString() + "/140");
+      else {
+        this.$("#tweet_content").val(input.substring(0, 140));
+        this.$("#tweet_length").text("140/140");
+      }
     }
 
   });
