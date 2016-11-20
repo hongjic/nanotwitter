@@ -104,7 +104,7 @@ class PersonalInfo
     # return a list ( ordered by like.id, so don't need to sort )
     def get_favor_tweetids_db
       tweet_ids = []
-      records = Like.select("tweet_id").where(user_id: @user_id)
+      records = Like.select("tweet_id").where(user_id: @user_id).order("id")
       records.each { |record| tweet_ids.push record.tweet_id }
       tweet_ids
     end

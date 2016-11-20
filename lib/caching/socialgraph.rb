@@ -118,15 +118,17 @@ class SocialGraph
     # return a sorted list
     def get_followings_db
       following_list = []
-      Follow.select("followed_id").where("follower_id = ?", @user_id).each { |follow| following_list.push follow.followed_id }
-      following_list.sort
+      records = Follow.select("followed_id").where("follower_id = ?", @user_id).order("followed_id")
+      records.each { |follow| following_list.push follow.followed_id }
+      following_list
     end
 
     # return a sorted list
     def get_followers_db
       follower_list = []
-      Follow.select("follower_id").where("followed_id = ?", @user_id).each { |follow| follower_list.push follow.follower_id }
-      follower_list.sort
+      records = Follow.select("follower_id").where("followed_id = ?", @user_id).order("follower_id")
+      records.each { |follow| follower_list.push follow.follower_id }
+      follower_list
     end
 
     # return true/false

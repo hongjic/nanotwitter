@@ -24,6 +24,7 @@ require './models/userlist'
 # Should be no dependencies
 require './lib/algorithms'
 require './lib/caching/datacache'
+require './lib/caching/timeline'
 require './lib/caching/socialgraph'
 require './lib/caching/personalinfo'
 require './lib/errors'

@@ -9,21 +9,21 @@ module TweetUtil
   end
 
   def get_time_line user_id
-    tweet_list = TweetList.new Tweet.where(user_id: user_id)
+    timeline = TimeLine.new user_id
+    timeline.get_timeline
+    tweet_list = TweetList.new Tweet.where(id: timeline.get_timeline)
     tweet_list.to_json_obj
   end
 
   def create_new_tweet user, content, reply_to_tweet_id
-    tweet = Tweet.new
-    tweet.user_id = user["id"]
-    tweet.user_name = user["name"]
-    tweet.content = content
-    tweet.create_time = Time.now().to_i
-    tweet.favors = 0
-    tweet.reply_to_tweet_id = reply_to_tweet_id
-    # TODO: handle with mention and reply notification and tag creation
-    raise Error::TweetError, tweet.errors.messages.values[0][0] unless tweet.save
-    tweet
+    timeline = TimeLine.new user["id"]
+    tweet = {"user_id" => user["id"], 
+      "user_name" => user["name"], 
+      "content" => content, 
+      "create_time" => Time.now().to_i, 
+      "favors" => 0,
+      "reply_to_tweet_id" => reply_to_tweet_id }
+    timeline.add_tweet tweet
   end
 
   # find tweet by keyword in content
