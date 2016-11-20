@@ -12,7 +12,7 @@ class TimeLine
 
   def initialize user_id
     @user_id = user_id
-    @datacache = DataCache.new
+    @datacache = DataCache.instance
     @key = "user:#{user_id}:timeline"
   end
 

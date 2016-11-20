@@ -1,9 +1,10 @@
-
+require 'singleton'
 class DataCache
 
   # ENV["REDIS_READ"] switches read on&off
   # ENV["REDIS_WRITE"] switches write on&off
-
+  include Singleton
+  
   attr_accessor :redis
   
   def initialize 

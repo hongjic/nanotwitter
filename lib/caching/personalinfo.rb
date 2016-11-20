@@ -16,7 +16,7 @@ class PersonalInfo
   attr_accessor :favor_key
 
   def initialize user_id
-    @datacache = DataCache.new
+    @datacache = DataCache.instance
     @user_id = user_id
     @info_key = "user:#{user_id}:info"
     @favor_key = "user:#{user_id}:favor_tweets"
