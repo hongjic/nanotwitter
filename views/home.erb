@@ -40,10 +40,10 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right navbar-rightest">
                           <li class="dropdown" id="user-menu">
-                             <a class="dropdown-toggle" data-toggle="dropdown"><%=@user.name%><strong class="caret"></strong></a>
+                             <a class="dropdown-toggle" data-toggle="dropdown"><%=@user["name"]%><strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                               <li>
-                                <a href="/users/<%=@user.id%>">View profile</a>
+                                <a href="/users/<%=@user["id"]%>">View profile</a>
                               </li>
                               <li>
                                 <a id="logout">Log out</a>
@@ -81,21 +81,21 @@
                   <div class="row">
                     <div class="col-md-12">
                       <h3>
-                        <%=@user.name%>
+                        <%=@user["name"]%>
                       </h3>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <p> Email: <%=@user.email%></p>
-                      <p> Gender: <%=@user.gender%></p>
-                      <% if @user.birthday %>
+                      <p> Email: <%=@user["email"]%></p>
+                      <p> Gender: <%=@user["gender"]%></p>
+                      <% if @user["birthday"] %>
                         <p>
-                          DOB: <%=@user.birthday%>
+                          DOB: <%=@user["birthday"]%>
                         </p>
                       <% end %>
                       <p>
-                        Joined: <%=TimeUtil.get_time_distance(@user.create_time, Time.now().to_i)%>
+                        Joined: <%=TimeUtil.get_time_distance(@user["create_time"], Time.now().to_i)%>
                       </p>
                     </div>
                   </div>

@@ -14,20 +14,24 @@ require './models/like'
 require './models/notification'
 require './models/tag'
 require './models/tweet'
+require './models/tweetlist'
 require './models/tweet_tag'
 require './models/user'
+require './models/userlist'
 
 # Load the models
 # The requirements above are for the whole application 
 # Should be no dependencies
-
+require './lib/algorithms'
+require './lib/caching/datacache'
+require './lib/caching/socialgraph'
+require './lib/caching/personalinfo'
 require './lib/errors'
 require './lib/result'
-require './lib/datacache'
-require './lib/socialgraph'
 require './lib/userutil'
 require './lib/tweetutil'
 require './lib/timeutil'
+require './lib/likeutil'
 
 # Load the code libraries
 
@@ -38,6 +42,7 @@ include Api
 include Error
 include UserUtil
 include TweetUtil
+include LikeUtil
 include TimeUtil
 
 # set :raise_errors, false

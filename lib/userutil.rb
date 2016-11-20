@@ -1,24 +1,5 @@
 module UserUtil
 
-  @social_graph = SocialGraph.instance
-
-  class UserList
-    # ActiveRecord::Relation
-    attr_accessor :users_relation
-
-    def initialize users
-      @users_relation = users
-    end
-
-    def to_json_obj fields = nil
-      list = [];
-      @users_relation.each do |user_record|
-        list.push(user_record.to_json_obj fields)
-      end
-      list
-    end
-  end
-
   # Authenticate the username and password 
   # If match, return access_token
   def authenticate username, password
@@ -28,20 +9,21 @@ module UserUtil
     elsif password != user.password
       raise Error::AuthError, "Password is not correct."
     else
-      generate_token user
+      user
     end
   end
 
   # check whether the token is valid and not expired yet.
+  # return a user_id
   def check_token token 
     decoded_token = JWT.decode token, $TOKEN_SECRET, true, { algorithm: $TOKEN_HASH }
-    User.find(decoded_token[0]["user_id"])
+    decoded_token[0]["user_id"]
   end
 
   # generate access_token by Hashing algorithm
-  def generate_token user
+  def generate_token user_id
     expire_time = Time.now.to_i + 4 * 3600
-    token_data = {user_id: user.id, exp: expire_time}
+    token_data = {user_id: user_id, exp: expire_time}
     JWT.encode token_data, $TOKEN_SECRET, $TOKEN_HASH
   end
 
@@ -60,17 +42,22 @@ module UserUtil
   end
 
   # update user info (except for password)
-  def update_user_info user, new_info
-    new_info.keys.each do |key|
-      user[key] = new_info[key]
-    end
-    raise Error::UserUpdateError, user.errors.messages.values[0][0] unless user.save
-    user
+  def update_user_info user_id, new_info
+    byebug
+    personalinfo = PersonalInfo.new user_id
+    info = personalinfo.update_personal_info new_info
   end
 
   # find a user by id
-  def find_user_by_id user_id
-    user = User.find user_id
+  def find_user_by_id user_id, fields = nil
+    byebug
+    personalinfo = PersonalInfo.new user_id
+    user = personalinfo.get_personal_info
+    return user if fields == nil
+    user_fields = {}
+    default = ["id", "name", "email", "create_time", "gender", "birthday"]
+    fields.each { |key| user_fields.store(key, user[key]) if default.include? key }
+    user_fields
   end
 
   # find a user by name
@@ -86,28 +73,33 @@ module UserUtil
   end
 
   # check whether the active user is following
-  def is_following_user follower_user, following_user
-    @social_graph.is_following? follower_user.id, following_user.id
+  def is_following_user user_id, following_id
+    social_graph = SocialGraph.new user_id
+    social_graph.is_following? following_id
   end
 
-  def add_follow_relation follower_id, followed_id
-    @social_graph.add_follow_relation follower_id, followed_id
+  def add_follow_relation user_id, following_id
+    social_graph = SocialGraph.new user_id
+    social_graph.add_follow following_id
   end
 
-  def delete_follow_relation follower_id, followed_id
-    @social_graph.delete_follow_relation follower_id, followed_id
+  def delete_follow_relation user_id, following_id
+    social_graph = SocialGraph.new user_id
+    social_graph.delete_follow following_id
   end
 
   # return a list of json objects
   def get_following_user_list user_id
-    userid_list = @social_graph.find_following_id_list user_id
+    social_graph = SocialGraph.new user_id
+    userid_list = social_graph.get_following_list
     users = UserList.new User.where(id: userid_list)
     users.to_json_obj
   end
 
   # return a list of json objects
   def get_follower_user_list user_id
-    userid_list = @social_graph.find_follower_id_list user_id
+    social_graph = SocialGraph.new user_id
+    userid_list = social_graph.get_follower_list
     users = UserList.new User.where(id: userid_list)
     users.to_json_obj
   end

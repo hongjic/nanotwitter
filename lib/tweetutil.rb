@@ -1,27 +1,9 @@
 module TweetUtil
 
-  @social_graph = SocialGraph.instance
-
-  class TweetList
-    # ActiveRecord::Relation
-    attr_accessor :tweets_relation
-
-    def initialize tweets
-      @tweets_relation = tweets
-    end
-
-    def to_json_obj fields = nil
-      list = [];
-      @tweets_relation.each do |tweet_record|
-        list.push(tweet_record.to_json_obj fields)
-      end
-      list
-    end
-  end
-
-  def get_home_line user
-    userid_list = @social_graph.find_following_id_list user.id
-    userid_list.push user.id
+  def get_home_line user_id
+    social_graph = SocialGraph.new user_id
+    userid_list = social_graph.get_following_list
+    userid_list.push user_id
     tweet_list = TweetList.new Tweet.where(user_id: userid_list)
     tweet_list.to_json_obj
   end
@@ -33,8 +15,8 @@ module TweetUtil
 
   def create_new_tweet user, content, reply_to_tweet_id
     tweet = Tweet.new
-    tweet.user_id = user.id
-    tweet.user_name = user.name
+    tweet.user_id = user["id"]
+    tweet.user_name = user["name"]
     tweet.content = content
     tweet.create_time = Time.now().to_i
     tweet.favors = 0

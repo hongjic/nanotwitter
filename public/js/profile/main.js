@@ -10,6 +10,7 @@ require.config({
     Timeline: "js/model/timeline.model",
     Followings: "js/model/followings.model",
     Followers: "js/model/followers.model",
+    Likes: "js/model/likes.model",
     User: "js/model/user.model",
     ProfileView: "js/profile/profile.view"
   },
