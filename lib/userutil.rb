@@ -43,14 +43,12 @@ module UserUtil
 
   # update user info (except for password)
   def update_user_info user_id, new_info
-    byebug
     personalinfo = PersonalInfo.new user_id
     info = personalinfo.update_personal_info new_info
   end
 
   # find a user by id
   def find_user_by_id user_id, fields = nil
-    byebug
     personalinfo = PersonalInfo.new user_id
     user = personalinfo.get_personal_info
     return user if fields == nil
