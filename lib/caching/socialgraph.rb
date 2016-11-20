@@ -15,7 +15,7 @@ class SocialGraph
   attr_accessor :followers_key
 
   def initialize user_id
-    @datacache = DataCache.new
+    @datacache = DataCache.instance
     @user_id = user_id
     @followings_key = "user:#{user_id}:followings"
     @followers_key = "user:#{user_id}:followers"
