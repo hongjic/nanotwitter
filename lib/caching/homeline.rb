@@ -20,7 +20,7 @@ class HomeLine
   def get_homeline 
     return @datacache.smembers @key if @datacache.exists @key
     tweetid_list = get_homeline_db # a list of tweet.id
-    @datacache.sadd @key, tweets
+    @datacache.sadd @key, tweetid_list
     tweetid_list
   end
 

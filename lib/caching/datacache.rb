@@ -28,12 +28,16 @@ class DataCache
     end
   end
 
-  def zrange key, left = 0, right = -1
-    @redis.zrange key, left, right
+  def exists key
+    @redis.exists key
   end
 
-  def zadd key, kv_list
-    @redis.zadd key, kv_list
+  def smembers key
+    @redis.smembers key
+  end
+
+  def sadd key, list
+    @redis.sadd key, list
   end
 
 end
