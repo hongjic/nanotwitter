@@ -53,7 +53,7 @@ class HomeLine
       userid_list.push @user_id
       
       tweetid_list = []
-      Tweet.select("id").where(user_id: userid_list).each {|tweet| tweetid_list.push tweet.id }
+      Tweet.select("id").where(user_id: userid_list).order("id").each {|tweet| tweetid_list.push tweet.id }
       tweetid_list
     end
 end
