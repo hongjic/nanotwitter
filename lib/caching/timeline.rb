@@ -16,7 +16,7 @@ class TimeLine
     @key = "user:#{user_id}:timeline"
   end
 
-  # return a list of [tweet.create_time, tweet.id]
+  # return a list of tweet.id
   def get_timeline 
     # get from cache
     timeline = @datacache.get @key
@@ -34,8 +34,8 @@ class TimeLine
     tweet = add_tweet_db tweetinfo
     # update cache
     timeline = get_timeline
-    if timeline.last[1] != tweet.id
-      timeline.push [tweet.create_time, tweet.id]
+    if timeline.last != tweet.id
+      timeline.push tweet.id
       @datacache.set @key, timeline
     end
     tweet.to_json_obj
@@ -44,11 +44,11 @@ class TimeLine
 
   private
 
-    #return a list of [tweet.create_time, tweet.id]
+    #return a list of tweet.id
     def get_timeline_db
       timeline = []
-      tweets = Tweet.select("create_time", "id").where("user_id = ?", @user_id).order("create_time")
-      tweets.each { |tweet| timeline.push [tweet.create_time, tweet.id] }
+      tweets = Tweet.select("id").where("user_id = ?", @user_id).order("id")
+      tweets.each { |tweet| timeline.push tweet.id }
       timeline
     end
 
