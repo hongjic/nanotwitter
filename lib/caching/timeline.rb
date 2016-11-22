@@ -16,7 +16,7 @@ class TimeLine
     @key = "user:#{user_id}:timeline"
   end
 
-  # return a list of tweet.id
+  # return a list of tweet.id (order uncertain)
   def get_timeline 
     # get from cache
     timeline = @datacache.get @key

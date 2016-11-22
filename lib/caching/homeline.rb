@@ -16,7 +16,7 @@ class HomeLine
     @social = SocialGraph.new user_id
   end
 
-  # return a list of tweetid
+  # return a list of tweetid (order uncertain)
   def get_homeline 
     return @datacache.smembers @key if @datacache.exists @key
     tweetid_list = get_homeline_db # a list of tweet.id
@@ -53,7 +53,7 @@ class HomeLine
       userid_list.push @user_id
       
       tweetid_list = []
-      Tweet.select("id").where(user_id: userid_list).order("id").each {|tweet| tweetid_list.push tweet.id }
+      Tweet.select("id").where(user_id: userid_list).each {|tweet| tweetid_list.push tweet.id }
       tweetid_list
     end
 end

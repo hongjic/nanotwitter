@@ -2,15 +2,17 @@ module TweetUtil
 
   def get_home_line user_id
     homeline = HomeLine.new user_id
-    tweetid_list = homeline.get_homeline
-    tweet_list = TweetList.new Tweet.where(id: tweetid_list)
+    tweetid_list = homeline.get_homeline # a list of tweetid (order uncertain)
+    tweet_list = TweetList.new Tweet.where(id: tweetid_list).order("id")
+    # postgres will only scan index, so it is quick
     tweet_list.to_json_obj
   end
 
   def get_time_line user_id
     timeline = TimeLine.new user_id
-    tweetid_list = timeline.get_timeline # a list of tweet.id
-    tweet_list = TweetList.new Tweet.where(id: tweetid_list)
+    tweetid_list = timeline.get_timeline # a list of tweet.id (order uncertain)
+    tweet_list = TweetList.new Tweet.where(id: tweetid_list).order("id") 
+    # postgres will only scan index, so it is quick
     tweet_list.to_json_obj
   end
 
