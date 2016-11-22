@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'active_record'
 require 'redis'
+require 'bunny'
 require 'activerecord-import'
 require 'jwt'
 require 'faker'
@@ -23,7 +24,9 @@ require './models/userlist'
 # The requirements above are for the whole application 
 # Should be no dependencies
 require './lib/algorithms'
+require './lib/mqueue/taskproducer'
 require './lib/caching/datacache'
+require './lib/caching/homeline'
 require './lib/caching/timeline'
 require './lib/caching/socialgraph'
 require './lib/caching/personalinfo'

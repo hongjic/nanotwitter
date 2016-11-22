@@ -79,11 +79,15 @@ module UserUtil
   def add_follow_relation user_id, following_id
     social_graph = SocialGraph.new user_id
     social_graph.add_follow following_id
+    homeline = HomeLine.new user_id
+    homeline.add_follow following_id
   end
 
   def delete_follow_relation user_id, following_id
     social_graph = SocialGraph.new user_id
     social_graph.delete_follow following_id
+    homeline = HomeLine.new user_id
+    homeline.delete_follow following_id
   end
 
   # return a list of json objects

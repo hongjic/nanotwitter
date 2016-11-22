@@ -1,29 +1,33 @@
 module TweetUtil
 
   def get_home_line user_id
-    social_graph = SocialGraph.new user_id
-    userid_list = social_graph.get_following_list
-    userid_list.push user_id
-    tweet_list = TweetList.new Tweet.where(user_id: userid_list)
+    homeline = HomeLine.new user_id
+    tweetid_list = homeline.get_homeline
+    tweet_list = TweetList.new Tweet.where(id: tweetid_list)
     tweet_list.to_json_obj
   end
 
   def get_time_line user_id
     timeline = TimeLine.new user_id
-    timeline.get_timeline
-    tweet_list = TweetList.new Tweet.where(id: timeline.get_timeline)
+    tweets = timeline.get_timeline # a list of [tweet.create_time, tweet.id]
+    id_list = []
+    tweets.each { |tweet| id_list.push tweet[1]}
+    tweet_list = TweetList.new Tweet.where(id: id_list)
     tweet_list.to_json_obj
   end
 
   def create_new_tweet user, content, reply_to_tweet_id
-    timeline = TimeLine.new user["id"]
     tweet = {"user_id" => user["id"], 
       "user_name" => user["name"], 
       "content" => content, 
       "create_time" => Time.now().to_i, 
       "favors" => 0,
       "reply_to_tweet_id" => reply_to_tweet_id }
-    timeline.add_tweet tweet
+    homeline = HomeLine.new user["id"]
+    timeline = TimeLine.new user["id"]
+    tweet = timeline.add_tweet tweet
+    homeline.create_new_tweet tweet
+    tweet
   end
 
   # find tweet by keyword in content
