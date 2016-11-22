@@ -9,10 +9,8 @@ module TweetUtil
 
   def get_time_line user_id
     timeline = TimeLine.new user_id
-    tweets = timeline.get_timeline # a list of [tweet.create_time, tweet.id]
-    id_list = []
-    tweets.each { |tweet| id_list.push tweet[1]}
-    tweet_list = TweetList.new Tweet.where(id: id_list)
+    tweetid_list = timeline.get_timeline # a list of tweet.id
+    tweet_list = TweetList.new Tweet.where(id: tweetid_list)
     tweet_list.to_json_obj
   end
 
