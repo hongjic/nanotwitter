@@ -61,7 +61,9 @@ require(['Util'], function(Util) {
     var user_id = parseInt($("#profile_id").val());
     var profile_view = new ProfileView(user_id);
     profile_view.goto_tweets();
-
+    $("#global_tweet_create").click(function() {
+      profile_view.global_tweet_create("Post a tweet", "");
+    })
   })
 
 })

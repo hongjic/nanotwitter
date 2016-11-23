@@ -44,3 +44,34 @@
   padding-top: 20px;
   font-size: 20px;
 }
+
+.win, .win-shadow{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.win {
+  z-index: 10;
+}
+
+.win-shadow {
+  background-color: rgba(0,0,0,.5);
+  z-index: 2;
+}
+
+.win-box {
+  top: 30%;
+  position: absolute;
+  left: 50%;
+  width: 50%;
+  -webkit-transform: translate(-50%, 0);
+  max-width: 480px;
+  z-index: 3;
+}
+
+.tweet_button {
+  font-size: 18px;
+}

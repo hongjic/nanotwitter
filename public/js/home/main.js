@@ -42,5 +42,10 @@ require(['Util'], function(Util) {
   require(['HomeLineView'], function(HomeLineView) {
     var homeline_view = new HomeLineView();
     homeline_view.query();
+
+    $("#global_tweet_create").click(function() {
+      homeline_view.global_tweet_create("Post a tweet", "");
+    })
+
   });
 })
