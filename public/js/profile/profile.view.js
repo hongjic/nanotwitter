@@ -12,7 +12,9 @@ define(['Backbone', 'underscore', 'Timeline', 'Followings', 'Followers', 'Likes'
       'click #profile_tweets': 'goto_tweets',
       'click #profile_likes': 'goto_likes',
       'click #profile_followings': 'goto_followings',
-      'click #profile_followers': 'goto_followers'
+      'click #profile_followers': 'goto_followers',
+      'click #global_tweet_tweet': 'global_tweet_tweet',
+      'click #global_tweet_cancel': 'global_tweet_cancel'
     },
 
     tweet_template: _.template(TweetTpl),
@@ -66,15 +68,20 @@ define(['Backbone', 'underscore', 'Timeline', 'Followings', 'Followers', 'Likes'
       })
     },
 
-    reply: function() {
-      // TODO:
+    reply: function(event) {
+      var ele = event.target;
+      var user_name = $(ele).parents(".media").attr("username");
+      this.reply_to_tweet_id = $(ele).parents(".media").attr("tweetid");
+      title = "Reply to " + user_name;
+      content = "@" + user_name
+      this.global_tweet_create(title, content);
     },
 
     likes: function() {
       var ele = event.target;
       var tweet_index = $(ele).parents(".media").siblings().length - $(ele).parents(".media").index();
       var tweets = (this.section == "tweets" ? this.timeline : this.liked_tweets);
-      var tweetid = parseInt($(ele).attr("tweetid"));
+      var tweetid = parseInt($(ele).parents(".media").attr("tweetid"));
       var is_favored = $(ele).hasClass("btn-primary");
       $.ajax({
         url: "/api/v1/likes",
@@ -114,7 +121,39 @@ define(['Backbone', 'underscore', 'Timeline', 'Followings', 'Followers', 'Likes'
     goto_likes: function() {
       this.query("likes");
       this.section = "likes";
+    },
+
+    post_tweet: function(tweet_info) {
+      var new_tweet = new Tweet();
+      var that = this;
+      new_tweet.set(tweet_info);
+      new_tweet.save(null, {
+        success: function(model, resp, options) {
+          if (resp.resultCode == "success")
+            that.homeline.add(model);
+        },
+        error: function(model, resp, options) {
+          window.location = '/login.html';
+        }
+      })
+    },
+
+    global_tweet_create: function(title, content) {
+      this.$("#global_tweet_title").text(title);
+      this.$("#global_tweet_content").val(content);
+      this.$("#global_tweet").show();
+    },
+
+    global_tweet_tweet: function() {
+      var content = this.$("#global_tweet_content").val();
+      var reply_to_tweet_id = this.reply_to_tweet_id;
+      this.post_tweet({content: content, reply_to_tweet_id: reply_to_tweet_id});
+    },
+
+    global_tweet_cancel: function() {
+      this.$("#global_tweet").hide();
     }
+
 
   });
 

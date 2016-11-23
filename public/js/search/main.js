@@ -41,6 +41,9 @@ require(['Util'], function(Util) {
     //not support hastag search now.
     var result_view = new ResultView(keyword);
     result_view.search_on_users();
+    $("#global_tweet_create").click(function() {
+      result_view.global_tweet_create("Post a tweet", "");
+    })
   });
 
 });

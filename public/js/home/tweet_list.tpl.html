@@ -19,7 +19,7 @@
     <% Util = require('Util'); %>
     <% for (var i = size-1; i >=0; i--) { %>
     <% tweet = home_line[i] %>
-    <div class="media well">
+    <div class="media well" tweetid=<%=tweet.id%> userid=<%=tweet.user_id%> username=<%=tweet.user_name%>>
        <a class="pull-left"><img alt="Bootstrap Media" src="images/default_photo.png" class="media-object img-rounded"></a>
       <div class="media-body">
         <a href="/users/<%= tweet.user_id%>">
@@ -30,8 +30,8 @@
           <%=Util.get_time_distance(tweet.create_time, Date.now()) %>
           <div class="view pull-right">
             <div class="btn-group">
-              <button class="btn btn-default reply" type="button" tweetid=<%=tweet.id%>>Reply</button>
-              <button class="btn <%=tweet.is_favored ? "btn-primary" : "btn-default"%> likes" type="button" tweetid=<%=tweet.id%>>Likes <%=tweet.favors > 0 ? tweet.favors : ""%></button>
+              <button class="btn btn-default reply" type="button">Reply</button>
+              <button class="btn <%=tweet.is_favored ? "btn-primary" : "btn-default"%> likes" type="button">Likes <%=tweet.favors > 0 ? tweet.favors : ""%></button>
             </div>
           </div>
         </div>
@@ -39,5 +39,19 @@
     </div>
     <% } %>
 
+  </div>
+</div>
+
+<div class="win" style="display:none;" id="global_tweet">
+  <div class="win-shadow"></div>
+  <div class="win-box">
+    <div class="media well">
+      <div class="media-body">
+        <h5 id="global_tweet_title"></h5>
+        <textarea style="width:100%; margin-top: 10px; height: 70px" id="global_tweet_content" placeholder="What's happening?"></textarea>
+        <button class="btn btn-link pull-right" type="button" id="global_tweet_tweet">Tweet</button>
+        <button class="btn btn-link pull-right" type="button" id="global_tweet_cancel">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>
