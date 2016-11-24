@@ -49,6 +49,7 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
       new_tweet.save(null, {
         success: function(model, resp, options) {
           if (resp.resultCode == "success")
+            that.global_tweet_cancel();
             that.homeline.add(model);
         },
         error: function(model, resp, options) {

@@ -130,7 +130,7 @@ define(['Backbone', 'underscore', 'Timeline', 'Followings', 'Followers', 'Likes'
       new_tweet.save(null, {
         success: function(model, resp, options) {
           if (resp.resultCode == "success")
-            that.homeline.add(model);
+            that.global_tweet_cancel();
         },
         error: function(model, resp, options) {
           window.location = '/login.html';
