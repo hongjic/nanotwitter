@@ -1,5 +1,5 @@
-define(['Backbone', 'underscore', 'SearchUsers', 'SearchTweets', 'Util', 'TEXT!js/search/users_result.tpl.html', 'TEXT!js/search/tweets_result.tpl.html'],
-  function(Backbone, _, SearchUsers, SearchTweets, Util, UsersResultTpl, TweetsResultTpl) {
+define(['Backbone', 'underscore', 'SearchUsers', 'SearchTweets', 'Tweet', 'Util', 'TEXT!js/search/users_result.tpl.html', 'TEXT!js/search/tweets_result.tpl.html'],
+  function(Backbone, _, SearchUsers, SearchTweets, Tweet, Util, UsersResultTpl, TweetsResultTpl) {
 
   var ResultView = Backbone.View.extend({
     el: "#search_result",
