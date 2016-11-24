@@ -7,7 +7,7 @@ get '/' do
     erb :home # for logged_in_users
   rescue JWT::DecodeError, ActiveRecord::RecordNotFound
     count = Tweet.count
-    @home_line = Tweet.offset(count-50 > 0 ? count-50 : 0).limit(50)
+    @home_line = Tweet.order("id").offset(count-50 > 0 ? count-50 : 0).limit(50)
     erb :index # for not logged_in_users
   end
 end
