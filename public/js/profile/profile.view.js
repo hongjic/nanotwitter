@@ -1,5 +1,5 @@
-define(['Backbone', 'underscore', 'Timeline', 'Followings', 'Followers', 'Likes', 'Util', 'TEXT!js/profile/tweet_list.tpl.html', 'TEXT!js/profile/user_list.tpl.html'], 
-  function(Backbone, _, Timeline, Followings, Followers, Likes, Util, TweetTpl, UserTpl) {
+define(['Backbone', 'underscore', 'Timeline', 'Followings', 'Followers', 'Likes', 'Tweet', 'Util', 'TEXT!js/profile/tweet_list.tpl.html', 'TEXT!js/profile/user_list.tpl.html'], 
+  function(Backbone, _, Timeline, Followings, Followers, Likes, Tweet, Util, TweetTpl, UserTpl) {
 
   var btn_list = ["profile_tweets", "profile_likes", "profile_followings", "profile_followers"];
 
