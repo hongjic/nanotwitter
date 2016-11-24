@@ -36,6 +36,7 @@ require './lib/userutil'
 require './lib/tweetutil'
 require './lib/timeutil'
 require './lib/likeutil'
+require './lib/noteutil'
 
 # Load the code libraries
 
@@ -48,6 +49,7 @@ include UserUtil
 include TweetUtil
 include LikeUtil
 include TimeUtil
+include NoteUtil
 
 # set :raise_errors, false
 # set :show_exceptions, false
