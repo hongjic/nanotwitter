@@ -73,7 +73,7 @@ define(['Backbone', 'underscore', 'Timeline', 'Followings', 'Followers', 'Likes'
       var user_name = $(ele).parents(".media").attr("username");
       this.reply_to_tweet_id = $(ele).parents(".media").attr("tweetid");
       title = "Reply to " + user_name;
-      content = "@" + user_name
+      content = "@" + user_name + " ";
       this.global_tweet_create(title, content);
     },
 

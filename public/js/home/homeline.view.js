@@ -62,7 +62,7 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
       var user_name = $(ele).parents(".media").attr("username");
       this.reply_to_tweet_id = $(ele).parents(".media").attr("tweetid");
       title = "Reply to " + user_name;
-      content = "@" + user_name
+      content = "@" + user_name + " ";
       this.global_tweet_create(title, content);
     },
 

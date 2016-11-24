@@ -58,6 +58,21 @@ get '/edit_profile' do
   end
 end
 
+#with authentication
+#no params
+get '/js/notification.js' do
+  token = request.cookies["access_token"]
+  begin
+    content_type :js
+    @scheme = ENV["RACK_ENV"] == "production" ? "wss://" : "ws://"
+    @user_id = UserUtil::check_token token
+    @host = ENV["RACK_ENV"] == "production" ? "nanotwitter-notification.herokuapp.com" : "localhost:5000"
+    erb :"notification.js"
+  rescue JWT::DecodeError
+    redirect '/login.html'
+  end
+end
+
 #no authentication
 post '/api/v1/users/login' do
   @json = JSON.parse request.body.read
@@ -137,6 +152,10 @@ post '/api/v1/tweets' do
   begin
     user = UserUtil::find_user_by_id(UserUtil::check_token token)
     tweet = TweetUtil::create_new_tweet user, content, reply_to_tweet_id
+    if tweet["reply_to_tweet_id"] != nil 
+      target_user_id = TweetUtil::find_tweet_by_id(tweet["reply_to_tweet_id"])["user_id"]
+      NoteUtil::create_reply_note tweet["id"], user["name"], target_user_id
+    end
     Api::Result.new(true, {tweet: tweet}).to_json
   rescue Error::TweetError => e
     Api::Result.new(false, e.message).to_json
@@ -224,9 +243,11 @@ post '/api/v1/follows' do
   token = request.cookies["access_token"]
   begin
     user_id = UserUtil::check_token token
+    user_name = UserUtil::find_user_by_id(user_id)["name"]
     json = JSON.parse request.body.read
     following_id = json["following_id"]
     UserUtil::add_follow_relation user_id, following_id
+    NoteUtil::create_follow_note user_id, user_name, following_id
     user = UserUtil::find_user_by_id following_id
     Api::Result.new(true, {new_following: user}).to_json
   rescue JWT::DecodeError

@@ -39,7 +39,6 @@ class TimeLine
       @datacache.set @key, timeline
     end
     tweet.to_json_obj
-    # TODO: handle with mention and reply notification and tag creation
   end
 
   private

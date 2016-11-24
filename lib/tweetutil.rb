@@ -36,6 +36,11 @@ module TweetUtil
     tweets.to_json_obj fields
   end
 
+  # return a json obj
+  def find_tweet_by_id tweet_id
+    Tweet.find(tweet_id).to_json_obj
+  end
+
   module Test
 
     def random_tweet_gen no_of_tweets, user_id, user_name

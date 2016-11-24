@@ -1,0 +1,7 @@
+var scheme   = "<%= @scheme %>";
+var uri      = scheme + "<%=@host %>" + "/<%=@user_id%>";
+var ws       = new WebSocket(uri);
+ws.onmessage = function(message) {
+  $(".realtime-notification").slideToggle(500).slideToggle(500);
+  setTimeout(function() {$("#note_content").text(JSON.parse(message.data).message);}, 500);
+};
