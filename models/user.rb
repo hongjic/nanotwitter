@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   enum gender: { unknown: 0, male: 1, female: 2 }
 
-  validates :name, presence: {message: "Please provide your user name."}, uniqueness: {message: "User name already exists."}, length: {in: 5..20, message: "name length: 5 to 20"} 
+  validates :name, presence: {message: "Please provide your user name."}, uniqueness: {message: "User name already exists."}, length: {in: 2..20, message: "name length: 2 to 20"} 
   validates :email, presence: {message: "Please provide your email."}, uniqueness: {message: "Email has already been used."}
   validates_with UserValidator
 

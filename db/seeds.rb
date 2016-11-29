@@ -13,7 +13,7 @@ require './models/tag'
 require './models/tweet'
 require './models/tweet_tag'
 require './models/user'
-
+=begin
 User.create(name: "user1", email: "email1", password: "111111", create_time: 1475280000, gender: "male")
 User.create(name: "user2", email: "email2", password: "111111", create_time: 1475280000, gender: "male")
 User.create(name: "user3", email: "email3", password: "111111", create_time: 1475280000, gender: "male")
@@ -35,3 +35,4 @@ Follow.create(follower_id: 3, followed_id: 1, create_time: 1475452800)
 Like.create(user_id: 1, tweet_id: 3);
 Like.create(user_id: 1, tweet_id: 4);
 Like.create(user_id: 1, tweet_id: 5);
+=end

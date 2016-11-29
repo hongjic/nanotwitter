@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,20 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161002053959) do
+ActiveRecord::Schema.define(version: 20161002055542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "follows", force: :cascade do |t|
-    t.integer "follower_id",           null: false
-    t.integer "followed_id",           null: false
-    t.integer "create_time", limit: 8, null: false
-  end
-
-  create_table "likes", force: :cascade do |t|
-    t.integer "user_id",  null: false
-    t.integer "tweet_id", null: false
+    t.integer "follower_id", null: false
+    t.integer "followed_id", null: false
+    t.bigint  "create_time", null: false
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -40,11 +34,16 @@ ActiveRecord::Schema.define(version: 20161002053959) do
     t.integer "tweet_id", null: false
   end
 
+  create_table "tweet_tags", force: :cascade do |t|
+    t.integer "tag_id",   null: false
+    t.integer "tweet_id", null: false
+  end
+
   create_table "tweets", force: :cascade do |t|
     t.integer "user_id",                                   null: false
     t.string  "user_name",         limit: 20,              null: false
     t.string  "content",           limit: 140,             null: false
-    t.integer "create_time",       limit: 8,               null: false
+    t.bigint  "create_time",                               null: false
     t.integer "favors",                        default: 0, null: false
     t.integer "reply_to_tweet_id"
   end
@@ -53,18 +52,13 @@ ActiveRecord::Schema.define(version: 20161002053959) do
     t.string  "name",        limit: 20,             null: false
     t.string  "email",       limit: 45,             null: false
     t.string  "password",    limit: 20,             null: false
-    t.integer "create_time", limit: 8,              null: false
+    t.bigint  "create_time",                        null: false
     t.integer "gender",                 default: 0, null: false
     t.date    "birthday"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["name"], name: "index_users_on_name", unique: true, using: :btree
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["name"], name: "index_users_on_name", unique: true, using: :btree
-
-  add_foreign_key "follows", "users", column: "followed_id"
-  add_foreign_key "follows", "users", column: "follower_id"
-  add_foreign_key "likes", "tweets"
-  add_foreign_key "likes", "users"
   add_foreign_key "notifications", "tweets"
   add_foreign_key "notifications", "users", column: "new_follower_id"
   add_foreign_key "notifications", "users", column: "target_user_id"
