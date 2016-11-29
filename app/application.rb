@@ -181,9 +181,11 @@ end
 get '/api/v1/homeline' do
   t1 = Time.now().to_f
   token = request.cookies["access_token"]
+  id_max = params[:id_max].to_i
+  number = params[:number].to_i
   begin
     active_user_id = UserUtil::check_token token
-    home_line = TweetUtil::get_home_line active_user_id
+    home_line = TweetUtil::get_home_line active_user_id, id_max, number
     home_line = LikeUtil::mark_favor_on_tweets home_line, active_user_id
     t2 = Time.now().to_f
     puts "[Performance] Path='/api/v1/homeline' time=#{t2 - t1}"
@@ -341,9 +343,11 @@ get '/api/v1/notifications' do
 end
 
 #no authentication
-get '/loaderio-fa27893a9bb7f9bfda3e6a412384eaea' do
+get '/loaderio-fa27893a9bb7f9bfda3e6a412384eaea/' do
   "loaderio-fa27893a9bb7f9bfda3e6a412384eaea"
 end
+
+# no authentication
 
 error Sinatra::NotFound do
   redirect '/404.html'

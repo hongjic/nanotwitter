@@ -22,6 +22,10 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
 
     query: function() {
       this.homeline.fetch({
+        data: {
+          id_max: 0,
+          number: 30
+        },
         success: function(collection, resp, options) {
           if (collection.length == 0)
             collection.trigger("update");

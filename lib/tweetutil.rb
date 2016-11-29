@@ -1,9 +1,15 @@
 module TweetUtil
 
-  def get_home_line user_id
+  # id_max means that the return tweets_id shouldn't be bigger or equal to this
+  # number: the number of tweets returned.
+  def get_home_line user_id, id_max, number
     homeline = HomeLine.new user_id
     tweetid_list = homeline.get_homeline # a list of tweetid (order uncertain)
-    tweet_list = TweetList.new Tweet.where(id: tweetid_list).order("id")
+    if id_max > 0
+      tweet_list = TweetList.new Tweet.where("id in (?) and id < ?", tweetid_list, number).order("id").limit(number)
+    else
+      tweet_list = TweetList.new Tweet.where(id: tweetid_list).order("id").limit(number)
+    end
     # postgres will only scan index, so it is quick
     tweet_list.to_json_obj
   end
