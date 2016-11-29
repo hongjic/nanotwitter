@@ -77,7 +77,7 @@ define(['Backbone', 'underscore', 'Timeline', 'Followings', 'Followers', 'Likes'
       this.global_tweet_create(title, content);
     },
 
-    likes: function() {
+    likes: function(event) {
       var ele = event.target;
       var tweet_index = $(ele).parents(".media").siblings().length - $(ele).parents(".media").index();
       var tweets = (this.section == "tweets" ? this.timeline : this.liked_tweets);

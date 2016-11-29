@@ -94,7 +94,7 @@ define(['Backbone', 'underscore', 'SearchUsers', 'SearchTweets', 'Tweet', 'Util'
       this.global_tweet_create(title, content);
     },
 
-    likes: function() {
+    likes: function(event) {
       var ele = event.target;
       var tweet_index = $(ele).parents(".media").siblings().length - $(ele).parents(".media").index();
       var search_tweets = this.search_tweets;
