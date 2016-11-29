@@ -104,6 +104,7 @@ get '/test/user/follow' do             #Example: /test/user/follow?count=10  #n 
     array_follows[i] = array_follows[i] + [Time.now]
   end
 
+
   follow_rows = ["follower_id","followed_id","create_time"]
   follows_result = UserUtil::Test::follow_bulk follow_rows, array_follows
   @no_of_follows_created = follows_result.ids.count
@@ -150,6 +151,55 @@ get '/test/user/:u/follow' do   #Example: /test/user/22/follow?count=10  n (inte
   rescue  ActiveRecord::RecordNotFound
 
     @error_message = "User with ID " + @user_id + " does not exist"
+    erb :'test/error'
+  end
+end
+
+
+get '/test/reset/standard' do
+
+  users_table = './lib/seeddata/users.csv'
+  follows_table = './lib/seeddata/follows.csv'
+  tweets_table = './lib/seeddata/tweets.csv'
+
+  if (File.exist?(users_table) && File.exist?(follows_table) && File.exist?(tweets_table)) then
+    timebefore = Time.now
+
+    follows_table = CSV.read('./lib/seeddata/follows.csv')
+    tweets_table = CSV.read('./lib/seeddata/tweets.csv')
+    users = CSV.read('./lib/seeddata/users.csv')
+    
+    UserUtil::Test::destroy_all
+
+    user_rows = ["id","name","email","password","create_time"]
+    user_array = UserUtil::Test::random_user_param_gen users
+    users_created = UserUtil::Test::create_batch_users user_rows, user_array
+    ids_created = users_created["ids"]
+    @total_users_created = users_created["ids"].count
+
+
+   for i in 0..follows_table.length-1
+      follows_table[i] = follows_table[i] + [Time.now]
+   end
+   follow_rows = ["follower_id","followed_id","create_time"]
+   follows_result = UserUtil::Test::follow_bulk follow_rows, follows_table
+   @no_of_follows_created = follows_result.ids.count
+
+
+   tweet_rows = ["user_id","user_name","content","create_time","favors","reply_to_tweet_id"]
+   tweet_array = Array.new
+   for i in 0..tweets_table.length-1
+     tweet_array[i] = [tweets_table[i][0],users[tweets_table[i][0].to_i-1][1],tweets_table[i][1],tweets_table[i][2].to_i,0,nil]
+   end
+   tweets_created = TweetUtil::Test::create_batch_tweets tweet_rows, tweet_array
+   @total_tweets_created = tweets_created["ids"].count
+
+   timeafter = Time.now
+   @reset_time = timeafter - timebefore
+
+   erb :'test/reset_standard'
+  else
+    @error_message = "No standard seed data found"
     erb :'test/error'
   end
 end

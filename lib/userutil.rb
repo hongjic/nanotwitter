@@ -116,7 +116,13 @@ module UserUtil
     end
 
     def destroy_all
-      User.destroy_all
+      #Tweet.in_batches.destroy_all
+      #Follow.in_batches.destroy_all
+      #User.in_batches.destroy_all 
+      ActiveRecord::Base.connection.execute("TRUNCATE notifications, tags, tweets, users")
+      ActiveRecord::Base.connection.execute("TRUNCATE tweets,notifications,tags")
+      ActiveRecord::Base.connection.execute("TRUNCATE follows")
+
     end
 
     def list_of_ids
@@ -133,6 +139,18 @@ module UserUtil
         user_name = (rand(100).to_s + Faker::Internet.user_name)[1..20]
         password = Faker::Internet.password(8)
         user_params = [ user_name, Faker::Internet.email, password, Time.now.to_i ]
+        user_array[i]=user_params
+      end
+      user_array
+    end
+
+    def random_user_param_gen user_names
+      user_array = Array.new
+      for i in 0..user_names.length-1 do
+        user_id = user_names[i][0]
+        user_name = user_names[i][1]
+        password = Faker::Internet.password(8)
+        user_params = [user_id, user_name, user_name+'@'+Faker::Internet.email.partition('@').last, password, Time.now.to_i ]
         user_array[i]=user_params
       end
       user_array
