@@ -115,6 +115,19 @@ put '/api/v1/users/selfinfo' do
 end
 
 #with authentication
+put '/api/v1/users/selfid' do
+  token = request.cookies["access_token"]
+  begin
+    user_id = UserUtil::check_token token
+    Api::Result.new(true, {user: user_id}).to_json
+  rescue JWT::DecodeError
+    401
+  rescue Error::UserUpdateError => e
+    Api::Result.new(false, e.message).to_json
+  end
+end
+
+#with authentication
 get '/api/v1/users/:id/followings' do
   t1 = Time.now().to_f
   token = request.cookies["access_token"]
