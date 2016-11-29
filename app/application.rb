@@ -348,6 +348,11 @@ get '/loaderio-fa27893a9bb7f9bfda3e6a412384eaea/' do
 end
 
 # no authentication
+get '/test' do
+  user_id = params[:user_id]
+  @user = UserUtil::find_user_by_id user_id
+  erb :home
+end
 
 error Sinatra::NotFound do
   redirect '/404.html'
