@@ -119,9 +119,7 @@ module UserUtil
       #Tweet.in_batches.destroy_all
       #Follow.in_batches.destroy_all
       #User.in_batches.destroy_all 
-      ActiveRecord::Base.connection.execute("TRUNCATE notifications, tags, tweets, users")
-      ActiveRecord::Base.connection.execute("TRUNCATE tweets,notifications,tags")
-      ActiveRecord::Base.connection.execute("TRUNCATE follows")
+      ActiveRecord::Base.connection.execute("TRUNCATE notifications, tags, tweets, users, follows, likes")
 
     end
 
