@@ -314,6 +314,19 @@ get '/api/v1/users/:id/likes' do
   end
 end
 
+#with authentication
+#no params
+get '/api/v1/notifications' do
+  token = request.cookies["access_token"]
+  begin
+    active_user_id = UserUtil::check_token token
+    notifications = NoteUtil::get_notifications_by_userid active_user_id
+    Api::Result.new(true, {notifications: notifications}).to_json
+  rescue JWT::DecodeError
+    401
+  end
+end
+
 error Sinatra::NotFound do
   redirect '/404.html'
 end
