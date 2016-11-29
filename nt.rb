@@ -7,6 +7,7 @@ require 'jwt'
 require 'faker'
 require './config/environments' #database configuration
 require './config/properties' 
+require 'csv'
 
 # The requirements above are for framework and basic configurations
 

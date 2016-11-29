@@ -17,9 +17,9 @@ ActiveRecord::Schema.define(version: 20161002053959) do
   enable_extension "plpgsql"
 
   create_table "follows", force: :cascade do |t|
-    t.integer "follower_id",           null: false
-    t.integer "followed_id",           null: false
-    t.integer "create_time", limit: 8, null: false
+    t.integer "follower_id", null: false
+    t.integer "followed_id", null: false
+    t.integer "create_time", null: false
   end
 
   create_table "likes", force: :cascade do |t|
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20161002053959) do
     t.integer "user_id",                                   null: false
     t.string  "user_name",         limit: 20,              null: false
     t.string  "content",           limit: 140,             null: false
-    t.integer "create_time",       limit: 8,               null: false
+    t.integer "create_time",                               null: false
     t.integer "favors",                        default: 0, null: false
     t.integer "reply_to_tweet_id"
   end
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20161002053959) do
     t.string  "name",        limit: 20,             null: false
     t.string  "email",       limit: 45,             null: false
     t.string  "password",    limit: 20,             null: false
-    t.integer "create_time", limit: 8,              null: false
+    t.integer "create_time",                        null: false
     t.integer "gender",                 default: 0, null: false
     t.date    "birthday"
   end

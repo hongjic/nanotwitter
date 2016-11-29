@@ -4,7 +4,7 @@ class CreateUser < ActiveRecord::Migration
       t.string :name, limit: 20, null: false, index: {unique: true}
       t.string :email, limit: 45, null: false, index: {unique: true}
       t.string :password, limit: 20, null: false
-      t.integer :create_time, limit: 8, null: false
+      t.integer :create_time, null: false
       t.column :gender, :integer, default: 0, null: false
       t.date :birthday
     end

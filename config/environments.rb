@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require 'active_record'
+require 'zlib'
 
 configure :development do
   puts "[development environment: development]"
