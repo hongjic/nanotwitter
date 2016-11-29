@@ -160,13 +160,13 @@ get '/test/reset/standard' do
 
   users_table = './lib/seeddata/users.csv'
   follows_table = './lib/seeddata/follows.csv'
-  tweets_table = './lib/seeddata/tweets.csv'
+  tweets_table = './lib/seeddata/tweets_sort.csv'
 
   if (File.exist?(users_table) && File.exist?(follows_table) && File.exist?(tweets_table)) then
     timebefore = Time.now
 
     follows_table = CSV.read('./lib/seeddata/follows.csv')
-    tweets_table = CSV.read('./lib/seeddata/tweets.csv')
+    tweets_table = CSV.read('./lib/seeddata/tweets_sort.csv')
     users = CSV.read('./lib/seeddata/users.csv')
     
     UserUtil::Test::destroy_all
