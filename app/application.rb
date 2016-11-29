@@ -340,6 +340,11 @@ get '/api/v1/notifications' do
   end
 end
 
+#no authentication
+get '/loaderio-fa27893a9bb7f9bfda3e6a412384eaea' do
+  "loaderio-fa27893a9bb7f9bfda3e6a412384eaea"
+end
+
 error Sinatra::NotFound do
   redirect '/404.html'
 end
