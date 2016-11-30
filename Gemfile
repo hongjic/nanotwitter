@@ -11,6 +11,7 @@ gem "bunny", "2.6.1"
 gem "redis"
 gem "byebug"
 gem "jwt"
+gem "algorithms"
 
 gem "activerecord-import"
 gem "faker"
