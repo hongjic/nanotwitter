@@ -88,15 +88,15 @@
 
                       <% size = @home_line.length %>
                       <% size.times do |index| %>
-                      <% tweet = @home_line[size-1-index] %>
+                      <% tweet = @home_line[index] %>
                       <div class="media well">
                          <a class="pull-left"><img alt="Bootstrap Media Preview" src="images/default_photo.png" class="media-object img-rounded"></a>
                         <div class="media-body">
-                          <a href="/users/<%= tweet.user_id%>">
-                            <h4 class="media-heading"><%= tweet.user_name %></h4> 
+                          <a href="/users/<%= tweet["user_id"]%>">
+                            <h4 class="media-heading"><%= tweet["user_name"] %></h4> 
                           </a>
-                          <p class="tweet_content"><%= tweet.content %></p>
-                          <%= TimeUtil.get_time_distance(tweet.create_time, Time.now().to_i)%>
+                          <p class="tweet_content"><%= tweet["content"] %></p>
+                          <%= TimeUtil.get_time_distance(tweet["create_time"], Time.now().to_i)%>
                         </div>
                       </div>
                       <% end %>

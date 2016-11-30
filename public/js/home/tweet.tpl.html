@@ -1,0 +1,20 @@
+<% Util = require('Util'); %>
+
+<div class="media well" tweetid=<%=tweet.id%> userid=<%=tweet.user_id%> username=<%=tweet.user_name%>>
+   <a class="pull-left"><img alt="Bootstrap Media" src="images/default_photo.png" class="media-object img-rounded"></a>
+  <div class="media-body">
+    <a href="/users/<%= tweet.user_id%>">
+      <h4 class="media-heading"><%= tweet.user_name %></h4> 
+    </a>
+    <p class="tweet_content"><%= tweet.content %></p>
+    <div class="box box-element" style="display: block;">
+      <%=Util.get_time_distance(tweet.create_time, Date.now()) %>
+      <div class="view pull-right">
+        <div class="btn-group">
+          <button class="btn btn-default reply" type="button">Reply</button>
+          <button class="btn <%=tweet.is_favored ? "btn-primary" : "btn-default"%> likes" type="button">Likes <%=tweet.favors > 0 ? tweet.favors : ""%></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

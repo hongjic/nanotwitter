@@ -14,31 +14,9 @@
 
 <div class="row">
   <div class="col-md-12">
-
-    <% size = home_line.length %>
-    <% Util = require('Util'); %>
-    <% for (var i = size-1; i >=0; i--) { %>
-    <% tweet = home_line[i] %>
-    <div class="media well" tweetid=<%=tweet.id%> userid=<%=tweet.user_id%> username=<%=tweet.user_name%>>
-       <a class="pull-left"><img alt="Bootstrap Media" src="images/default_photo.png" class="media-object img-rounded"></a>
-      <div class="media-body">
-        <a href="/users/<%= tweet.user_id%>">
-          <h4 class="media-heading"><%= tweet.user_name %></h4> 
-        </a>
-        <p class="tweet_content"><%= tweet.content %></p>
-        <div class="box box-element" style="display: block;">
-          <%=Util.get_time_distance(tweet.create_time, Date.now()) %>
-          <div class="view pull-right">
-            <div class="btn-group">
-              <button class="btn btn-default reply" type="button">Reply</button>
-              <button class="btn <%=tweet.is_favored ? "btn-primary" : "btn-default"%> likes" type="button">Likes <%=tweet.favors > 0 ? tweet.favors : ""%></button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div id="tweet_list">
     </div>
-    <% } %>
-
+    <button id="load_more"  class="btn btn-default" style="width:100%;margin-bottom:20px">Load More</button>
   </div>
 </div>
 

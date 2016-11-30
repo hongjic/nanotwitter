@@ -10,8 +10,7 @@ define(['Backbone', 'Tweet', 'Util'], function (Backbone, Tweet, Util) {
     },
 
     parse: function(home_line, options) {
-      
-      return home_line;
+      return this.toJSON().concat(home_line);
     }
   })
 

@@ -1,6 +1,6 @@
 
-define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.html'], 
-  function (Backbone, Tweet, HomeLine, Util, TweetListTpl) {
+define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.html', 'TEXT!js/home/tweet.tpl.html'], 
+  function (Backbone, Tweet, HomeLine, Util, TweetListTpl, TweetTpl) {
   var HomeLineView = Backbone.View.extend({
     el: '#home_line',
 
@@ -10,25 +10,33 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
       'click .likes': 'likes',
       'input #tweet_content': 'input_change',
       'click #global_tweet_tweet': 'global_tweet_tweet',
-      'click #global_tweet_cancel': 'global_tweet_cancel'
+      'click #global_tweet_cancel': 'global_tweet_cancel',
+      'click #load_more': "query",
     },
 
     template: _.template(TweetListTpl),
+    template_tweet: _.template(TweetTpl),
 
     initialize: function() {
       this.homeline = new HomeLine();
-      this.listenTo(this.homeline, 'update', this.render);
+      this.render_background();
+      this.listenTo(this.homeline, 'append', this.append_tweets);
+      this.listenTo(this.homeline, 'unshift', this.unshift_tweet);
+      this.id_max = 0;
+      this.number_one_query = 30;
+      this.tweets_number = 0;
     },
 
     query: function() {
+      var that = this;
       this.homeline.fetch({
         data: {
-          id_max: 0,
-          number: 30
+          id_max: that.id_max,
+          number: that.number_one_query
         },
         success: function(collection, resp, options) {
-          if (collection.length == 0)
-            collection.trigger("update");
+          that.id_max = collection.at(collection.length - 1).id;
+          collection.trigger("append");
           console.log("success");
         },
         error: function(collection, resp, options) {
@@ -37,8 +45,19 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
       });
     },
 
-    render: function() {
-      this.$el.html(this.template({home_line: this.homeline.toJSON()}));
+    render_background: function() {
+      this.$el.html(this.template());
+    },
+
+    append_tweets: function() {
+      for (var i = this.tweets_number; i < this.homeline.length; i ++)
+        this.$("#tweet_list").append(this.template_tweet({tweet: this.homeline.at(i).toJSON()}));
+      this.tweets_number = this.homeline.length;
+    },
+
+    unshift_tweet: function() {
+      this.$("#tweet_list").prepend(this.template_tweet({tweet: this.homeline.at(0).toJSON()}));
+      this.tweets_number ++;
     },
 
     normal_tweet: function() {
@@ -54,7 +73,8 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
         success: function(model, resp, options) {
           if (resp.resultCode == "success")
             that.global_tweet_cancel();
-            that.homeline.add(model);
+            that.homeline.unshift(model);
+            that.homeline.trigger("unshift");
         },
         error: function(model, resp, options) {
           window.location = '/login.html';
