@@ -1,28 +1,28 @@
 define(['jquery'], function() {
   var get_time_distance = function(previous, current) {
-    d = parseInt((current - previous) / 1000);
-    if (parseInt(d/3600/24/365) > 0) {
-      dd = parseInt(d/3600/24/365);
+    d = Math.floor((current - previous) / 1000);
+    if (Math.floor(d/3600/24/365) > 0) {
+      dd = Math.floor(d/3600/24/365);
       return dd.toString() + (dd == 1 ? " year" : " years");
     }
-    if (parseInt(d/3600/24/30) > 0) {
-      dd = parseInt(d/3600/24/30);
+    if (Math.floor(d/3600/24/30) > 0) {
+      dd = Math.floor(d/3600/24/30);
       return dd.toString() + (dd == 1 ? " month" : " months");
     }
-    if (parseInt(d/3600/24/7) > 0) {
-      dd = parseInt(d/3600/24/7);
+    if (Math.floor(d/3600/24/7) > 0) {
+      dd = Math.floor(d/3600/24/7);
       return dd.toString() + (dd == 1 ? " week" : " weeks");
     }
-    if (parseInt(d/3600/24) > 0) {
-      dd = parseInt(d/3600/24);
+    if (Math.floor(d/3600/24) > 0) {
+      dd = Math.floor(d/3600/24);
       return dd.toString() + (dd == 1 ? " day" : " days");
     }
-    else if (parseInt(d/3600) > 0) {
-      dd = parseInt(d/3600);
+    else if (Math.floor(d/3600) > 0) {
+      dd = Math.floor(d/3600);
       return dd.toString() + (dd == 1 ? " hour" : " hours");
     }
-    else if (parseInt(d/60) > 0) {
-      dd = parseInt(d/60);
+    else if (Math.floor(d/60) > 0) {
+      dd = Math.floor(d/60);
       return dd.toString() + (dd == 1 ? " minute" : " minutes");
     }
     else return d.toString() + (d == 1 ? "second" : " seconds");

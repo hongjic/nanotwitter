@@ -23,7 +23,7 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
       this.listenTo(this.homeline, 'append', this.append_tweets);
       this.listenTo(this.homeline, 'unshift', this.unshift_tweet);
       this.id_max = 0;
-      this.number_one_query = 30;
+      this.number_one_query = 15;
       this.tweets_number = 0;
     },
 
@@ -63,6 +63,7 @@ define(['Backbone', 'Tweet', 'HomeLine', 'Util','TEXT!js/home/tweet_list.tpl.htm
     normal_tweet: function() {
       var content = this.$("#tweet_content").val();
       this.post_tweet({content: content});
+      this.$("#tweet_content").val("");
     },
 
     post_tweet: function(tweet_info) {

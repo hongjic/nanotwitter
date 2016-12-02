@@ -346,11 +346,15 @@ get '/loaderio-fa27893a9bb7f9bfda3e6a412384eaea/' do
   "loaderio-fa27893a9bb7f9bfda3e6a412384eaea"
 end
 
-# no authentication
-get '/test' do
-  user_id = params[:user_id]
-  @user = UserUtil::find_user_by_id user_id
-  erb :home
+# no authentication 
+# params: user_id
+get '/api/test2' do
+  id_max = 0
+  number = 15
+  active_user_id = params[:user_id]
+  home_line = TweetUtil::get_home_line active_user_id, id_max, number
+  home_line = LikeUtil::mark_favor_on_tweets home_line, active_user_id
+  Api::Result.new(true, {home_line: home_line}).to_json
 end
 
 error Sinatra::NotFound do
