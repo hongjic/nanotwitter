@@ -1,3 +1,6 @@
+# These are all APIs.
+# To make code easy to understand and be heavily reused,
+# code in the API block only shows the general logic
 
 get '/' do
   token = request.cookies["access_token"]
