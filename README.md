@@ -1,5 +1,5 @@
 # nanotwitter 
------
+
 NanoTwitter is the course project of COSI105b, 
 The current version supports operations include following users, tweet, like tweets, reply tweets and search.
 
@@ -8,7 +8,7 @@ The project is deployed to Heroku. URL: [Nano Twitter](https://nanotwitter-xx.he
 <br/>
 <br/>
 # Getting started
----------
+
 To get started, you have to download other two repositories: [nanotwitter-homeline](https://github.com/hongjic/nanotwitter-homeline) and [nanotwitter-notification](https://github.com/hongjic/nanotwitter-notification)
  
 This repository is the application server for nano Twitter, [nanotwitter-homeline](https://github.com/hongjic/nanotwitter-homeline) is response for homeline update, [nanotwitter-notification](https://github.com/hongjic/nanotwitter-notification) is responsible for creating notifications.
@@ -25,7 +25,7 @@ Run these commend in command line: ``redis-server`` and ``rabbitmq-server`` and 
 <br/>
 
 # Tech Stacks
----------
+
 ####Backend
 Type | Tech | 
 --- | --- |
@@ -50,7 +50,7 @@ networking | HTTP, WebSocket |
 
 
 # Functionalities and implementations
------
+
 ###Home Timeline Query
 There are two kinds of home timeline in NT, **user home timeline** and **global home timeline**.
 
@@ -117,7 +117,7 @@ Every time a client is setup, it will establish a web socket connection to the n
 <br/>
 
 # Naming in Redis and RabbitMQ
--------
+
 In Redis and RabbitMq, naming follows a certain rule. It is very like the REST style. 
 
 (not finished)
@@ -127,7 +127,7 @@ In Redis and RabbitMq, naming follows a certain rule. It is very like the REST s
 
 
 # Timeline Rendering at Frontend
---------
+
 (not finished)
 
 
