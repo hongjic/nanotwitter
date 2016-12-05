@@ -15,7 +15,7 @@ get '/test/reset/all' do
   erb :'test/reset'
 end
 
-get '/test/users/createtestuser' do
+get '/test/users/create/testuser' do
   test_user_params = { "username" => "testuser", "email" => "testuser@sample.com", "password" =>"password", "password2" => "password" }
   begin
     test_user = UserUtil::create_new_user test_user_params
