@@ -89,7 +89,6 @@ end
 
 get '/test/user/follow' do             #Example: /test/user/follow?count=10  #n (integer) randomly selected users follow ‘n’ (integer) different randomlt seleted users
 
-
   @no_of_follows = params[:count].to_i
   if @no_of_follows == 0
     @no_of_follows = 1
