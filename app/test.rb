@@ -194,11 +194,11 @@ get '/test/reset/standard' do
    @no_of_follows_created = follows_result.ids.count
 
 
-   #tweet_rows = ["user_id","user_name","content","create_time","favors","reply_to_tweet_id"]
-   tweet_rows = ["user_name","content","create_time","favors","reply_to_tweet_id"]
+   tweet_rows = ["user_id","user_name","content","create_time","favors","reply_to_tweet_id"]
+   #tweet_rows = ["user_name","content","create_time","favors","reply_to_tweet_id"]
    tweet_array = Array.new
    for i in 0..tweets_table.length-1
-     tweet_array[i] = [users[tweets_table[i][0].to_i-1][1],tweets_table[i][1],Time.new(tweets_table[i][2]).to_i,0,nil]
+     tweet_array[i] = [tweets_table[i][0],users[tweets_table[i][0].to_i-1][1],tweets_table[i][1],Time.new(tweets_table[i][2]).to_i,0,nil]
    end
    tweets_created = TweetUtil::Test::create_batch_tweets tweet_rows, tweet_array
    @total_tweets_created = tweets_created["ids"].count
