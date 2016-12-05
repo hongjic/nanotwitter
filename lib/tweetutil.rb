@@ -65,7 +65,9 @@ module TweetUtil
     end
 
     def create_batch_tweets tweet_rows, tweet_array
-      Tweet.import tweet_rows, tweet_array
+      result = Tweet.import tweet_rows, tweet_array
+      ActiveRecord::Base.connection.execute("SELECT setval('tweets_id_seq', max(id)) FROM tweets")
+      result
     end
 
     def tweet_count

@@ -112,7 +112,9 @@ module UserUtil
     #create a batch of users, columns is an array with the names of fields to be written
     #users is an array of arrays, each containing the user data
     def create_batch_users columns,users
-      User.import columns, users
+      result = User.import columns, users
+      ActiveRecord::Base.connection.execute("SELECT setval('users_id_seq', max(id)) FROM users")
+      result
     end
 
     def destroy_all
@@ -120,7 +122,6 @@ module UserUtil
       #Follow.in_batches.destroy_all
       #User.in_batches.destroy_all 
       ActiveRecord::Base.connection.execute("TRUNCATE notifications, tags, tweets, users, follows, likes")
-
     end
 
     def list_of_ids
@@ -128,7 +129,9 @@ module UserUtil
     end
 
     def follow_bulk follow_rows, array_follows
-      Follow.import follow_rows, array_follows
+      result = Follow.import follow_rows, array_follows
+      ActiveRecord::Base.connection.execute("SELECT setval('follows_id_seq', max(id)) FROM follows")
+      result
     end
 
     def random_user_gen user_count
