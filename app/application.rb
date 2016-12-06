@@ -351,10 +351,24 @@ end
 
 # no authentication 
 # params: user_id
-get '/api/test2' do
+get '/test2' do
   id_max = 0
   number = 15
-  active_user_id = params[:user_id]
+  active_user_id = params[:user_id].to_i
+  home_line = TweetUtil::get_home_line active_user_id, id_max, number
+  home_line = LikeUtil::mark_favor_on_tweets home_line, active_user_id
+  Api::Result.new(true, {home_line: home_line}).to_json
+end
+
+get '/test3' do
+  id_max = 0
+  number = 15
+  active_user_id = params[:user_id].to_i
+  randomtweet = params[:randomtweet].to_i
+  if (rand(100) < randomtweet)
+    user = UserUtil::find_user_by_id(active_user_id)
+    TweetUtil::create_new_tweet user, "random tweet", nil
+  end
   home_line = TweetUtil::get_home_line active_user_id, id_max, number
   home_line = LikeUtil::mark_favor_on_tweets home_line, active_user_id
   Api::Result.new(true, {home_line: home_line}).to_json
