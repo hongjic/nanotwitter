@@ -5,23 +5,10 @@ The current version supports operations include following users, tweet, like twe
 
 The project is deployed to Heroku. URL: [Nano Twitter](https://nanotwitter-xx.herokuapp.com)
 
+Click here to see the [Portfolio Page](https://hongjic.github.io/nanotwitter/).
+
 <br/>
 <br/>
-
-# Screen shots
-####homepage for logged in users
-![image](public/images/screenshot1.png)
-####profile page
-![image](public/images/screenshot2.png)
-####following and followers
-![image](public/images/screenshot3.png)
-####searching
-![image](public/images/screenshot4.png)
-####tweet and reply
-![image](public/images/screenshot5.png)
-####real time notifications
-![image](public/images/screenshot6.png)
-
 
 
 # Getting started
@@ -185,6 +172,18 @@ run `explain query` and you will find the sort phase is eliminated.
 
 ### Timeline Rendering at Frontend
 
+The front-end development uses Backbone.js. It is a light-weight MVC framwork. The view is depend on data models.
+
+On home page, the display of timeline uses pagination. Every time user click the "Load more" button, the browser will fetch the next few tweets and add them to the end of a tweet list. The view part is always listening to any changes of the model, and when the tweet list changes, it will automatically rerender the page.
+
+Posting a new tweet is very similar. The only difference is that it add the new tweet to the head of the list, in order to maintain the chronological order.
 
 
 
+
+# Team Members
+* Hongji Chen
+* Samuel Akerman
+
+# Date
+* Dec 8th 2016
