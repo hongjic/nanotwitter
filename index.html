@@ -43,6 +43,39 @@ The current version supports operations include following users, tweet, like twe
 <br></p>
 
 <h1>
+<a id="screen-shots" class="anchor" href="#screen-shots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Screen shots</h1>
+
+<h4>
+<a id="homepage-for-logged-in-users" class="anchor" href="#homepage-for-logged-in-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>homepage for logged in users</h4>
+
+<p><img src="public/images/screenshot1.png" alt="image"></p>
+
+<h4>
+<a id="profile-page" class="anchor" href="#profile-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>profile page</h4>
+
+<p><img src="public/images/screenshot2.png" alt="image"></p>
+
+<h4>
+<a id="following-and-followers" class="anchor" href="#following-and-followers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>following and followers</h4>
+
+<p><img src="public/images/screenshot3.png" alt="image"></p>
+
+<h4>
+<a id="searching" class="anchor" href="#searching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>searching</h4>
+
+<p><img src="public/images/screenshot4.png" alt="image"></p>
+
+<h4>
+<a id="tweet-and-reply" class="anchor" href="#tweet-and-reply" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>tweet and reply</h4>
+
+<p><img src="public/images/screenshot5.png" alt="image"></p>
+
+<h4>
+<a id="real-time-notifications" class="anchor" href="#real-time-notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>real time notifications</h4>
+
+<p><img src="public/images/screenshot6.png" alt="image"></p>
+
+<h1>
 <a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h1>
 
 <p>To get started, you have to download other two repositories: <a href="https://github.com/hongjic/nanotwitter-homeline">nanotwitter-homeline</a> and <a href="https://github.com/hongjic/nanotwitter-notification">nanotwitter-notification</a></p>
@@ -135,7 +168,7 @@ The current version supports operations include following users, tweet, like twe
 <br></p>
 
 <h1>
-<a id="functionalities-and-implementations" class="anchor" href="#functionalities-and-implementations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Functionalities and implementations</h1>
+<a id="functionalities-and-implementations" class="anchor" href="#functionalities-and-implementations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Functionalities and Implementations</h1>
 
 <h3>
 <a id="home-timeline-query" class="anchor" href="#home-timeline-query" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Home Timeline Query</h3>
@@ -205,7 +238,7 @@ When a user follow a new user, the new following user's timeline will be added i
 <p>Nanotwitter-notification is responsible for these. When ever there is a need to do this, he application server will just put this job into RabbitMQ, and nanotwitter-notification will subscribe these messages and create notifications. </p>
 
 <h3>
-<a id="real-time-notifications" class="anchor" href="#real-time-notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Real Time Notifications</h3>
+<a id="real-time-notifications-1" class="anchor" href="#real-time-notifications-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Real Time Notifications</h3>
 
 <p>Nanotwitter-notification will also push a message to the client when he/she is followed or replied by WebSocket. (the message will be displayed on screen) </p>
 
@@ -218,19 +251,97 @@ When a user follow a new user, the new following user's timeline will be added i
 <p><br></p>
 
 <h1>
-<a id="naming-in-redis-and-rabbitmq" class="anchor" href="#naming-in-redis-and-rabbitmq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Naming in Redis and RabbitMQ</h1>
+<a id="interesting-engineering" class="anchor" href="#interesting-engineering" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Interesting Engineering</h1>
 
-<p>In Redis and RabbitMq, naming follows a certain rule. It is very like the REST style. </p>
+<h3>
+<a id="naming-in-redis-and-rabbitmq" class="anchor" href="#naming-in-redis-and-rabbitmq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Naming in Redis and RabbitMQ</h3>
 
-<p>(not finished)</p>
+<p>In Redis and RabbitMq, naming follows a certain rule.</p>
 
-<p><br>
-<br></p>
+<table>
+<thead>
+<tr>
+<th>Information</th>
+<th>Key in Redis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>personal information</td>
+<td>user<g-emoji alias="id" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f194.png" ios-version="6.0">🆔</g-emoji>info</td>
+</tr>
+<tr>
+<td>favored tweets</td>
+<td>user<g-emoji alias="id" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f194.png" ios-version="6.0">🆔</g-emoji>favored_tweets</td>
+</tr>
+<tr>
+<td>following list</td>
+<td>user<g-emoji alias="id" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f194.png" ios-version="6.0">🆔</g-emoji>followings</td>
+</tr>
+<tr>
+<td>follower list</td>
+<td>user<g-emoji alias="id" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f194.png" ios-version="6.0">🆔</g-emoji>followers</td>
+</tr>
+<tr>
+<td>home timeline</td>
+<td>user<g-emoji alias="id" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f194.png" ios-version="6.0">🆔</g-emoji>homeline</td>
+</tr>
+<tr>
+<td>timeline</td>
+<td>user<g-emoji alias="id" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f194.png" ios-version="6.0">🆔</g-emoji>timeline</td>
+</tr>
+</tbody>
+</table>
 
-<h1>
-<a id="timeline-rendering-at-frontend" class="anchor" href="#timeline-rendering-at-frontend" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timeline Rendering at Frontend</h1>
+<table>
+<thead>
+<tr>
+<th>Queue Content</th>
+<th>Queue Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{method: method, params: params}</td>
+<td>homeline:update</td>
+</tr>
+<tr>
+<td>{method: method, params: params}</td>
+<td>notification:create</td>
+</tr>
+</tbody>
+</table>
 
-<p>(not finished)</p>
+<p>Every task in queue is a JSON string, represents the method to be executed and the corresponding parameters.</p>
+
+<p><br></p>
+
+<h3>
+<a id="database-query-optimization" class="anchor" href="#database-query-optimization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Database query optimization</h3>
+
+<p>Take timeline query as an example. We already have tweet ids stored in Redis, so we only need to get the tweet record according to the id list.</p>
+
+<p>SQL executed is like this: <code>select * from tweets where id in (id_list)</code></p>
+
+<p>While that is not enough, we have to sort the tweets according to create_times in descendent order because users want to see a timeline sorted in chronological order. Then the sql comes into this</p>
+
+<p><code>select * from tweets where id in (id_list) order by create_time</code></p>
+
+<p>run <code>exlain query</code> to see the database execution plan, you will see: 
+<img src="public/images/explain_query1.png" alt="image"></p>
+
+<p>While actually in our app, tweet id is an auto increment primary key, it means that sort by create_time is the same as sort by id. Then we can transform the sql into this.</p>
+
+<p><code>select * from tweets where id in (id_list) order by id</code></p>
+
+<p>run <code>explain query</code> and you will find the sort phase is eliminated.</p>
+
+<p><img src="public/images/explain_query2.png" alt="image"></p>
+
+<p><br></p>
+
+<h3>
+<a id="timeline-rendering-at-frontend" class="anchor" href="#timeline-rendering-at-frontend" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timeline Rendering at Frontend</h3>
       </section>
     </div>
 
