@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Nano Twitter : ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Nano Twitter</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/hongjic/nanotwitter">View on GitHub</a>
+
+          <h1 id="project_title">Nano Twitter</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/hongjic/nanotwitter/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/hongjic/nanotwitter/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="nanotwitter" class="anchor" href="#nanotwitter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>nanotwitter</h1>
+
+<p>NanoTwitter is the course project of COSI105b, 
+The current version supports operations include following users, tweet, like tweets, reply tweets and search.</p>
+
+<p>The project is deployed to Heroku. URL: <a href="https://nanotwitter-xx.herokuapp.com">Nano Twitter</a></p>
+
+<p><br>
+<br></p>
+
+<h1>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h1>
+
+<p>To get started, you have to download other two repositories: <a href="https://github.com/hongjic/nanotwitter-homeline">nanotwitter-homeline</a> and <a href="https://github.com/hongjic/nanotwitter-notification">nanotwitter-notification</a></p>
+
+<p>This repository is the application server for nano Twitter, <a href="https://github.com/hongjic/nanotwitter-homeline">nanotwitter-homeline</a> is response for homeline update, <a href="https://github.com/hongjic/nanotwitter-notification">nanotwitter-notification</a> is responsible for creating notifications.</p>
+
+<p>The project is depend on Redis and RabbitMQ, so in order to run locally, you have to first start redis and rabbiymq. </p>
+
+<p>To install Redis and RabbitMQ, just run <code>brew install redis</code> and <code>brew install rabbitmq</code></p>
+
+<p>Run these commend in command line: <code>redis-server</code> and <code>rabbitmq-server</code> and then run <code>ruby consumer.rb</code> or <code>heroku local</code> in nanotwitter-homeline directory and <code>heroku local</code> in nanotwitter-notification directory. Finally, start the application server by <code>ruby nt.rb</code> or <code>heroku local</code> in your nanotwitter directory.</p>
+
+<p>(You must first start redis and rabbitmq before starting the application services because )</p>
+
+<p><br>
+<br></p>
+
+<h1>
+<a id="tech-stacks" class="anchor" href="#tech-stacks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tech Stacks</h1>
+
+<h4>
+<a id="backend" class="anchor" href="#backend" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backend</h4>
+
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Tech</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>language</td>
+<td>Ruby</td>
+</tr>
+<tr>
+<td>web framework</td>
+<td>Sinatra</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>ActiveRecord</td>
+</tr>
+<tr>
+<td>database</td>
+<td>PostgreSQL, Redis</td>
+</tr>
+<tr>
+<td>middleware</td>
+<td>RabbitMQ</td>
+</tr>
+<tr>
+<td>networking</td>
+<td>HTTP, WebSocket</td>
+</tr>
+</tbody>
+</table>
+
+<h4>
+<a id="frontend" class="anchor" href="#frontend" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Frontend</h4>
+
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Tech</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>language</td>
+<td>javascript, HTML, css, embeded ruby</td>
+</tr>
+<tr>
+<td>UI</td>
+<td>bootstrap</td>
+</tr>
+<tr>
+<td>MVC framework</td>
+<td>Backbone.js</td>
+</tr>
+<tr>
+<td>networking</td>
+<td>HTTP, WebSocket</td>
+</tr>
+</tbody>
+</table>
+
+<p><br>
+<br></p>
+
+<h1>
+<a id="functionalities-and-implementations" class="anchor" href="#functionalities-and-implementations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Functionalities and implementations</h1>
+
+<h3>
+<a id="home-timeline-query" class="anchor" href="#home-timeline-query" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Home Timeline Query</h3>
+
+<p>There are two kinds of home timeline in NT, <strong>user home timeline</strong> and <strong>global home timeline</strong>.</p>
+
+<p><strong>user home timeline</strong> is for a specific user. It shows all tweets from the user's followings and himself. </p>
+
+<p><strong>global home tiemline</strong> is for the entire app. It shows the newest 50 tweets all users have tweeted.</p>
+
+<p>implementation: Redis caches the id list of each users's home timeline. At first there is nothing in Redis, when the first request comes, it will get the following users' ids from socialgraph service and then get the home timeline tweets from database according to these user ids, while at the same time, import these data into Redis.</p>
+
+<p>Check <a href="https://github.com/hongjic/nanotwitter/blob/master/lib/caching/homeline.rb">homeline.rb</a> to see detail implementations.</p>
+
+<p><em>(Social graph service is not a real service. It is a class designed specialized for all kinds of social relationship operations)</em></p>
+
+<h3>
+<a id="social-graph" class="anchor" href="#social-graph" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Social Graph</h3>
+
+<p>It is not a real service, but the logic is highly transparent. It only provides APIs to the outside like "add follow", "delete follow", "get followings", "get followers".
+In redis, each user's following and follower lists are cached by the user id. When the server wants to get the information at the frist time, the cache can not hit, so it will first get data from the "Follows" table in Postgre Database, and import the data into Redis. </p>
+
+<p>When a user add a new follow or delete a following user, the server will first delete the record in database and also modify the social grpah cached in Redis. Each update on the social graph only relates to two users, the time complexity is O(1), so the server just do these operations synchronously and respond after these operations are finished.</p>
+
+<p>Check <a href="https://github.com/hongjic/nanotwitter/blob/master/lib/caching/socialgraph.rb">socialgraph.rb</a> to see detail implementations.</p>
+
+<h3>
+<a id="timeline-query" class="anchor" href="#timeline-query" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timeline Query</h3>
+
+<p>Timeline is different from home timeline. It is one user's own tweet history. Also, each users' tweet ids are cached in Redis.</p>
+
+<p>Check <a href="https://github.com/hongjic/nanotwitter/blob/master/lib/caching/timeline.rb">timeline.rb</a> to see detail implementations.</p>
+
+<h3>
+<a id="personal-information" class="anchor" href="#personal-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Personal Information</h3>
+
+<p>Personal information includes username, birthday, join time, gender and so on. Although these information is only a small piece of data, but it will occur on almost every page you visit. In order to eliminate the duplicate database queries, a caching is implemented. These information is imported into Redis when a user logged in. </p>
+
+<p>In NT, personal information also includes user's favourite tweets. It is because, like username, join time and other datas, favourite tweets also occurs on a lot of page you visit. In home page, home timeline has to distinguish whether a tweet is favored by the user, also in timeline and tweet search result page. So even though "favored tweets" is not a true "personal information", I also treat it like one in implementation.</p>
+
+<p>Every users' favored tweet ids are cached in Redis, together with other personal informations. </p>
+
+<p>Check <a href="https://github.com/hongjic/nanotwitter/blob/master/lib/caching/personalinfo.rb">personalinfo.rb</a> to see detail implementations.</p>
+
+<h3>
+<a id="tweet-posting" class="anchor" href="#tweet-posting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tweet Posting</h3>
+
+<p>Without Redis, posting a new tweet is a very simple logic, just to add a new record in database. </p>
+
+<p>Now, when ever a new tweet is created, you have to update the homeline of that user and all followers' home timeline, the time complexity is O(n). That is time costing task, especially when a user has a lot of following users (n is very large). To reduce the response time, timeline update is an asynchronous job. The server will publish the update message into RabbitMQ, and nanotwitter-homeline is responsible to subscribe these messages and execute the update operations. </p>
+
+<h3>
+<a id="more-about-queueing" class="anchor" href="#more-about-queueing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>More About Queueing</h3>
+
+<p>Not only posting new tweets will update user timeline, other operations like "Follow" and "Unfollow" will also have an effect on user timeline.
+When a user follow a new user, the new following user's timeline will be added into the user's home timeline and when a user unfollow a following user, the timeline of the following user will be deleted from the user's home timeline.</p>
+
+<p>All these operations are executed asynchronouly by RabbitMQ.</p>
+
+<p>Check <a href="https://github.com/hongjic/nanotwitter/blob/master/lib/mqueue/taskproducer.rb">taskproducer.rb</a>, it is the class for publishing messages.</p>
+
+<h3>
+<a id="notifications" class="anchor" href="#notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Notifications</h3>
+
+<p>Currently, the server will only create notifications when a new follow relationship is created or a tweet is replied. </p>
+
+<p>Nanotwitter-notification is responsible for these. When ever there is a need to do this, he application server will just put this job into RabbitMQ, and nanotwitter-notification will subscribe these messages and create notifications. </p>
+
+<h3>
+<a id="real-time-notifications" class="anchor" href="#real-time-notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Real Time Notifications</h3>
+
+<p>Nanotwitter-notification will also push a message to the client when he/she is followed or replied by WebSocket. (the message will be displayed on screen) </p>
+
+<p>Here is the way to connect to the target of the message:</p>
+
+<p>Every time a client is setup, it will establish a web socket connection to the notification service with a user id. At the server, all connections are persisted in a connection pool. If you want to send a message to a specific user, just find out the connection with the userid and push it.</p>
+
+<p><br></p>
+
+<p><br></p>
+
+<h1>
+<a id="naming-in-redis-and-rabbitmq" class="anchor" href="#naming-in-redis-and-rabbitmq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Naming in Redis and RabbitMQ</h1>
+
+<p>In Redis and RabbitMq, naming follows a certain rule. It is very like the REST style. </p>
+
+<p>(not finished)</p>
+
+<p><br>
+<br></p>
+
+<h1>
+<a id="timeline-rendering-at-frontend" class="anchor" href="#timeline-rendering-at-frontend" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timeline Rendering at Frontend</h1>
+
+<p>(not finished)</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Nano Twitter maintained by <a href="https://github.com/hongjic">hongjic</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
