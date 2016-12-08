@@ -23,6 +23,7 @@ The project is deployed to Heroku. URL: [Nano Twitter](https://nanotwitter-xx.he
 ![image](public/images/screenshot6.png)
 
 
+
 # Getting started
 
 To get started, you have to download other two repositories: [nanotwitter-homeline](https://github.com/hongjic/nanotwitter-homeline) and [nanotwitter-notification](https://github.com/hongjic/nanotwitter-notification)
