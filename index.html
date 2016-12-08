@@ -297,7 +297,7 @@ When a user follow a new user, the new following user's timeline will be added i
 <p><code>select * from tweets where id in (id_list) order by create_time</code></p>
 
 <p>run <code>exlain query</code> to see the database execution plan, you will see: 
-<img src="public/images/explain_query1.png" alt="image"></p>
+<img src="images/explain_query1.png" alt="image"></p>
 
 <p>While actually in our app, tweet id is an auto increment primary key, it means that sort by create_time is the same as sort by id. Then we can transform the sql into this.</p>
 
@@ -305,7 +305,7 @@ When a user follow a new user, the new following user's timeline will be added i
 
 <p>run <code>explain query</code> and you will find the sort phase is eliminated.</p>
 
-<p><img src="public/images/explain_query2.png" alt="image"></p>
+<p><img src="images/explain_query2.png" alt="image"></p>
 
 <p><br></p>
 
@@ -317,6 +317,17 @@ When a user follow a new user, the new following user's timeline will be added i
 <p>On home page, the display of timeline uses pagination. Every time user click the "Load more" button, the browser will fetch the next few tweets and add them to the end of a tweet list. The view part is always listening to any changes of the model, and when the tweet list changes, it will automatically rerender the page.</p>
 
 <p>Posting a new tweet is very similar. The only difference is that it add the new tweet to the head of the list, in order to maintain the chronological order.</p>
+
+<h3>
+<a id="screen-shots" class="anchor" href="#screen-shots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Screen Shots</h3>
+
+<img src="images/screenshot1.png">
+<img src="images/screenshot2.png">
+<img src="images/screenshot3.png">
+<img src="images/screenshot4.png">
+<img src="images/screenshot5.png">
+<img src="images/screenshot6.png">
+
 
 <h1>
 <a id="team-members" class="anchor" href="#team-members" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Team Members</h1>
