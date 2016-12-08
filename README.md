@@ -7,6 +7,22 @@ The project is deployed to Heroku. URL: [Nano Twitter](https://nanotwitter-xx.he
 
 <br/>
 <br/>
+
+# Screen shots
+####homepage for logged in users
+![image](public/images/screenshot1.png)
+####profile page
+![image](public/images/screenshot2.png)
+####following and followers
+![image](public/images/screenshot3.png)
+####searching
+![image](public/images/screenshot4.png)
+####tweet and reply
+![image](public/images/screenshot5.png)
+####real time notifications
+![image](public/images/screenshot6.png)
+
+
 # Getting started
 
 To get started, you have to download other two repositories: [nanotwitter-homeline](https://github.com/hongjic/nanotwitter-homeline) and [nanotwitter-notification](https://github.com/hongjic/nanotwitter-notification)
@@ -49,7 +65,7 @@ networking | HTTP, WebSocket |
 
 
 
-# Functionalities and implementations
+# Functionalities and Implementations
 
 ###Home Timeline Query
 There are two kinds of home timeline in NT, **user home timeline** and **global home timeline**.
@@ -116,20 +132,57 @@ Every time a client is setup, it will establish a web socket connection to the n
 
 <br/>
 
-# Naming in Redis and RabbitMQ
 
-In Redis and RabbitMq, naming follows a certain rule. It is very like the REST style. 
+# Interesting Engineering
 
-(not finished)
+### Naming in Redis and RabbitMQ
+
+In Redis and RabbitMq, naming follows a certain rule.
+
+
+Information | Key in Redis | 
+--- | --- |
+personal information | user:id:info |
+favored tweets | user:id:favored_tweets |
+following list | user:id:followings |
+follower list | user:id:followers |
+home timeline | user:id:homeline |
+timeline | user:id:timeline |
+
+Queue Content | Queue Name |
+--- | --- |
+{method: method, params: params} | homeline:update |
+{method: method, params: params} | notification:create |
+
+Every task in queue is a JSON string, represents the method to be executed and the corresponding parameters.
+
 
 <br/>
+
+### Database query optimization
+Take timeline query as an example. We already have tweet ids stored in Redis, so we only need to get the tweet record according to the id list.
+
+SQL executed is like this: `select * from tweets where id in (id_list)`
+
+
+While that is not enough, we have to sort the tweets according to create_times in descendent order because users want to see a timeline sorted in chronological order. Then the sql comes into this
+
+`select * from tweets where id in (id_list) order by create_time `
+
+run `exlain query` to see the database execution plan, you will see: 
+![image](public/images/explain_query1.png)
+
+While actually in our app, tweet id is an auto increment primary key, it means that sort by create_time is the same as sort by id. Then we can transform the sql into this.
+
+`select * from tweets where id in (id_list) order by id`
+
+run `explain query` and you will find the sort phase is eliminated.
+
+![image](public/images/explain_query2.png)
+
 <br/>
 
-
-# Timeline Rendering at Frontend
-
-(not finished)
-
+### Timeline Rendering at Frontend
 
 
 
