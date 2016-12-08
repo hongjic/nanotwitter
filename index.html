@@ -39,41 +39,10 @@ The current version supports operations include following users, tweet, like twe
 
 <p>The project is deployed to Heroku. URL: <a href="https://nanotwitter-xx.herokuapp.com">Nano Twitter</a></p>
 
+<p>Click here to see the <a href="https://hongjic.github.io/nanotwitter/">Portfolio Page</a>.</p>
+
 <p><br>
 <br></p>
-
-<h1>
-<a id="screen-shots" class="anchor" href="#screen-shots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Screen shots</h1>
-
-<h4>
-<a id="homepage-for-logged-in-users" class="anchor" href="#homepage-for-logged-in-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>homepage for logged in users</h4>
-
-<p><img src="public/images/screenshot1.png" alt="image"></p>
-
-<h4>
-<a id="profile-page" class="anchor" href="#profile-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>profile page</h4>
-
-<p><img src="public/images/screenshot2.png" alt="image"></p>
-
-<h4>
-<a id="following-and-followers" class="anchor" href="#following-and-followers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>following and followers</h4>
-
-<p><img src="public/images/screenshot3.png" alt="image"></p>
-
-<h4>
-<a id="searching" class="anchor" href="#searching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>searching</h4>
-
-<p><img src="public/images/screenshot4.png" alt="image"></p>
-
-<h4>
-<a id="tweet-and-reply" class="anchor" href="#tweet-and-reply" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>tweet and reply</h4>
-
-<p><img src="public/images/screenshot5.png" alt="image"></p>
-
-<h4>
-<a id="real-time-notifications" class="anchor" href="#real-time-notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>real time notifications</h4>
-
-<p><img src="public/images/screenshot6.png" alt="image"></p>
 
 <h1>
 <a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h1>
@@ -238,7 +207,7 @@ When a user follow a new user, the new following user's timeline will be added i
 <p>Nanotwitter-notification is responsible for these. When ever there is a need to do this, he application server will just put this job into RabbitMQ, and nanotwitter-notification will subscribe these messages and create notifications. </p>
 
 <h3>
-<a id="real-time-notifications-1" class="anchor" href="#real-time-notifications-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Real Time Notifications</h3>
+<a id="real-time-notifications" class="anchor" href="#real-time-notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Real Time Notifications</h3>
 
 <p>Nanotwitter-notification will also push a message to the client when he/she is followed or replied by WebSocket. (the message will be displayed on screen) </p>
 
@@ -342,6 +311,27 @@ When a user follow a new user, the new following user's timeline will be added i
 
 <h3>
 <a id="timeline-rendering-at-frontend" class="anchor" href="#timeline-rendering-at-frontend" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timeline Rendering at Frontend</h3>
+
+<p>The front-end development uses Backbone.js. It is a light-weight MVC framwork. The view is depend on data models.</p>
+
+<p>On home page, the display of timeline uses pagination. Every time user click the "Load more" button, the browser will fetch the next few tweets and add them to the end of a tweet list. The view part is always listening to any changes of the model, and when the tweet list changes, it will automatically rerender the page.</p>
+
+<p>Posting a new tweet is very similar. The only difference is that it add the new tweet to the head of the list, in order to maintain the chronological order.</p>
+
+<h1>
+<a id="team-members" class="anchor" href="#team-members" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Team Members</h1>
+
+<ul>
+<li>Hongji Chen</li>
+<li>Samuel Akerman</li>
+</ul>
+
+<h1>
+<a id="date" class="anchor" href="#date" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Date</h1>
+
+<ul>
+<li>Dec 8th 2016</li>
+</ul>
       </section>
     </div>
 
