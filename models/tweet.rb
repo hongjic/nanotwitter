@@ -23,13 +23,11 @@ class Tweet < ActiveRecord::Base
 
   validates_with TweetValidator
 
-  def to_json_obj fields = nil
-    obj = {}
-    default = ["id", "user_id", "user_name", "content", "create_time", "favors", "reply_to_tweet_id"]
-    fields ||= default
-    fields.each do |key|
-      obj.store(key, instance_eval("self.#{key}")) if default.include? key
-    end
-    obj
+  class << self
+    attr_accessor :default
   end
+
+  Tweet.default = ["id", "user_id", "user_name", "content", "create_time", "favors", "reply_to_tweet_id"]
+
+  include JSONRecord
 end

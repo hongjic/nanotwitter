@@ -11,6 +11,7 @@ require 'csv'
 
 # The requirements above are for framework and basic configurations
 
+require './models/json_record'
 require './models/follow'
 require './models/like'
 require './models/notification'

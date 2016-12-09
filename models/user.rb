@@ -19,14 +19,12 @@ class User < ActiveRecord::Base
   validates :email, presence: {message: "Please provide your email."}, uniqueness: {message: "Email has already been used."}
   validates :password, presence: {message: "Please provide your password."}, length: {in: 6..20, message: "password length: 6 to 20"}
 
-  def to_json_obj fields = nil
-    obj = {}
-    default = ["id", "name", "email", "create_time", "gender", "birthday"]
-    fields ||= default
-    fields.each do |key|
-      obj.store(key, instance_eval("self.#{key}")) if default.include? key
-    end
-    obj
+  class << self
+    attr_accessor :default
   end
+
+  User.default = ["id", "name", "email", "create_time", "gender", "birthday"]
+
+  include JSONRecord
 
 end

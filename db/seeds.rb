@@ -13,26 +13,25 @@ require './models/tag'
 require './models/tweet'
 require './models/tweet_tag'
 require './models/user'
-=begin
-User.create(name: "user1", email: "email1", password: "111111", create_time: 1475280000, gender: "male")
-User.create(name: "user2", email: "email2", password: "111111", create_time: 1475280000, gender: "male")
-User.create(name: "user3", email: "email3", password: "111111", create_time: 1475280000, gender: "male")
-User.create(name: "user4", email: "email4", password: "111111", create_time: 1475280000, gender: "male")
-User.create(name: "user5", email: "email5", password: "222222", create_time: 1475280000)
 
-Tweet.create(user_id: 1, user_name: "user1", content: "tweet1", create_time: 1475280000)
-Tweet.create(user_id: 1, user_name: "user1", content: "tweet2", create_time: 1475366400)
-Tweet.create(user_id: 2, user_name: "user2", content: "tweet3", create_time: 1475452800)
-Tweet.create(user_id: 2, user_name: "user2", content: "tweet4", create_time: 1475539200, reply_to_tweet_id: 1)
-Tweet.create(user_id: 3, user_name: "user3", content: "tweet5", create_time: 1475625600, reply_to_tweet_id: 1)
+# User.create(name: "user1", email: "email1", password: "111111", create_time: 1475280000, gender: "male")
+# User.create(name: "user2", email: "email2", password: "111111", create_time: 1475280000, gender: "male")
+# User.create(name: "user3", email: "email3", password: "111111", create_time: 1475280000, gender: "male")
+# User.create(name: "user4", email: "email4", password: "111111", create_time: 1475280000, gender: "male")
+# User.create(name: "user5", email: "email5", password: "222222", create_time: 1475280000)
 
-Follow.create(follower_id: 1, followed_id: 2, create_time: 1475452800)
-Follow.create(follower_id: 1, followed_id: 3, create_time: 1475452800)
-Follow.create(follower_id: 2, followed_id: 1, create_time: 1475452800)
-Follow.create(follower_id: 2, followed_id: 3, create_time: 1475452800)
-Follow.create(follower_id: 3, followed_id: 1, create_time: 1475452800)
+# Tweet.create(user_id: 1, user_name: "user1", content: "tweet1", create_time: 1475280000)
+# Tweet.create(user_id: 1, user_name: "user1", content: "tweet2", create_time: 1475366400)
+# Tweet.create(user_id: 2, user_name: "user2", content: "tweet3", create_time: 1475452800)
+# Tweet.create(user_id: 2, user_name: "user2", content: "tweet4", create_time: 1475539200, reply_to_tweet_id: 1)
+# Tweet.create(user_id: 3, user_name: "user3", content: "tweet5", create_time: 1475625600, reply_to_tweet_id: 1)
 
-Like.create(user_id: 1, tweet_id: 3);
-Like.create(user_id: 1, tweet_id: 4);
-Like.create(user_id: 1, tweet_id: 5);
-=end
+# Follow.create(follower_id: 1, followed_id: 2, create_time: 1475452800)
+# Follow.create(follower_id: 1, followed_id: 3, create_time: 1475452800)
+# Follow.create(follower_id: 2, followed_id: 1, create_time: 1475452800)
+# Follow.create(follower_id: 2, followed_id: 3, create_time: 1475452800)
+# Follow.create(follower_id: 3, followed_id: 1, create_time: 1475452800)
+
+# Like.create(user_id: 1, tweet_id: 3);
+# Like.create(user_id: 1, tweet_id: 4);
+# Like.create(user_id: 1, tweet_id: 5);
