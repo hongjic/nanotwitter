@@ -55,6 +55,7 @@ include NoteUtil
 # set :raise_errors, false
 # set :show_exceptions, false
 
-require './app/application'
+require './app/api'
+require './app/resources'
 require './app/test'
 

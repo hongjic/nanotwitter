@@ -1,28 +1,11 @@
 module TimeUtil
-  #inputs are integer
+
   def get_time_distance previous, current
     d = current - previous
-    if (d/3600/24/365 > 0)
-      dd = d/3600/24/365
-      dd.to_s + (dd == 1 ? " year" : " years")
-    elsif (d/3600/24/30 > 0)
-      dd = d/3600/24/30
-      dd.to_s + (dd == 1 ? " month" : " months")
-    elsif (d/3600/24/7 > 0)
-      dd = d/3600/24/7
-      dd.to_s + (dd == 1 ? " week" : " weeks")
-    elsif (d/3600/24 > 0)
-      dd = d/3600/24
-      dd.to_s + (dd == 1 ? " day" : " days")
-    elsif (d/3600 > 0)
-      dd = d/3600
-      dd.to_s + (dd == 1 ? " hour" : " hours")
-    elsif (d/60 > 0)
-      dd = d/60
-      dd.to_s + (dd == 1 ? " minute" : " minutes")
-    else
-      d.to_s + (dd == 1 ? " second" : " seconds")
-    end
+    arr = [31536000, 2592000, 604800, 86400, 3600, 60, 1]
+    unit = ["year", "month", "week", "day", "hour", "minute", "second"]
+    7.times { |i| return "#{d/arr[i]} #{unit[i]}#{d/arr[i] > 1 ? "s" : ""}" if d/arr[i] > 0 }
+    "0 second"
   end
-
+  
 end

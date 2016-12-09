@@ -39,15 +39,13 @@ class HomeLine
 
   # return true/false
   def add_follow following_id
-    timeline = TimeLine.new following_id
-    tweetid_list = timeline.get_timeline # a list of tweet.id
+    tweetid_list = TimeLine.new(following_id).get_timeline # a list of tweet.id
     @tasks.new_task("homeline:update", "add_follow", {user_id: @user_id, timeline: tweetid_list})
   end
 
   # return true/false
   def delete_follow following_id
-    timeline = TimeLine.new following_id
-    tweetid_list = timeline.get_timeline # a list of tweet.id
+    tweetid_list = TimeLine.new(following_id).get_timeline # a list of tweet.id
     @tasks.new_task("homeline:update", "delete_follow", {user_id: @user_id, timeline: tweetid_list})
   end
 
