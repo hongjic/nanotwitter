@@ -43,8 +43,7 @@ module UserUtil
 
   # update user info (except for password)
   def update_user_info user_id, new_info
-    personalinfo = PersonalInfo.new user_id
-    info = personalinfo.update_personal_info new_info
+    info = PersonalInfo.new(user_id).update_personal_info new_info
   end
 
   # find a user by id
@@ -61,7 +60,7 @@ module UserUtil
   # find a user by name
   # name is unique
   def find_user_by_name user_name
-    user = User.where(name: user_name)[0]
+    User.where(name: user_name)[0]
   end
 
   # find a user by keyword (name contains keyword)
@@ -92,18 +91,12 @@ module UserUtil
 
   # return a list of json objects
   def get_following_user_list user_id
-    social_graph = SocialGraph.new user_id
-    userid_list = social_graph.get_following_list
-    users = UserList.new User.where(id: userid_list)
-    users.to_json_obj
+    UserList.new(User.where(id: SocialGraph.new(user_id).get_following_list)).to_json_obj
   end
 
   # return a list of json objects
   def get_follower_user_list user_id
-    social_graph = SocialGraph.new user_id
-    userid_list = social_graph.get_follower_list
-    users = UserList.new User.where(id: userid_list)
-    users.to_json_obj
+    UserList.new(User.where(id: SocialGraph.new(user_id).get_follower_list)).to_json_obj
   end
 
 
