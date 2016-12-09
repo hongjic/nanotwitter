@@ -1,5 +1,8 @@
 # nanotwitter 
+=============================
+[![Code Climate](https://codeclimate.com/github/hongjic/nanotwitter/badges/gpa.svg)](https://codeclimate.com/github/hongjic/nanotwitter)
 
+# Description
 NanoTwitter is the course project of COSI105b, 
 The current version supports operations include following users, tweet, like tweets, reply tweets and search.
 
