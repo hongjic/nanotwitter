@@ -426,5 +426,9 @@ Small Device Styles
 
 
 img {
-  max-width: 500px;
+  max-width: 650px;
+}
+
+video {
+  max-width: 650px;
 }
