@@ -1,5 +1,4 @@
 module Algorithms
-  require 'algorithms'
   
   def index_of_last_LE list, ele
     left, right = 0, list.length - 1

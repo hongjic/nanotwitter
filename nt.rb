@@ -3,6 +3,7 @@ require 'active_record'
 require 'redis'
 require 'bunny'
 require 'activerecord-import'
+require 'algorithms'
 require 'jwt'
 require 'faker'
 require './config/environments' #database configuration
